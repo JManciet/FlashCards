@@ -22,6 +22,18 @@ class PositionCarte
      */
     private $position;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Carte::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $carte;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $utilisateur;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +47,30 @@ class PositionCarte
     public function setPosition(int $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    public function getCarte(): ?Carte
+    {
+        return $this->carte;
+    }
+
+    public function setCarte(?Carte $carte): self
+    {
+        $this->carte = $carte;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
