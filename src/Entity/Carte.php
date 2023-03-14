@@ -27,6 +27,12 @@ class Carte
      */
     private $reponse;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Deck::class, inversedBy="cartes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $deck;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +58,18 @@ class Carte
     public function setReponse(string $reponse): self
     {
         $this->reponse = $reponse;
+
+        return $this;
+    }
+
+    public function getDeck(): ?Deck
+    {
+        return $this->deck;
+    }
+
+    public function setDeck(?Deck $deck): self
+    {
+        $this->deck = $deck;
 
         return $this;
     }

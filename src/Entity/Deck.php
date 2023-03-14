@@ -55,9 +55,15 @@ class Deck
      */
     private $utilisateur;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Carte::class, mappedBy="deck", orphanRemoval=true)
+     */
+    private $cartes;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
+        $this->cartes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -163,6 +169,36 @@ class Deck
     public function setUtilisateur(?Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Carte>
+     */
+    public function getCartes(): Collection
+    {
+        return $this->cartes;
+    }
+
+    public function addCarte(Carte $carte): self
+    {
+        if (!$this->cartes->contains($carte)) {
+            $this->cartes[] = $carte;
+            $carte->setDeck($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCarte(Carte $carte): self
+    {
+        if ($this->cartes->removeElement($carte)) {
+            // set the owning side to null (unless already changed)
+            if ($carte->getDeck() === $this) {
+                $carte->setDeck(null);
+            }
+        }
 
         return $this;
     }
