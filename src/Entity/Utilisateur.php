@@ -54,10 +54,16 @@ class Utilisateur
      */
     private $decks;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AccesDeck::class, mappedBy="utilisateur", orphanRemoval=true)
+     */
+    private $accesDecks;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
         $this->decks = new ArrayCollection();
+        $this->accesDecks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,6 +185,36 @@ class Utilisateur
             // set the owning side to null (unless already changed)
             if ($deck->getUtilisateur() === $this) {
                 $deck->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AccesDeck>
+     */
+    public function getAccesDecks(): Collection
+    {
+        return $this->accesDecks;
+    }
+
+    public function addAccesDeck(AccesDeck $accesDeck): self
+    {
+        if (!$this->accesDecks->contains($accesDeck)) {
+            $this->accesDecks[] = $accesDeck;
+            $accesDeck->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccesDeck(AccesDeck $accesDeck): self
+    {
+        if ($this->accesDecks->removeElement($accesDeck)) {
+            // set the owning side to null (unless already changed)
+            if ($accesDeck->getUtilisateur() === $this) {
+                $accesDeck->setUtilisateur(null);
             }
         }
 
