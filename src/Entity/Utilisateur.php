@@ -49,9 +49,15 @@ class Utilisateur
      */
     private $commentaires;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Deck::class, mappedBy="utilisateur")
+     */
+    private $decks;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
+        $this->decks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,6 +149,36 @@ class Utilisateur
             // set the owning side to null (unless already changed)
             if ($commentaire->getUtilisateur() === $this) {
                 $commentaire->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deck>
+     */
+    public function getDecks(): Collection
+    {
+        return $this->decks;
+    }
+
+    public function addDeck(Deck $deck): self
+    {
+        if (!$this->decks->contains($deck)) {
+            $this->decks[] = $deck;
+            $deck->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeck(Deck $deck): self
+    {
+        if ($this->decks->removeElement($deck)) {
+            // set the owning side to null (unless already changed)
+            if ($deck->getUtilisateur() === $this) {
+                $deck->setUtilisateur(null);
             }
         }
 

@@ -50,6 +50,11 @@ class Deck
      */
     private $commentaires;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="decks")
+     */
+    private $utilisateur;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
@@ -146,6 +151,18 @@ class Deck
                 $commentaire->setDeck(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
