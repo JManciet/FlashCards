@@ -60,10 +60,16 @@ class Deck
      */
     private $cartes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=NoteDeck::class, mappedBy="deck", orphanRemoval=true)
+     */
+    private $noteDecks;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
         $this->cartes = new ArrayCollection();
+        $this->noteDecks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,6 +203,36 @@ class Deck
             // set the owning side to null (unless already changed)
             if ($carte->getDeck() === $this) {
                 $carte->setDeck(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NoteDeck>
+     */
+    public function getNoteDecks(): Collection
+    {
+        return $this->noteDecks;
+    }
+
+    public function addNoteDeck(NoteDeck $noteDeck): self
+    {
+        if (!$this->noteDecks->contains($noteDeck)) {
+            $this->noteDecks[] = $noteDeck;
+            $noteDeck->setDeck($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNoteDeck(NoteDeck $noteDeck): self
+    {
+        if ($this->noteDecks->removeElement($noteDeck)) {
+            // set the owning side to null (unless already changed)
+            if ($noteDeck->getDeck() === $this) {
+                $noteDeck->setDeck(null);
             }
         }
 

@@ -22,6 +22,18 @@ class NoteDeck
      */
     private $note;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $utilisateur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Deck::class, inversedBy="noteDecks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $deck;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +47,30 @@ class NoteDeck
     public function setNote(int $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getDeck(): ?Deck
+    {
+        return $this->deck;
+    }
+
+    public function setDeck(?Deck $deck): self
+    {
+        $this->deck = $deck;
 
         return $this;
     }
