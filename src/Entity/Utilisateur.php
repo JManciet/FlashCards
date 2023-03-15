@@ -59,11 +59,17 @@ class Utilisateur
      */
     private $accesDecks;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Favori::class, mappedBy="utilisateur", orphanRemoval=true)
+     */
+    private $favoris;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
         $this->decks = new ArrayCollection();
         $this->accesDecks = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +221,36 @@ class Utilisateur
             // set the owning side to null (unless already changed)
             if ($accesDeck->getUtilisateur() === $this) {
                 $accesDeck->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favori>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favori $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+            $favori->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favori $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getUtilisateur() === $this) {
+                $favori->setUtilisateur(null);
             }
         }
 
