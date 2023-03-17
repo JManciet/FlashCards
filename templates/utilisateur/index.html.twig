@@ -5,7 +5,7 @@
 {% block body %}
 
     {% for utilisateur in utilisateurs %}
-        {{ utilisateur.pseudo }} <br>
+        <a href="{{ path('utilisateur_show', {'id': utilisateur.id}) }}">{{ utilisateur.pseudo }}</a> <br>
     {% else %}
         No users have been found.
     {% endfor %}

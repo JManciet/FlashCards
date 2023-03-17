@@ -15,12 +15,21 @@ class UtilisateurController extends AbstractController
      */
     public function index(ManagerRegistry $doctrine): Response
     {
-
         $utilisateurs = $doctrine->getRepository(Utilisateur::class)->findAll();
 
         return $this->render('utilisateur/index.html.twig', [
             'controller_name' => 'UtilisateurController',
             'utilisateurs' => $utilisateurs
+        ]);
+    }
+
+    /**
+     * @Route("/utilisateur/{id}", name="show_utilisateur")
+     */
+    public function show(Utilisateur $utilisateur): Response
+    {
+        return $this->render('utilisateur/show.html.twig', [
+            'utilisateur' => $utilisateur
         ]);
     }
 }

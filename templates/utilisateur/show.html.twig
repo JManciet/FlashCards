@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail d'un utilisateur{% endblock %}
+
+{% block body %}
+
+    <h1>{{ utilisateur.pseudo }}</h1>
+    <p>
+        {{ utilisateur.mail }} <br>
+        Date d'inscription : {{ utilisateur.dateInscription | date('d-m-Y') }}
+    </p>
+
+{% endblock %}
