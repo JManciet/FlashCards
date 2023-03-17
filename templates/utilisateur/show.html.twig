@@ -10,4 +10,14 @@
         Date d'inscription : {{ utilisateur.dateInscription | date('d-m-Y') }}
     </p>
 
+    <h2>Liste decks</h2>
+    <p>
+        {% for deck in utilisateur.decks %}
+            "{{ deck.titre }}" de la catégori: {{ deck.categorie.nom }}<br>
+            
+        {% else %}
+            No decks have been found.
+        {% endfor %}
+    </p>
+
 {% endblock %}
