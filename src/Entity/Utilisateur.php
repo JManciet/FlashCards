@@ -3,14 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
  */
-class Utilisateur
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -20,240 +20,107 @@ class Utilisateur
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $role;
+    private $email;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="json")
      */
-    private $pseudo;
+    private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
-    private $mail;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $mdp;
-
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $date_inscription;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="utilisateur")
-     */
-    private $commentaires;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Deck::class, mappedBy="utilisateur")
-     */
-    private $decks;
-
-    /**
-     * @ORM\OneToMany(targetEntity=AccesDeck::class, mappedBy="utilisateur", orphanRemoval=true)
-     */
-    private $accesDecks;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Favori::class, mappedBy="utilisateur", orphanRemoval=true)
-     */
-    private $favoris;
-
-    public function __construct()
-    {
-        $this->commentaires = new ArrayCollection();
-        $this->decks = new ArrayCollection();
-        $this->accesDecks = new ArrayCollection();
-        $this->favoris = new ArrayCollection();
-    }
+    private $password;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getRole(): ?string
+    public function getEmail(): ?string
     {
-        return $this->role;
+        return $this->email;
     }
 
-    public function setRole(string $role): self
+    public function setEmail(string $email): self
     {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
-
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): self
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getMdp(): ?string
-    {
-        return $this->mdp;
-    }
-
-    public function setMdp(string $mdp): self
-    {
-        $this->mdp = $mdp;
-
-        return $this;
-    }
-
-    public function getDateInscription(): ?\DateTimeImmutable
-    {
-        return $this->date_inscription;
-    }
-
-    public function setDateInscription(\DateTimeImmutable $date_inscription): self
-    {
-        $this->date_inscription = $date_inscription;
+        $this->email = $email;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Commentaire>
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
      */
-    public function getCommentaires(): Collection
+    public function getUserIdentifier(): string
     {
-        return $this->commentaires;
+        return (string) $this->email;
     }
 
-    public function addCommentaire(Commentaire $commentaire): self
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
     {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires[] = $commentaire;
-            $commentaire->setUtilisateur($this);
-        }
-
-        return $this;
+        return (string) $this->email;
     }
 
-    public function removeCommentaire(Commentaire $commentaire): self
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getUtilisateur() === $this) {
-                $commentaire->setUtilisateur(null);
-            }
-        }
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Deck>
+     * @see PasswordAuthenticatedUserInterface
      */
-    public function getDecks(): Collection
+    public function getPassword(): string
     {
-        return $this->decks;
+        return $this->password;
     }
 
-    public function addDeck(Deck $deck): self
+    public function setPassword(string $password): self
     {
-        if (!$this->decks->contains($deck)) {
-            $this->decks[] = $deck;
-            $deck->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDeck(Deck $deck): self
-    {
-        if ($this->decks->removeElement($deck)) {
-            // set the owning side to null (unless already changed)
-            if ($deck->getUtilisateur() === $this) {
-                $deck->setUtilisateur(null);
-            }
-        }
+        $this->password = $password;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, AccesDeck>
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
      */
-    public function getAccesDecks(): Collection
+    public function getSalt(): ?string
     {
-        return $this->accesDecks;
-    }
-
-    public function addAccesDeck(AccesDeck $accesDeck): self
-    {
-        if (!$this->accesDecks->contains($accesDeck)) {
-            $this->accesDecks[] = $accesDeck;
-            $accesDeck->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAccesDeck(AccesDeck $accesDeck): self
-    {
-        if ($this->accesDecks->removeElement($accesDeck)) {
-            // set the owning side to null (unless already changed)
-            if ($accesDeck->getUtilisateur() === $this) {
-                $accesDeck->setUtilisateur(null);
-            }
-        }
-
-        return $this;
+        return null;
     }
 
     /**
-     * @return Collection<int, Favori>
+     * @see UserInterface
      */
-    public function getFavoris(): Collection
+    public function eraseCredentials()
     {
-        return $this->favoris;
-    }
-
-    public function addFavori(Favori $favori): self
-    {
-        if (!$this->favoris->contains($favori)) {
-            $this->favoris[] = $favori;
-            $favori->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFavori(Favori $favori): self
-    {
-        if ($this->favoris->removeElement($favori)) {
-            // set the owning side to null (unless already changed)
-            if ($favori->getUtilisateur() === $this) {
-                $favori->setUtilisateur(null);
-            }
-        }
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
