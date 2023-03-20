@@ -7,13 +7,13 @@
     <h1>{{ utilisateur.pseudo }}</h1>
     <p>
         {{ utilisateur.email }} <br>
-        Date d'inscription : {{ utilisateur.dateInscription | date('d-m-Y') }}
+        {# Date d'inscription : {{ utilisateur.dateInscription | date('d-m-Y') }} #}
     </p>
 
     <h2>Liste decks</h2>
     <p>
         {% for deck in utilisateur.decks %}
-            "{{ deck.titre }}" de la catégori: {{ deck.categorie.nom }}<br>
+            "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}<br>
             
         {% else %}
             No decks have been found.

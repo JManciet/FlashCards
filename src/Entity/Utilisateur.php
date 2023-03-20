@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UtilisateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
@@ -46,6 +48,26 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=50)
      */
     private $pseudo;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="utilisateur")
+     */
+    private $commentaires;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Deck::class, mappedBy="utilisateur")
+     */
+    private $decks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AccesDeck::class, mappedBy="utilisateur", orphanRemoval=true)
+     */
+    private $accesDecks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Favori::class, mappedBy="utilisateur", orphanRemoval=true)
+     */
+    private $favoris;
 
     public function getId(): ?int
     {
@@ -164,7 +186,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-    
+
 
     /**
      * @return Collection<int, Commentaire>
