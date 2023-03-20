@@ -13,7 +13,13 @@
         <nav>
             <ul>
                 <li><a href="{{ path('app_utilisateur') }}">Liste utilisateurs</a></li>
-                <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                {% if app.user %}
+                    <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                    <li><a href="">Mon profil</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+                    <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
+                {% endif %}
             </ul>
         </nav>
         {% block body %}{% endblock %}
