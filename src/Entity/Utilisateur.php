@@ -123,4 +123,128 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+
+
+
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires[] = $commentaire;
+            $commentaire->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getUtilisateur() === $this) {
+                $commentaire->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deck>
+     */
+    public function getDecks(): Collection
+    {
+        return $this->decks;
+    }
+
+    public function addDeck(Deck $deck): self
+    {
+        if (!$this->decks->contains($deck)) {
+            $this->decks[] = $deck;
+            $deck->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeck(Deck $deck): self
+    {
+        if ($this->decks->removeElement($deck)) {
+            // set the owning side to null (unless already changed)
+            if ($deck->getUtilisateur() === $this) {
+                $deck->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AccesDeck>
+     */
+    public function getAccesDecks(): Collection
+    {
+        return $this->accesDecks;
+    }
+
+    public function addAccesDeck(AccesDeck $accesDeck): self
+    {
+        if (!$this->accesDecks->contains($accesDeck)) {
+            $this->accesDecks[] = $accesDeck;
+            $accesDeck->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccesDeck(AccesDeck $accesDeck): self
+    {
+        if ($this->accesDecks->removeElement($accesDeck)) {
+            // set the owning side to null (unless already changed)
+            if ($accesDeck->getUtilisateur() === $this) {
+                $accesDeck->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favori>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favori $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+            $favori->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favori $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getUtilisateur() === $this) {
+                $favori->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
 }
