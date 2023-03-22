@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Deck;
+use App\Entity\Carte;
 use App\Entity\Utilisateur;
 use App\Entity\PositionCarte;
 use Doctrine\Persistence\ManagerRegistry;
@@ -23,12 +24,17 @@ class PlayDeckController extends AbstractController
     public function index(ManagerRegistry $doctrine, Utilisateur $utilisateur ,Deck $deck): Response
     {
 
-        $cartes = $doctrine->getRepository(PositionCarte::class)->findBy(array('id' => $utilisateur->getId()));
+        $positionCartesByUtilisateur = $doctrine->getRepository(PositionCarte::class)->findBy(array('utilisateur' => $utilisateur->getId()));
+
+        $cartesDeckNotInPositionCartesByUtilisateur = $doctrine->getRepository(Carte::class)->findCartesDeckNotInPositionCartesByUtilisateur($utilisateur->getId(),$deck->getId());
+        
+        dd($cartesDeckNotInPositionCartesByUtilisateur);
 
         return $this->render('play_deck/index.html.twig', [
-            'cartes' => $cartes,
             'utilisateur' => $utilisateur,
             'deck' => $deck,
+            'positionCartesByUtilisateur' => $positionCartesByUtilisateur,
+            'cartesDeckNotInPositionCartesByUtilisateur' => $cartesDeckNotInPositionCartesByUtilisateur,
         ]);
     }
 }

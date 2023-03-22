@@ -5,7 +5,13 @@
 {% block body %}
 <h1>{{ deck.titre }}</h1>
 
-{{ dump(cartes) }}
+{# {{ dump(positionCartesByUtilisateur) }} #}
+
+{% set CartesByUtilisateur = [] %}
+
+{% for positionCarte in positionCartesByUtilisateur %}
+    {% set CartesByUtilisateur = CartesByUtilisateur|merge([positionCarte.carte]) %}
+{% endfor %}
 
 <div class="tabs">
     <div class="tab-buttons">
@@ -15,16 +21,24 @@
     </div>
     <div class="tab-contents">
       <div class="tab-content active" data-tab="tab1">
-        {% for carte in deck.cartes %}
-            {% for carteIn in cartes %}
-                {% if carteIn.id != carte.id %}
-                    {{ carte.question }}<br>
-                {% endif %}
-            {% endfor %}
+
+        {% set zyx = false %}
+
+        {% for carte in  deck.cartes %} 
+            {{carte.question}}     
+            {# {% if carte in CarteByUtilisateur %}
+                {% set zyx = true %}
+                {{ carte.question }}<br>
+            {% else %}
+                {{ carte.question }}<br>
+            {% endif %} #}
         {% endfor %}
+        {% if not zyx %} pas de carte dans cet onglet {% endif %}
+
       </div>
       <div class="tab-content" data-tab="tab2">
-        Contenu de l'onglet 2
+        {%set randomCarte = random(deck.cartes)%}
+        {{randomCarte.question }}
       </div>
       <div class="tab-content" data-tab="tab3">
         Contenu de l'onglet 3

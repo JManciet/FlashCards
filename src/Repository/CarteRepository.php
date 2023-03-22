@@ -39,6 +39,56 @@ class CarteRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function findCartesDeckNotInPositionCartesByUtilisateur($utilisateurId, $deckId)
+    {
+        // $qb = $this->createQueryBuilder('deck');
+    
+        // $qb->select('carte.id')
+        //    ->innerJoin('deck.id', 'carte')
+        //    ->where('deck.utilisateur_id = :utilisateur_id')
+        //    ->setParameter('utilisateur_id', $utilisateurId)
+        //    ->andWhere($qb->expr()->notIn(
+        //        'carte.id',
+        //        $this->createQueryBuilder('deck2')
+        //             ->select('carte.id')
+        //             ->innerJoin('carte', 'deck2')
+        //             ->innerJoin('d2.positions', 'positionCarte')
+        //             ->where('positionCarte.utilisateur_id = :utilisateur_id')
+        //             ->getDQL()
+        //     ));
+    
+        // return $qb->getQuery()->getResult();
+
+
+
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+        $qb->select('car.id')
+            ->from('App\Entity\Deck', 'd')
+            ->innerJoin('d.cartes', 'car')
+            ->innerJoin('App\Entity\PositionCarte', 'po', 'WITH', 'po.carte = car.id')
+            ->where('po.utilisateur = :uId');
+
+
+        $sub = $em->createQueryBuilder();
+        $sub->select('cart.id')
+            ->from('App\Entity\Deck', 'de')
+            ->innerJoin('de.cartes', 'cart')
+            ->where('de.utilisateur = :uId')
+            ->andwhere('de.id = :dId ')
+            ->andwhere($sub->expr()->notIn('cart.id', $qb->getDQL()))
+            ->setParameter('uId', $utilisateurId)
+            ->setParameter('dId', $deckId);
+
+        $query = $sub->getQuery();
+        return $query->getResult();
+
+
+    }
+
 //    /**
 //     * @return Carte[] Returns an array of Carte objects
 //     */
