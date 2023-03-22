@@ -28,7 +28,7 @@ class PlayDeckController extends AbstractController
 
         $cartesDeckNotInPositionCartesByUtilisateur = $doctrine->getRepository(Carte::class)->findCartesDeckNotInPositionCartesByUtilisateur($utilisateur->getId(),$deck->getId());
         
-        dd($cartesDeckNotInPositionCartesByUtilisateur);
+        // dd($cartesDeckNotInPositionCartesByUtilisateur);
 
         return $this->render('play_deck/index.html.twig', [
             'utilisateur' => $utilisateur,
