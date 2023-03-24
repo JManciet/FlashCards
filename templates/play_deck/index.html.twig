@@ -46,7 +46,68 @@
     </div>
   </div>
 
+
+  <form action="{{ path('pdf', { 'id': deck.id,'nbrColumns': 3,'nbrRows': 3 }) }}" target="_blank" method="GET">
+
   <p>Cliquez sur le bouton pour générer le PDF :</p>
-    <a href="{{ path('pdf', { 'id': deck.id }) }}" target="_blank">Générer PDF</a>
+    <a href="{{ path('pdf', { 'id': deck.id,'nbrColumns': 3,'nbrRows': 3 }) }}" target="_blank">Générer PDF</a>
+
+
+<br>
+
+    <label for="rectX">Nombre de carte horizontal:</label>
+	<input type="number" name="a" id="rectX" value="4"><br>
+
+	<label for="rectY">Nombre de carte vertical:</label>
+	<input type="number" name="b" id="rectY" value="3"><br>
+
+	<canvas id="myCanvas"></canvas>
+    <button type="submit">Envoyer</button>
+    </form>
+
+	<script>
+		// Récupération des inputs
+		var rectXInput = document.getElementById("rectX");
+		var rectYInput = document.getElementById("rectY");
+
+		// Récupération du canvas
+		var canvas = document.getElementById("myCanvas");
+
+		// Définition de la largeur et de la hauteur du canvas
+		canvas.width = 210;
+		canvas.height = 297;
+
+		// Récupération du contexte de dessin en 2D
+		var context = canvas.getContext("2d");
+
+		// Fonction de dessin du rectangle
+		function drawRect() {
+			// Récupération des valeurs des inputs
+			var rectX = parseInt(rectXInput.value);
+			var rectY = parseInt(rectYInput.value);
+			var rectWidth = canvas.width/rectX;
+			var rectHeight = canvas.height/rectY;
+
+			// Dessin du rectangle
+			context.clearRect(0, 0, canvas.width, canvas.height); // Effacer le canvas
+			context.fillStyle = "red";
+
+            for (var i = 0; i < rectX; i++) {
+                for (var y = 0; y < rectY; y++) {
+			context.strokeRect(rectWidth*i, rectHeight*y, rectWidth, rectHeight);
+                }
+            }
+		}
+
+		// Dessin initial du rectangle
+		drawRect();
+
+		// Écoute des changements sur les inputs
+		rectXInput.addEventListener("change", drawRect);
+		rectYInput.addEventListener("change", drawRect);
+		rectWidthInput.addEventListener("change", drawRect);
+		rectHeightInput.addEventListener("change", drawRect);
+		rectColorInput.addEventListener("change", drawRect);
+	</script>
 
 {% endblock %}

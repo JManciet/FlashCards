@@ -26,9 +26,9 @@ class PdfController extends AbstractController
 
 
     /**
-     * @Route("/pdf/{id}", name="pdf")
+     * @Route("/pdf/{id}/{nbrColumns}/{nbrRows}", name="pdf")
      */
-    public function generatePdf(int $id): Response
+    public function generatePdf(int $id, int $nbrColumns, int $nbrRows): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $deck = $entityManager->getRepository(Deck::class)->find($id);
@@ -41,8 +41,8 @@ class PdfController extends AbstractController
         }
 
 
-        $this->nbrColonne = 2;
-        $this->nbrLigne = 2;
+        $this->nbrColonne = $nbrColumns;
+        $this->nbrLigne = $nbrRows;
 
 
         // Définition de la taille et de la position des rectangles
