@@ -74,7 +74,7 @@ class CarteRepository extends ServiceEntityRepository
 
 
         $sub = $em->createQueryBuilder();
-        $sub->select('cart.id')
+        $sub->select('cart.id', 'cart.question', 'cart.reponse')
             ->from('App\Entity\Deck', 'de')
             ->innerJoin('de.cartes', 'cart')
             ->where('de.utilisateur = :uId')

@@ -5,43 +5,74 @@
 {% block body %}
 <h1>{{ deck.titre }}</h1>
 
-{# {{ dump(positionCartesByUtilisateur) }} #}
+ {{ dump(positionCartesByUtilisateur) }} 
 
-{% set CartesByUtilisateur = [] %}
+ {% set cartesLevel0 = [] %}
+ {% set cartesLevel1 = [] %}
+ {% set cartesLevel2 = [] %}
 
 {% for positionCarte in positionCartesByUtilisateur %}
-    {% set CartesByUtilisateur = CartesByUtilisateur|merge([positionCarte.carte]) %}
-{% endfor %}
+
+    {% if positionCarte.position == 0 %}
+        {% set cartesLevel0 = cartesLevel0|merge([positionCarte.carte]) %}
+    {% elseif positionCarte.position == 1 %}
+        {% set cartesLevel1 = cartesLevel1|merge([positionCarte.carte]) %}
+    {% elseif positionCarte.position == 2 %}
+        {% set cartesLevel2 = cartesLevel2|merge([positionCarte.carte]) %}
+    {% endif %} 
+
+{% endfor %} 
 
 <div class="tabs">
     <div class="tab-buttons">
-      <button class="tab-button active" data-tab="tab1">Onglet 1</button>
-      <button class="tab-button" data-tab="tab2">Onglet 2</button>
-      <button class="tab-button" data-tab="tab3">Onglet 3</button>
+      <button class="tab-button active" data-tab="tab1">{{cartesDeckNotInPositionCartesByUtilisateur|length}}</button>
+      <button class="tab-button" data-tab="tab2">{{cartesLevel0|length}}</button>
+      <button class="tab-button" data-tab="tab3">{{cartesLevel1|length}}</button>
+      <button class="tab-button" data-tab="tab4">{{cartesLevel2|length}}</button>
     </div>
+
     <div class="tab-contents">
       <div class="tab-content active" data-tab="tab1">
 
-        {% set zyx = false %}
+        {% if cartesDeckNotInPositionCartesByUtilisateur|length != 0 %}
+            {% set randomCartesDeckNotInPositionCartesByUtilisateur = random(cartesDeckNotInPositionCartesByUtilisateur)%}
+            {{ randomCartesDeckNotInPositionCartesByUtilisateur.question }}
 
-        {% for carte in  deck.cartes %} 
-            {{carte.question}}     
-            {# {% if carte in CarteByUtilisateur %}
-                {% set zyx = true %}
-                {{ carte.question }}<br>
-            {% else %}
-                {{ carte.question }}<br>
-            {% endif %} #}
-        {% endfor %}
-        {% if not zyx %} pas de carte dans cet onglet {% endif %}
+
+        {% else %}
+            Pas de cartes dans cet onglet !
+        {% endif %} 
 
       </div>
       <div class="tab-content" data-tab="tab2">
-        {%set randomCarte = random(deck.cartes)%}
-        {{randomCarte.question }}
+
+        {% if cartesLevel0|length != 0 %}
+            {% set randomCarteLevel0 = random(cartesLevel0)%}
+            {{randomCarteLevel0.question }}
+        {% else %}
+            Pas de cartes dans cet onglet !
+        {% endif %} 
+    
       </div>
       <div class="tab-content" data-tab="tab3">
-        Contenu de l'onglet 3
+
+        {% if cartesLevel1|length != 0 %}
+            {% set randomCarteLevel1 = random(cartesLevel1)%}
+            {{randomCarteLevel1.question }}
+        {% else %}
+            Pas de cartes dans cet onglet !
+        {% endif %} 
+
+      </div>
+      <div class="tab-content" data-tab="tab4">
+
+        {% if cartesLevel2|length != 0 %}
+            {% set randomCarteLevel2 = random(cartesLevel2)%}
+            {{randomCarteLevel1.question }}
+        {% else %}
+            Pas de cartes dans cet onglet !
+        {% endif %} 
+
       </div>
     </div>
   </div>
