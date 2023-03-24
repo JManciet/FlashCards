@@ -50,18 +50,27 @@ h2 {
     border-bottom: none;
   }
   
-  .tab-contents {
-    margin-top: 0px;
+  #container-tab-contents {
+    padding: 10px;
+    border-radius: 0 0 25px 25px;
+    transition: background-color 0.5s ease-in-out;
   }
   
   .tab-content {
     display: none;
-    padding: 20px;
+    padding: 0px;
     /* transition: background-color 3s ease-in-out; */
   }
   
   .tab-content.active {
     display: block;
+    /* transition: background-color 3s ease-in-out; */
+  }
+
+  .carte{
+    padding: 20px;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
     /* transition: background-color 3s ease-in-out; */
   }
   

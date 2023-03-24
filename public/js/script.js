@@ -1,5 +1,6 @@
 const tabButtons = document.querySelectorAll('.tab-button');
 const tabContents = document.querySelectorAll('.tab-content');
+const containerTabContents = document.querySelector('#container-tab-contents');
 
 function displayTab(tabIndex) {
 
@@ -10,7 +11,7 @@ function displayTab(tabIndex) {
       // Changer la couleur du contenu avec celle de l'onglet actif
       var buttonSelected= document.querySelector('button[data-tab="'+tabIndex+'"]');
       var stylebuttonSelected = window.getComputedStyle(buttonSelected);
-      tabContent.style.backgroundColor = stylebuttonSelected.backgroundColor;
+      containerTabContents.style.backgroundColor = stylebuttonSelected.backgroundColor;
     }
   });
 
