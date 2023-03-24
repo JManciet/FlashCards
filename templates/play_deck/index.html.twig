@@ -25,10 +25,10 @@
 
 <div class="tabs">
     <div class="tab-buttons">
-      <button class="tab-button active" data-tab="tab1">{{cartesDeckNotInPositionCartesByUtilisateur|length}}</button>
-      <button class="tab-button" data-tab="tab2">{{cartesLevel0|length}}</button>
-      <button class="tab-button" data-tab="tab3">{{cartesLevel1|length}}</button>
-      <button class="tab-button" data-tab="tab4">{{cartesLevel2|length}}</button>
+      <button class="tab-button grey active" data-tab="tab1">{{cartesDeckNotInPositionCartesByUtilisateur|length}}</button>
+      <button class="tab-button red" data-tab="tab2">{{cartesLevel0|length}}</button>
+      <button class="tab-button blue" data-tab="tab3">{{cartesLevel1|length}}</button>
+      <button class="tab-button green" data-tab="tab4">{{cartesLevel2|length}}</button>
     </div>
 
     <div class="tab-contents">
@@ -137,9 +137,6 @@
 		// Écoute des changements sur les inputs
 		rectXInput.addEventListener("change", drawRect);
 		rectYInput.addEventListener("change", drawRect);
-		rectWidthInput.addEventListener("change", drawRect);
-		rectHeightInput.addEventListener("change", drawRect);
-		rectColorInput.addEventListener("change", drawRect);
 	</script>
 
 {% endblock %}

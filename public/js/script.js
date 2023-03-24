@@ -2,10 +2,15 @@ const tabButtons = document.querySelectorAll('.tab-button');
 const tabContents = document.querySelectorAll('.tab-content');
 
 function displayTab(tabIndex) {
+
   tabContents.forEach((tabContent) => {
     tabContent.classList.remove('active');
     if (tabContent.getAttribute('data-tab') === tabIndex) {
       tabContent.classList.add('active');
+      // Changer la couleur du contenu avec celle de l'onglet actif
+      var buttonSelected= document.querySelector('button[data-tab="'+tabIndex+'"]');
+      var stylebuttonSelected = window.getComputedStyle(buttonSelected);
+      tabContent.style.backgroundColor = stylebuttonSelected.backgroundColor;
     }
   });
 
@@ -15,6 +20,7 @@ function displayTab(tabIndex) {
       tabButton.classList.add('active');
     }
   });
+
 }
 
 tabButtons.forEach((tabButton) => {

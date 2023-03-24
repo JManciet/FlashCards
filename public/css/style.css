@@ -17,37 +17,52 @@ h2 {
   .tab-buttons {
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ccc; */
   }
   
   .tab-button {
-    background-color: #ccc;
+    /* background-color: #ccc; */
     border: none;
     color: #333;
     cursor: pointer;
     padding: 10px;
-    margin-right: 10px;
+    margin-right: 5px;
     border-radius: 5px 5px 0 0;
-    transition: background-color 0.3s ease-in-out;
+    /* transition: background-color 0.3s ease-in-out; */
+  }
+
+  .tab-button.grey {
+    background-color: rgb(177, 177, 177);
+  }
+  .tab-button.red {
+    background-color: rgb(255, 98, 98);
+  }
+  .tab-button.blue {
+    background-color: rgb(52, 191, 255);
+  }
+  .tab-button.green {
+    background-color: rgb(113, 209, 75);
   }
   
   .tab-button.active {
-    background-color: #fff;
+    /* background-color: #fff; */
     border: 1px solid #ccc;
     border-bottom: none;
   }
   
   .tab-contents {
-    margin-top: 10px;
+    margin-top: 0px;
   }
   
   .tab-content {
     display: none;
     padding: 20px;
+    /* transition: background-color 3s ease-in-out; */
   }
   
   .tab-content.active {
     display: block;
+    /* transition: background-color 3s ease-in-out; */
   }
   
   
