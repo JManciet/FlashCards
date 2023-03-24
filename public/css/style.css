@@ -52,7 +52,7 @@ h2 {
   
   #container-tab-contents {
     padding: 10px;
-    border-radius: 0 0 25px 25px;
+    border-radius: 0 25px 25px 25px;
     transition: background-color 0.5s ease-in-out;
   }
   
@@ -67,11 +67,30 @@ h2 {
     /* transition: background-color 3s ease-in-out; */
   }
 
+  .tab-button>span {
+    display: inline;
+  }
+  
+  .tab-button>span.active {
+    display: inline;
+  }
+
   .carte{
     padding: 20px;
     border-radius: 20px;
     background-color: rgb(255, 255, 255);
     /* transition: background-color 3s ease-in-out; */
   }
+
+  @media screen and (max-width: 750px){
+    
+    
+    .tab-button>span {
+      display: none;
+    }
+
+    
+
+}
   
   
