@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use FPDF;
 use App\Entity\Deck;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PdfController extends AbstractController
 {
@@ -26,9 +27,9 @@ class PdfController extends AbstractController
 
 
     /**
-     * @Route("/pdf/{id}/{nbrColumns}/{nbrRows}", name="pdf")
+     * @Route("/pdf/{id}", name="pdf", methods={"GET"})
      */
-    public function generatePdf(int $id, int $nbrColumns, int $nbrRows): Response
+    public function generatePdf(Request $request, int $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $deck = $entityManager->getRepository(Deck::class)->find($id);
@@ -41,8 +42,8 @@ class PdfController extends AbstractController
         }
 
 
-        $this->nbrColonne = $nbrColumns;
-        $this->nbrLigne = $nbrRows;
+        $this->nbrColonne =  $request->query->get('X');
+        $this->nbrLigne =  $request->query->get('Y');
 
 
         // Définition de la taille et de la position des rectangles

@@ -47,22 +47,23 @@
   </div>
 
 
-  <form action="{{ path('pdf', { 'id': deck.id,'nbrColumns': 3,'nbrRows': 3 }) }}" target="_blank" method="GET">
+  <form action="{{ path('pdf', { 'id': deck.id}) }}" target="_blank" method="GET">
 
-  <p>Cliquez sur le bouton pour générer le PDF :</p>
-    <a href="{{ path('pdf', { 'id': deck.id,'nbrColumns': 3,'nbrRows': 3 }) }}" target="_blank">Générer PDF</a>
-
+  
 
 <br>
 
     <label for="rectX">Nombre de carte horizontal:</label>
-	<input type="number" name="a" id="rectX" value="4"><br>
+	<input type="number" name="X" id="rectX" value="4"><br>
 
 	<label for="rectY">Nombre de carte vertical:</label>
-	<input type="number" name="b" id="rectY" value="3"><br>
+	<input type="number" name="Y" id="rectY" value="3"><br>
 
 	<canvas id="myCanvas"></canvas>
-    <button type="submit">Envoyer</button>
+
+
+    <p>Cliquez sur le bouton pour générer le PDF :</p>
+    <button type="submit">Générer PDF</button>
     </form>
 
 	<script>
