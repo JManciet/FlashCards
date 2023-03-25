@@ -113,12 +113,29 @@ h2 {
 
 
   .cardContain{
+    height: auto;
     display: flex;
   align-items: center;
   justify-content: center;
     background-color: #bd1d1d;
   }
 
+
+  .response{
+    display:none;
+  }
+
+  .response.active{
+    display:block;
+  }
+
+  .question{
+    display:none;
+  }
+
+  .question.active{
+    display:block;
+  }
 
   @media screen and (max-width: 750px){
     

@@ -53,19 +53,55 @@ $(document).ready(function(){
 
 
 
-//script pour que la div prenne toute la hauteur du conteneur
-const parentDivs = document.querySelectorAll('.carte');
+// //script pour que la div prenne toute la hauteur du conteneur
+// const parentDivs = document.querySelectorAll('.carte');
 
-function setDimensions() {
-  parentDivs.forEach(parentDiv => {
-    const childDiv = parentDiv.querySelector('.cardContain');
-    const parentHeight = parentDiv.offsetHeight; // récupère la hauteur de la div parent
-    childDiv.style.height = `${parentHeight}px`; // défini la hauteur de la div enfant en fonction de la hauteur de la div parent
-  });
+// function setDimensions() {
+//   parentDivs.forEach(parentDiv => {
+//     const childDiv = parentDiv.querySelector('.cardContain');
+//     const parentHeight = parentDiv.offsetHeight; // récupère la hauteur de la div parent
+
+
+//     childDiv.style.height = `${parentHeight}px`; // défini la hauteur de la div enfant en fonction de la hauteur de la div parent
+    
+//   });
+// }
+
+// setDimensions(); // appelle la fonction pour définir les dimensions initiales
+
+
+
+const responseButton = document.querySelector('#buttonResponse');
+const question = document.querySelector('.tab-content.active .question');
+const response = document.querySelector('.tab-content.active .response');
+
+
+// Initialiser l'état de l'élément à "caché"
+let isHidden = true;
+
+responseButton.addEventListener('click', (event) => {
+  
+  toggleResponse();
+  // setDimensions();
+});
+
+function  toggleResponse() {
+
+  // Inverser l'état de l'élément
+  isHidden = !isHidden;
+
+  // Mettre à jour l'affichage de l'élément en fonction de son état
+  if (isHidden) {
+    question.style.display = 'block';
+    response.style.display = 'none';
+  } else {
+    question.style.display = 'none';
+    response.style.display = 'block';
+  }
+  
+    // question.classList.remove('active');
+    // response.classList.add('active');
+
 }
-
-setDimensions(); // appelle la fonction pour définir les dimensions initiales
-
-// écoute les événements de redimensionnement de la fenêtre pour ajuster les dimensions de la div enfant
 
 
