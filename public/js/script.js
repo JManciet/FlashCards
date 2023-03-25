@@ -38,7 +38,7 @@ tabButtons.forEach((tabButton) => {
   tabButton.addEventListener('click', (event) => {
     const tabIndex = event.target.getAttribute('data-tab');
     displayTab(tabIndex);
-    setDimensions();
+    // setDimensions();
   });
 });
 
@@ -71,37 +71,53 @@ $(document).ready(function(){
 
 
 
-const responseButton = document.querySelector('#buttonResponse');
-const question = document.querySelector('.tab-content.active .question');
-const response = document.querySelector('.tab-content.active .response');
+// const responseButton = document.querySelector('#buttonResponse');
+// const question = document.querySelector('.tab-content.active .question');
+// const response = document.querySelector('.tab-content.active .response');
 
 
-// Initialiser l'état de l'élément à "caché"
-let isHidden = true;
+// // Initialiser l'état de l'élément à "caché"
+// let isHidden = true;
 
-responseButton.addEventListener('click', (event) => {
+// responseButton.addEventListener('click', (event) => {
   
-  toggleResponse();
-  // setDimensions();
+//   toggleResponse();
+//   // setDimensions();
+// });
+
+// function  toggleResponse() {
+
+//   // Inverser l'état de l'élément
+//   isHidden = !isHidden;
+
+//   // Mettre à jour l'affichage de l'élément en fonction de son état
+//   if (isHidden) {
+//     question.style.display = 'block';
+//     response.style.display = 'none';
+//   } else {
+//     question.style.display = 'none';
+//     response.style.display = 'block';
+//   }
+  
+//     // question.classList.remove('active');
+//     // response.classList.add('active');
+
+// }
+
+
+
+
+function flip() {
+  var flipBox = document.querySelector('.tab-content.active .card');
+  flipBox.classList.toggle('flipped');
+}
+
+
+// Ajoute un écouteur d'événement sur le bouton
+document.getElementById("flip-btn").addEventListener("click", function() {
+  // Ajoute une classe au bouton pour indiquer qu'il a été cliqué
+  this.classList.toggle("clicked");
 });
 
-function  toggleResponse() {
-
-  // Inverser l'état de l'élément
-  isHidden = !isHidden;
-
-  // Mettre à jour l'affichage de l'élément en fonction de son état
-  if (isHidden) {
-    question.style.display = 'block';
-    response.style.display = 'none';
-  } else {
-    question.style.display = 'none';
-    response.style.display = 'block';
-  }
-  
-    // question.classList.remove('active');
-    // response.classList.add('active');
-
-}
 
 
