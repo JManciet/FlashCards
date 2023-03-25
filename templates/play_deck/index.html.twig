@@ -3,7 +3,6 @@
 {% block title %}Hello PlayDeckController!{% endblock %}
 
 {% block body %}
-<h1>{{ deck.titre }}</h1>
 
  {{ dump(positionCartesByUtilisateur) }} 
 
@@ -23,89 +22,170 @@
 
 {% endfor %} 
 
-<button onmouseover="chg()" onmouseout="chg2()" id="d1">Hover Over Me!</button>
+<div id="azerty">
+    <div id="playDeckZone">
+        <h1>{{ deck.titre }}</h1>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Imprimmer le deck
+          </button>
+        <div id="tabsPlayDeck">
+            <div class="tab-buttons">
+            <button class="tab-button grey active" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span>{{cartesDeckNotInPositionCartesByUtilisateur|length}}</button>
+            <button class="tab-button red" data-tab="tab2"><span class="" data-tab="tab2">Cartes non connues : </span>{{cartesLevel0|length}}</button>
+            <button class="tab-button blue" data-tab="tab3"><span class="" data-tab="tab3">Cartes à revoir : </span>{{cartesLevel1|length}}</button>
+            <button class="tab-button green" data-tab="tab4"><span class="" data-tab="tab4">Cartes connues : </span>{{cartesLevel2|length}}</button>
+            </div>
 
+            <div id="container-tab-contents">
+            <div class="tab-content active" data-tab="tab1">
 
+                {% if cartesDeckNotInPositionCartesByUtilisateur|length != 0 %}
+                <div class="carte">
+                    {% set randomCartesDeckNotInPositionCartesByUtilisateur = random(cartesDeckNotInPositionCartesByUtilisateur)%}
+                    {{ randomCartesDeckNotInPositionCartesByUtilisateur.question }}
+                </div>
+                {% else %}
+                    Pas de cartes dans cet onglet !
+                {% endif %} 
 
-<div class="tabs">
-    <div class="tab-buttons">
-      <button class="tab-button grey active" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span>{{cartesDeckNotInPositionCartesByUtilisateur|length}}</button>
-      <button class="tab-button red" data-tab="tab2"><span class="" data-tab="tab2">Cartes non connues : </span>{{cartesLevel0|length}}</button>
-      <button class="tab-button blue" data-tab="tab3"><span class="" data-tab="tab3">Cartes à revoir : </span>{{cartesLevel1|length}}</button>
-      <button class="tab-button green" data-tab="tab4"><span class="" data-tab="tab4">Cartes connues : </span>{{cartesLevel2|length}}</button>
+            </div>
+            <div class="tab-content" data-tab="tab2">
+
+                {% if cartesLevel0|length != 0 %}
+                <div class="carte">
+                    {% set randomCarteLevel0 = random(cartesLevel0)%}
+                    {{randomCarteLevel0.question }}
+                </div>
+                {% else %}
+                    Pas de cartes dans cet onglet !
+                {% endif %} 
+            
+            </div>
+            <div class="tab-content" data-tab="tab3">
+
+                {% if cartesLevel1|length != 0 %}
+                <div class="carte">
+                    {% set randomCarteLevel1 = random(cartesLevel1)%}
+                    {{randomCarteLevel1.question }}
+                </div>
+                {% else %}
+                    Pas de cartes dans cet onglet !
+                {% endif %} 
+
+            </div>
+            <div class="tab-content" data-tab="tab4">
+
+                {% if cartesLevel2|length != 0 %}
+                <div class="carte">
+                    {% set randomCarteLevel2 = random(cartesLevel2)%}
+                    {{randomCarteLevel1.question }}
+                </div>
+                {% else %}
+                    Pas de cartes dans cet onglet !
+                {% endif %} 
+
+            </div>
+            </div>
+        </div>
     </div>
 
-    <div id="container-tab-contents">
-      <div class="tab-content active" data-tab="tab1">
+    <div id="selectDeck">
+        <div class="tabsSelectDeck">
+            <div class="tab-buttons">
+            <button class="tab-button grey active" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span>{{cartesDeckNotInPositionCartesByUtilisateur|length}}</button>
+            <button class="tab-button red" data-tab="tab2"><span class="" data-tab="tab2">Cartes non connues : </span>{{cartesLevel0|length}}</button>
+            <button class="tab-button blue" data-tab="tab3"><span class="" data-tab="tab3">Cartes à revoir : </span>{{cartesLevel1|length}}</button>
+            <button class="tab-button green" data-tab="tab4"><span class="" data-tab="tab4">Cartes connues : </span>{{cartesLevel2|length}}</button>
+            </div>
 
-        {% if cartesDeckNotInPositionCartesByUtilisateur|length != 0 %}
-        <div class="carte">
-            {% set randomCartesDeckNotInPositionCartesByUtilisateur = random(cartesDeckNotInPositionCartesByUtilisateur)%}
-            {{ randomCartesDeckNotInPositionCartesByUtilisateur.question }}
+            <div id="container-tab-contents">
+            <div class="tab-content active" data-tab="tab1">
+
+                {% if cartesDeckNotInPositionCartesByUtilisateur|length != 0 %}
+                <div class="carte">
+                    {% set randomCartesDeckNotInPositionCartesByUtilisateur = random(cartesDeckNotInPositionCartesByUtilisateur)%}
+                    {{ randomCartesDeckNotInPositionCartesByUtilisateur.question }}
+                </div>
+                {% else %}
+                    Pas de cartes dans cet onglet !
+                {% endif %} 
+
+            </div>
+            <div class="tab-content" data-tab="tab2">
+
+                {% if cartesLevel0|length != 0 %}
+                <div class="carte">
+                    {% set randomCarteLevel0 = random(cartesLevel0)%}
+                    {{randomCarteLevel0.question }}
+                </div>
+                {% else %}
+                    Pas de cartes dans cet onglet !
+                {% endif %} 
+            
+            </div>
+            <div class="tab-content" data-tab="tab3">
+
+                {% if cartesLevel1|length != 0 %}
+                <div class="carte">
+                    {% set randomCarteLevel1 = random(cartesLevel1)%}
+                    {{randomCarteLevel1.question }}
+                </div>
+                {% else %}
+                    Pas de cartes dans cet onglet !
+                {% endif %} 
+
+            </div>
+            <div class="tab-content" data-tab="tab4">
+
+                {% if cartesLevel2|length != 0 %}
+                <div class="carte">
+                    {% set randomCarteLevel2 = random(cartesLevel2)%}
+                    {{randomCarteLevel1.question }}
+                </div>
+                {% else %}
+                    Pas de cartes dans cet onglet !
+                {% endif %} 
+
+            </div>
+            </div>
         </div>
-        {% else %}
-            Pas de cartes dans cet onglet !
-        {% endif %} 
-
-      </div>
-      <div class="tab-content" data-tab="tab2">
-
-        {% if cartesLevel0|length != 0 %}
-        <div class="carte">
-            {% set randomCarteLevel0 = random(cartesLevel0)%}
-            {{randomCarteLevel0.question }}
+    </div>
+</div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Paramêtres de l'impression</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        {% else %}
-            Pas de cartes dans cet onglet !
-        {% endif %} 
-    
-      </div>
-      <div class="tab-content" data-tab="tab3">
+        <div class="modal-body">
+          
+            <form id="formulairePdf" action="{{ path('pdf', { 'id': deck.id}) }}" target="_blank" method="GET">
 
-        {% if cartesLevel1|length != 0 %}
-        <div class="carte">
-            {% set randomCarteLevel1 = random(cartesLevel1)%}
-            {{randomCarteLevel1.question }}
+                    <label for="rectX">Nombre de carte horizontal:</label>
+                    <input type="number" name="X" id="rectX" value="4"><br>
+                
+                    <label for="rectY">Nombre de carte vertical:</label>
+                    <input type="number" name="Y" id="rectY" value="3"><br>
+                
+                    <canvas id="myCanvas"></canvas>
+            
+            </form>
+
         </div>
-        {% else %}
-            Pas de cartes dans cet onglet !
-        {% endif %} 
-
-      </div>
-      <div class="tab-content" data-tab="tab4">
-
-        {% if cartesLevel2|length != 0 %}
-        <div class="carte">
-            {% set randomCarteLevel2 = random(cartesLevel2)%}
-            {{randomCarteLevel1.question }}
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" form="formulairePdf">Générer PDF</button>
         </div>
-        {% else %}
-            Pas de cartes dans cet onglet !
-        {% endif %} 
-
       </div>
     </div>
   </div>
 
-
-  <form action="{{ path('pdf', { 'id': deck.id}) }}" target="_blank" method="GET">
-
   
-
-<br>
-
-    <label for="rectX">Nombre de carte horizontal:</label>
-	<input type="number" name="X" id="rectX" value="4"><br>
-
-	<label for="rectY">Nombre de carte vertical:</label>
-	<input type="number" name="Y" id="rectY" value="3"><br>
-
-	<canvas id="myCanvas"></canvas>
-
-
-    <p>Cliquez sur le bouton pour générer le PDF :</p>
-    <button type="submit">Générer PDF</button>
-    </form>
 
 	<script>
 		// Récupération des inputs
