@@ -13,7 +13,7 @@ h2 {
 
 
 
-#azerty{
+#container{
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
@@ -94,12 +94,31 @@ h2 {
     display: inline;
   }
 
+
+  
   .carte{
+    display: flex;
+  justify-content: center; /* centre le contenu horizontalement */
+  align-items: center; /* centre le contenu verticalement */
+    height: auto;
+    width: auto;
+    min-height: 400px;
+    min-width: 300px;
+    display: inline-block;
     padding: 20px;
     border-radius: 20px;
     background-color: rgb(255, 255, 255);
     /* transition: background-color 3s ease-in-out; */
   }
+
+
+  .cardContain{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+    background-color: #bd1d1d;
+  }
+
 
   @media screen and (max-width: 750px){
     

@@ -38,6 +38,7 @@ tabButtons.forEach((tabButton) => {
   tabButton.addEventListener('click', (event) => {
     const tabIndex = event.target.getAttribute('data-tab');
     displayTab(tabIndex);
+    setDimensions();
   });
 });
 
@@ -49,4 +50,22 @@ $(document).ready(function(){
       $(target).modal('show');
   });
 });
+
+
+
+//script pour que la div prenne toute la hauteur du conteneur
+const parentDivs = document.querySelectorAll('.carte');
+
+function setDimensions() {
+  parentDivs.forEach(parentDiv => {
+    const childDiv = parentDiv.querySelector('.cardContain');
+    const parentHeight = parentDiv.offsetHeight; // récupère la hauteur de la div parent
+    childDiv.style.height = `${parentHeight}px`; // défini la hauteur de la div enfant en fonction de la hauteur de la div parent
+  });
+}
+
+setDimensions(); // appelle la fonction pour définir les dimensions initiales
+
+// écoute les événements de redimensionnement de la fenêtre pour ajuster les dimensions de la div enfant
+
 
