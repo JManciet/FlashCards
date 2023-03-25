@@ -38,97 +38,109 @@
 
                 <div id="container-tab-contents">
                     <div class="tab-content active" data-tab="tab1">
-
-                        {% if cartesDeckNotInPositionCartesByUtilisateur|length != 0 %}
-                        <div class="card-container">
-                            <div class="card">
-                                {% set randomCartesDeckNotInPositionCartesByUtilisateur = random(cartesDeckNotInPositionCartesByUtilisateur)%}
-                                <div class="question">
-                                    <div class="header-card"><span>Question:</span></div>
-                                    <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCartesDeckNotInPositionCartesByUtilisateur.question }}</p></div>
-                                </div>
-                                <div class="response">
-                                    <div class="header-card"><span>Reponse:</span></div>
-                                    <div class="body-card"><p>{{ randomCartesDeckNotInPositionCartesByUtilisateur.reponse }}</p></div>
+                        
+                        {% block block_tab1 %}
+                            {% if cartesDeckNotInPositionCartesByUtilisateur|length != 0 %}
+                            <div class="card-container">
+                                <div class="card">
+                                    {% set randomCartesDeckNotInPositionCartesByUtilisateur = random(cartesDeckNotInPositionCartesByUtilisateur)%}
+                                    <div class="question">
+                                        <div class="header-card"><span>Question:</span></div>
+                                        <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCartesDeckNotInPositionCartesByUtilisateur.question }}</p></div>
+                                    </div>
+                                    <div class="response">
+                                        <div class="header-card"><span>Reponse:</span></div>
+                                        <div class="body-card"><p>{{ randomCartesDeckNotInPositionCartesByUtilisateur.reponse }}</p></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {% else %}
-                            <div class="missing-card">
-                                Pas de cartes dans cet onglet !
-                            </div>
-                        {% endif %} 
+                            {% else %}
+                                <div class="missing-card">
+                                    Pas de cartes dans cet onglet !
+                                </div>
+                            {% endif %}
+                        {% endblock %}
+                         
 
                     </div>
                     <div class="tab-content" data-tab="tab2">
 
-                        {% if cartesLevel0|length != 0 %}
-                        <div class="card-container">
-                            <div class="card">
-                                {% set randomCarteLevel0 = random(cartesLevel0)%}
-                                <div class="question">
-                                    <div class="header-card"><span>Question:</span></div>
-                                    <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCarteLevel0.question }}</p></div>
-                                </div>
-                                <div class="response">
-                                    <div class="header-card"><span>Reponse:</span></div>
-                                    <div class="body-card"><p>{{ randomCarteLevel0.reponse }}</p></div>
+                        {% block block_tab2 %}
+                            {% if cartesLevel0|length != 0 %}
+                            <div class="card-container">
+                                <div class="card">
+                                    {% set randomCarteLevel0 = random(cartesLevel0)%}
+                                    <div class="question">
+                                        <div class="header-card"><span>Question:</span></div>
+                                        <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCarteLevel0.question }}</p></div>
+                                    </div>
+                                    <div class="response">
+                                        <div class="header-card"><span>Reponse:</span></div>
+                                        <div class="body-card"><p>{{ randomCarteLevel0.reponse }}</p></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {% else %}
-                            <div class="missing-card">
-                                Pas de cartes dans cet onglet !
-                            </div>
-                        {% endif %} 
+                            {% else %}
+                                <div class="missing-card">
+                                    Pas de cartes dans cet onglet !
+                                </div>
+                            {% endif %}
+                        {% endblock %} 
                     
                     </div>
                     <div class="tab-content" data-tab="tab3">
 
-                        {% if cartesLevel1|length != 0 %}
-                        <div class="card-container">
-                            <div class="card">
-                                {% set randomCarteLevel1 = random(cartesLevel1)%}
-                                <div class="question">
-                                    <div class="header-card"><span>Question:</span></div>
-                                    <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCarteLevel1.question }}</p></div>
-                                </div>
-                                <div class="response">
-                                    <div class="header-card"><span>Reponse:</span></div>
-                                    <div class="body-card"><p>{{ randomCarteLevel1.reponse }}</p></div>
+                        {% block block_tab3 %}
+                            {% if cartesLevel1|length != 0 %}
+                            <div class="card-container">
+                                <div class="card">
+                                    {% set randomCarteLevel1 = random(cartesLevel1)%}
+                                    <div class="question">
+                                        <div class="header-card"><span>Question:</span></div>
+                                        <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCarteLevel1.question }}</p></div>
+                                    </div>
+                                    <div class="response">
+                                        <div class="header-card"><span>Reponse:</span></div>
+                                        <div class="body-card"><p>{{ randomCarteLevel1.reponse }}</p></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {% else %}
-                        <div class="missing-card">
-                            Pas de cartes dans cet onglet !
-                        </div>
-                        {% endif %} 
+                            {% else %}
+                            <div class="missing-card">
+                                Pas de cartes dans cet onglet !
+                            </div>
+                            {% endif %} 
+                        {% endblock %}
 
                     </div>
                     <div class="tab-content" data-tab="tab4">
 
-                        {% if cartesLevel2|length != 0 %}
-                        <div class="card-container">
-                            <div class="card">
-                                {% set randomCarteLevel2 = random(cartesLevel2)%}
-                                <div class="question">
-                                    <div class="header-card"><span>Question:</span></div>
-                                    <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCarteLevel2.question }}</p></div>
-                                </div>
-                                <div class="response">
-                                    <div class="header-card"><span>Reponse:</span></div>
-                                    <div class="body-card"><p>{{ randomCarteLevel2.reponse }}</p></div>
+                        {% block block_tab4 %}
+                            {% if cartesLevel2|length != 0 %}
+                            <div class="card-container">
+                                <div class="card">
+                                    {% set randomCarteLevel2 = random(cartesLevel2)%}
+                                    <div class="question">
+                                        <div class="header-card"><span>Question:</span></div>
+                                        <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCarteLevel2.question }}</p></div>
+                                    </div>
+                                    <div class="response">
+                                        <div class="header-card"><span>Reponse:</span></div>
+                                        <div class="body-card"><p>{{ randomCarteLevel2.reponse }}</p></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {% else %}
-                        <div class="missing-card">
-                            Pas de cartes dans cet onglet !
-                        </div>
-                        {% endif %} 
+                            {% else %}
+                            <div class="missing-card">
+                                Pas de cartes dans cet onglet !
+                            </div>
+                            {% endif %} 
+                        {% endblock %}
 
                     </div>
+                    <button type="button" class="btn btn-primary" id="bouton-shuffle">
+                        autre question
+                    </button>
                 </div>
             </div>
 
@@ -138,7 +150,7 @@
         </div>
 
 
-        <div id="selectDeck">
+        {# <div id="selectDeck">
             <div class="tabsSelectDeck">
                 <div class="tab-buttons">
                     <button class="tab-button grey active" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span>{{cartesDeckNotInPositionCartesByUtilisateur|length}}</button>
@@ -203,7 +215,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> #}
 
 
   <!-- Modal -->

@@ -113,11 +113,20 @@ function flip() {
 }
 
 
-// Ajoute un écouteur d'événement sur le bouton
-document.getElementById("flip-btn").addEventListener("click", function() {
-  // Ajoute une classe au bouton pour indiquer qu'il a été cliqué
-  this.classList.toggle("clicked");
+
+// $(document).ready(function() {
+//   // Recharge la partie de la page lorsque l'utilisateur clique sur un bouton
+//   $('#mon_bouton').click(function() {
+//     $('#ma_div_a_recharger').load('http://127.0.0.1:8000/mon_inclusion.twig');
+//   });
+// });
+
+
+$(document).ready(function() {
+  $("#bouton-shuffle").click(function() {
+
+    var dataTabValue = $(".tab-content.active").attr('data-tab');
+
+    $(".tab-content[data-tab='"+dataTabValue+"']").load(location.href + " .tab-content[data-tab='"+dataTabValue+"'] > *");
+  });
 });
-
-
-
