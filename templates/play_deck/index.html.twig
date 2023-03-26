@@ -4,7 +4,15 @@
 
 {% block body %}
 
-    {{ dump(positionCartesByUtilisateur) }} 
+    {# {{ dump(positionCartesByUtilisateur) }}  #}
+
+     {# Renvoie un élément aléatoire sans jamais retourner un élément précédemment retourné #}
+
+
+    {% set my_array = [1, 2, 3, 4, 5] %}
+{# {{ random_without_duplicates(my_array) }} #}
+
+
 
     {% set cartesLevel0 = [] %}
     {% set cartesLevel1 = [] %}
@@ -43,7 +51,8 @@
                             {% if cartesDeckNotInPositionCartesByUtilisateur|length != 0 %}
                             <div class="card-container">
                                 <div class="card">
-                                    {% set randomCartesDeckNotInPositionCartesByUtilisateur = random(cartesDeckNotInPositionCartesByUtilisateur)%}
+                                    {% set randomCartesDeckNotInPositionCartesByUtilisateur = random_without_duplicates(cartesDeckNotInPositionCartesByUtilisateur)%}
+
                                     <div class="question">
                                         <div class="header-card"><span>Question:</span></div>
                                         <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCartesDeckNotInPositionCartesByUtilisateur.question }}</p></div>
@@ -138,14 +147,17 @@
                         {% endblock %}
 
                     </div>
-                    <button type="button" class="btn btn-primary" id="bouton-shuffle">
+                    {# <button type="button" class="btn btn-primary" id="bouton-shuffle">
                         autre question
-                    </button>
+                    </button> #}
                 </div>
             </div>
-
+<br><br><br><br><br><br><br><br><br><br>
             <button type="button" onclick="flip()" class="btn btn-primary" id="buttonResponse">
                 Montrer la réponse
+            </button>
+            <button type="button" class="btn btn-primary" id="bouton-shuffle">
+                autre question
             </button>
         </div>
 
