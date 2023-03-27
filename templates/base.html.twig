@@ -12,21 +12,23 @@
         {% endblock %}
     </head>
     <body>
-        <nav>
-            <ul>
-                <li><a href="{{ path('app_utilisateur') }}">Liste utilisateurs</a></li>
-                {% if app.user %}
-                    <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
-                    <li><a href="">Mon profil</a></li>
-                {% else %}
-                    <li><a href="{{ path('app_login') }}">Se connecter</a></li>
-                    <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
-                {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="">Panneau d'administration</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{{ path('app_utilisateur') }}">Liste utilisateurs</a></li>
+                    {% if app.user %}
+                        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                        <li><a href="">Mon profil</a></li>
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+                        <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="">Panneau d'administration</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
         {% block body %}
         
         {% endblock %}
