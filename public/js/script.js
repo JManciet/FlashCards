@@ -113,14 +113,42 @@ function flip() {
 }
 
 
-
+var toggle = true;
 // Recharge la partie de la page lorsque l'utilisateur clique sur un bouton
 $(document).ready(function() {
   $("#bouton-shuffle").click(function() {
 
     var dataTabValue = $(".tab-content.active").attr('data-tab');
 
+    var tabContent = $(".tab-content[data-tab='"+dataTabValue+"']");
+
+
+    if(toggle){
+      toggle = false;
+      tabContent.addClass("translate-effect-right");
+      tabContent.removeClass("translate-effect-left");
+    }else{
+      toggle = true;
+      tabContent.addClass("translate-effect-left");
+      tabContent.removeClass("translate-effect-right");
+    }
+
+
+
     $(".tab-content[data-tab='"+dataTabValue+"']").load(location.href + " .tab-content[data-tab='"+dataTabValue+"'] > *");
 
   });
+
+
 });
+
+
+
+// $.ajax({
+//   url: "votre-url",
+//   success: function(data) {
+//     // Insérez ici le code pour remplacer le contenu de votre élément avec les données AJAX reçues
+//     // Ajoutez ensuite la classe CSS "translate-effect" à l'élément pour déclencher l'animation
+//     $("#votre-element-cible").addClass("translate-effect");
+//   }
+// });

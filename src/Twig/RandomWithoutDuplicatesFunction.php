@@ -41,7 +41,7 @@ class RandomWithoutDuplicatesFunction extends AbstractExtension
         // dd("g");
         $remainings = $this->multi_array_diff($array, $useds);
         // var_dump($useds);
-        var_dump($remainings);
+        // var_dump($remainings);
         // foreach($useds as $index){
             // var_dump($useds[2]->getId());
         // }            
@@ -50,7 +50,7 @@ class RandomWithoutDuplicatesFunction extends AbstractExtension
 
         if (empty($remainings)) {
 
-            var_dump("aaaa");
+            // var_dump("aaaa");
             $remainings = $array;
             
             $lastValueOfuseds = end($useds);
@@ -60,7 +60,7 @@ class RandomWithoutDuplicatesFunction extends AbstractExtension
 
             $useds[] = $lastValueOfuseds;
 
-            var_dump($useds);
+            // var_dump($useds);
 
 
         //     $diff = array_udiff($array, $useds, [$this, 'compare_users']);
@@ -74,7 +74,7 @@ class RandomWithoutDuplicatesFunction extends AbstractExtension
         }else{
 
 
-            var_dump("bbbb");
+            // var_dump("bbbb");
             
 
             $random = $remainings[array_rand($remainings)];
@@ -117,7 +117,7 @@ class RandomWithoutDuplicatesFunction extends AbstractExtension
                 if (in_array($valuea->getId(), $aa)) { 
                     
                     unset($arraya[$keya]);
-                    var_dump($arraya        );
+                    // var_dump($arraya        );
                 }
             }else{
                 if (in_array($valuea, $arrayb)) { 

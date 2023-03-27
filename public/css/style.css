@@ -27,10 +27,11 @@ h2 {
 }
 
 #playDeckZone{
-  width: 750px;
+  width: 800px;
   background-color: antiquewhite;
   text-align: center;
-  padding: 0px;
+  padding: 20px;
+  border-radius: 30px;
 }
 
 #tabsPlayDeck {
@@ -189,6 +190,32 @@ h2 {
   .question.active{
     display:block;
   } */
+
+
+
+
+  .translate-effect-right {
+    animation-name: translateR;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+  }
+  
+  @keyframes translateR {
+    from { transform: translateX(0); }
+    to { transform: translateX(100%); }
+  }
+
+  .translate-effect-left {
+    animation-name: translateL;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+  }
+  
+  @keyframes translateL {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
+  
 
 
   
