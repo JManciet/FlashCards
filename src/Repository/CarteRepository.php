@@ -40,7 +40,29 @@ class CarteRepository extends ServiceEntityRepository
     }
 
 
-    public function findCartesDeckNotInPositionCartesByUtilisateur($utilisateurId, $deckId)
+    public function findCartesDeckInPositionCarte($utilisateurId, $deckId)
+    {
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('cart.id', 'cart.question', 'cart.reponse', 'po.position',)
+            ->from('App\Entity\PositionCarte', 'po')
+            ->innerJoin('po.carte', 'cart')
+            ->where('po.utilisateur = :uId')
+            ->andwhere('cart.deck = :dId ')
+            ->setParameter('uId', $utilisateurId)
+            ->setParameter('dId', $deckId);
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+
+
+    }
+
+
+    
+    public function findCartesDeckNotInPositionCarte($utilisateurId, $deckId)
     {
         // $qb = $this->createQueryBuilder('deck');
     

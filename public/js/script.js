@@ -168,7 +168,7 @@ function flip() {
 
 
 var toggle = true;
-// Recharge la partie de la page lorsque l'utilisateur clique sur un bouton
+// Recharge la carte de la page lorsque l'utilisateur clique sur le bouton
 $(document).ready(function() {
   $("#bouton-shuffle").click(function() {
 
