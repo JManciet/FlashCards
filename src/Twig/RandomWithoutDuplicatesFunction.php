@@ -25,39 +25,107 @@ class RandomWithoutDuplicatesFunction extends AbstractExtension
         $this->session = $session;
     }
 
-    public function randomWithoutDuplicates(array $array)
+
+
+    public function randomWithoutDuplicates(array $array, $sessionTabPosition)
     {
-        $usedIndexes = $this->session->get('usedIndexes', []);
-        $remainingIndexes = array_diff(array_keys($array), $usedIndexes);
 
-        // var_dump($usedIndexes);
-        // var_dump($remainingIndexes);
 
-        if (empty($remainingIndexes)) {
 
-            // var_dump("aaaa");
-            $remainingIndexes = array_keys($array);
+        $useds = $this->session->get($sessionTabPosition, []);
+
+        // var_dump($array);
+        // var_dump($useds);
+        
+       
+        // dd("g");
+        $remainings = $this->multi_array_diff($array, $useds);
+        // var_dump($useds);
+        var_dump($remainings);
+        // foreach($useds as $index){
+            // var_dump($useds[2]->getId());
+        // }            
+        
+    
+
+        if (empty($remainings)) {
+
+            var_dump("aaaa");
+            $remainings = $array;
             
-            $lastValueOfusedIndexes = end($usedIndexes);
+            $lastValueOfuseds = end($useds);
 
-            $usedIndexes = [$lastValueOfusedIndexes];
 
-            $remainingIndexes = array_diff(array_keys($array), $usedIndexes);
+            $useds = array();
 
-            // var_dump($remainingIndexes);
+            $useds[] = $lastValueOfuseds;
 
-            $randomIndex = array_rand($remainingIndexes);
+            var_dump($useds);
+
+
+        //     $diff = array_udiff($array, $useds, [$this, 'compare_users']);
+
+            $remainings = $this->multi_array_diff($array, $useds);
+
+            // var_dump($remainings);
+
+            $random = $remainings[array_rand($remainings)];
 
         }else{
 
-            $randomIndex = array_rand($remainingIndexes);
+
+            var_dump("bbbb");
             
-            $usedIndexes[] = $remainingIndexes[$randomIndex];
+
+            $random = $remainings[array_rand($remainings)];
+
+            
+
+            array_push($useds,$random);
         
         }
 
-        $this->session->set('usedIndexes', $usedIndexes);
+        $this->session->set($sessionTabPosition, $useds);
 
-        return $array[$remainingIndexes[$randomIndex]];
+
+        // dd($remainings);
+
+        return $random;
     }
+
+
+
+
+    
+
+    function compare_users($a, $b) {
+        return $a->id - $b->id;
+    }
+
+    function multi_array_diff($arraya, $arrayb) {
+
+        foreach ($arraya as $keya => $valuea) { 
+            if(is_object($valuea)){
+
+                $aa = [];
+                foreach( $arrayb as $valueb ){
+
+                    $aa[] = $valueb->getId();
+                }
+
+                // if (    array_key_exists($valuea->getId(), $arrayb)) {
+                if (in_array($valuea->getId(), $aa)) { 
+                    
+                    unset($arraya[$keya]);
+                    var_dump($arraya        );
+                }
+            }else{
+                if (in_array($valuea, $arrayb)) { 
+                    unset($arraya[$keya]); 
+                } 
+            }
+        } 
+        return $arraya; 
+    } 
+    
 }

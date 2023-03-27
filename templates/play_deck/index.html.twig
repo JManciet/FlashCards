@@ -38,24 +38,24 @@
             </button>
             <div id="tabsPlayDeck">
                 <div class="tab-buttons">
-                    <button class="tab-button grey active" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span>{{cartesDeckNotInPositionCartesByUtilisateur|length}}</button>
+                    <button class="tab-button grey" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span>{{cartesDeckNotInPositionCartesByUtilisateur|length}}</button>
                     <button class="tab-button red" data-tab="tab2"><span class="" data-tab="tab2">Cartes non connues : </span>{{cartesLevel0|length}}</button>
-                    <button class="tab-button blue" data-tab="tab3"><span class="" data-tab="tab3">Cartes à revoir : </span>{{cartesLevel1|length}}</button>
+                    <button class="tab-button blue active" data-tab="tab3"><span class="" data-tab="tab3">Cartes à revoir : </span>{{cartesLevel1|length}}</button>
                     <button class="tab-button green" data-tab="tab4"><span class="" data-tab="tab4">Cartes connues : </span>{{cartesLevel2|length}}</button>
                 </div>
 
                 <div id="container-tab-contents">
-                    <div class="tab-content active" data-tab="tab1">
+                    <div class="tab-content" data-tab="tab1">
                         
-                        {% block block_tab1 %}
+                        {# {% block block_tab1 %} #}
                             {% if cartesDeckNotInPositionCartesByUtilisateur|length != 0 %}
                             <div class="card-container">
                                 <div class="card">
-                                    {% set randomCartesDeckNotInPositionCartesByUtilisateur = random_without_duplicates(cartesDeckNotInPositionCartesByUtilisateur)%}
+                                    {% set randomCartesDeckNotInPositionCartesByUtilisateur = random_without_duplicates(cartesDeckNotInPositionCartesByUtilisateur, "sessionTab1")%}
 
                                     <div class="question">
                                         <div class="header-card"><span>Question:</span></div>
-                                        <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCartesDeckNotInPositionCartesByUtilisateur.question }}</p></div>
+                                        <div class="body-card"><p>{{ randomCartesDeckNotInPositionCartesByUtilisateur.question }}</p></div>
                                     </div>
                                     <div class="response">
                                         <div class="header-card"><span>Reponse:</span></div>
@@ -68,20 +68,20 @@
                                     Pas de cartes dans cet onglet !
                                 </div>
                             {% endif %}
-                        {% endblock %}
+                        {# {% endblock %} #}
                          
 
                     </div>
                     <div class="tab-content" data-tab="tab2">
 
-                        {% block block_tab2 %}
+                        {# {% block block_tab2 %} #}
                             {% if cartesLevel0|length != 0 %}
                             <div class="card-container">
                                 <div class="card">
-                                    {% set randomCarteLevel0 = random(cartesLevel0)%}
+                                    {% set randomCarteLevel0 = random_without_duplicates(cartesLevel0, "sessionTab2")%}
                                     <div class="question">
                                         <div class="header-card"><span>Question:</span></div>
-                                        <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCarteLevel0.question }}</p></div>
+                                        <div class="body-card"><p>{{ randomCarteLevel0.question }}</p></div>
                                     </div>
                                     <div class="response">
                                         <div class="header-card"><span>Reponse:</span></div>
@@ -94,19 +94,19 @@
                                     Pas de cartes dans cet onglet !
                                 </div>
                             {% endif %}
-                        {% endblock %} 
+                        {# {% endblock %}  #}
                     
                     </div>
-                    <div class="tab-content" data-tab="tab3">
+                    <div class="tab-content active" id="bloc1" data-tab="tab3">
 
-                        {% block block_tab3 %}
+                        {# {% block block_tab3 %} #}
                             {% if cartesLevel1|length != 0 %}
                             <div class="card-container">
                                 <div class="card">
-                                    {% set randomCarteLevel1 = random(cartesLevel1)%}
+                                    {% set randomCarteLevel1 = random_without_duplicates(cartesLevel1, "sessionTab3")%}
                                     <div class="question">
                                         <div class="header-card"><span>Question:</span></div>
-                                        <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCarteLevel1.question }}</p></div>
+                                        <div class="body-card"><p>{{ randomCarteLevel1.question }}</p></div>
                                     </div>
                                     <div class="response">
                                         <div class="header-card"><span>Reponse:</span></div>
@@ -119,19 +119,19 @@
                                 Pas de cartes dans cet onglet !
                             </div>
                             {% endif %} 
-                        {% endblock %}
+                        {# {% endblock %} #}
 
                     </div>
                     <div class="tab-content" data-tab="tab4">
 
-                        {% block block_tab4 %}
+                        {# {% block block_tab4 %} #}
                             {% if cartesLevel2|length != 0 %}
                             <div class="card-container">
                                 <div class="card">
-                                    {% set randomCarteLevel2 = random(cartesLevel2)%}
+                                    {% set randomCarteLevel2 = random_without_duplicates(cartesLevel2, "sessionTab4")%}
                                     <div class="question">
                                         <div class="header-card"><span>Question:</span></div>
-                                        <div class="body-card"><p>aaaa aaaa a aa a aa aaaaaaaaaaa aa aaaaaaaaaaaa aaaaa{{ randomCarteLevel2.question }}</p></div>
+                                        <div class="body-card"><p>{{ randomCarteLevel2.question }}</p></div>
                                     </div>
                                     <div class="response">
                                         <div class="header-card"><span>Reponse:</span></div>
@@ -144,7 +144,7 @@
                                 Pas de cartes dans cet onglet !
                             </div>
                             {% endif %} 
-                        {% endblock %}
+                        {# {% endblock %} #}
 
                     </div>
                     {# <button type="button" class="btn btn-primary" id="bouton-shuffle">

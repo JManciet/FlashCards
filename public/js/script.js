@@ -114,19 +114,13 @@ function flip() {
 
 
 
-// $(document).ready(function() {
-//   // Recharge la partie de la page lorsque l'utilisateur clique sur un bouton
-//   $('#mon_bouton').click(function() {
-//     $('#ma_div_a_recharger').load('http://127.0.0.1:8000/mon_inclusion.twig');
-//   });
-// });
-
-
+// Recharge la partie de la page lorsque l'utilisateur clique sur un bouton
 $(document).ready(function() {
   $("#bouton-shuffle").click(function() {
 
     var dataTabValue = $(".tab-content.active").attr('data-tab');
 
     $(".tab-content[data-tab='"+dataTabValue+"']").load(location.href + " .tab-content[data-tab='"+dataTabValue+"'] > *");
+
   });
 });
