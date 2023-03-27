@@ -51,13 +51,13 @@ h2 {
     padding: 20px;
   }
   
-  .tab-buttons {
+  #playDeckZone .tab-buttons {
     display: flex;
     flex-direction: row;
     /* border-bottom: 1px solid #ccc; */
   }
   
-  .tab-button {
+  #playDeckZone .tab-button {
     /* background-color: #ccc; */
     border: none;
     color: #333;
@@ -68,49 +68,102 @@ h2 {
     /* transition: background-color 0.3s ease-in-out; */
   }
 
-  .tab-button.grey {
+  #playDeckZone .tab-button.grey {
     background-color: rgb(177, 177, 177);
   }
-  .tab-button.red {
+  #playDeckZone .tab-button.red {
     background-color: rgb(255, 98, 98);
   }
-  .tab-button.blue {
+  #playDeckZone .tab-button.blue {
     background-color: rgb(52, 191, 255);
   }
-  .tab-button.green {
-    background-color: rgb(113, 209, 75);
+  #playDeckZone .tab-button.green {
+    background-color: rgb(86, 192, 44);
   }
   
-  .tab-button.active {
+  #playDeckZone .tab-button.active {
     /* background-color: #fff; */
     border: 1px solid #ccc;
     border-bottom: none;
   }
   
-  #container-tab-contents {
+  #playDeckZone .container-tab-contents {
     padding: 10px;
     border-radius: 0 25px 25px 25px;
     transition: background-color 0.5s ease-in-out;
   }
   
-  .tab-content {
+  #playDeckZone .tab-content {
     display: none;
     padding: 0px;
     /* transition: background-color 3s ease-in-out; */
   }
   
-  .tab-content.active {
+  #playDeckZone .tab-content.active {
     display: block;
     /* transition: background-color 3s ease-in-out; */
   }
 
-  .tab-button>span {
+  #playDeckZone .tab-button>span {
     display: inline;
   }
   
-  .tab-button>span.active {
+  #playDeckZone .tab-button>span.active {
     display: inline;
   }
+
+
+
+
+
+
+
+  #select-deck-zone .tab-buttons {
+    display: flex;
+    flex-direction: row;
+    /* border-bottom: 1px solid #ccc; */
+  }
+  
+  #select-deck-zone .tab-button {
+    /* background-color: #ccc; */
+    border: none;
+    color: #333;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 5px 5px 0 0;
+    /* transition: background-color 0.3s ease-in-out; */
+  }
+  
+  #select-deck-zone .tab-button.active {
+    /* background-color: #fff; */
+    border: 1px solid #ccc;
+    border-bottom: none;
+  }
+  
+  #select-deck-zone .container-tab-contents {
+    padding: 10px;
+    border-radius: 0 25px 25px 25px;
+    background-color: #ccc;
+  }
+  
+  #select-deck-zone .tab-content {
+    display: none;
+    padding: 0px;
+    /* transition: background-color 3s ease-in-out; */
+  }
+  
+  #select-deck-zone .tab-content.active {
+    display: block;
+    /* transition: background-color 3s ease-in-out; */
+  }
+
+
+
+
+
+
+
 
 
 
@@ -119,6 +172,9 @@ h2 {
     height: 400px;
 
   }
+
+
+
 
 
 
@@ -233,7 +289,7 @@ h2 {
   @media screen and (max-width: 750px){
     
     
-    .tab-button>span {
+    #playDeckZone .tab-button>span {
       display: none;
     }
 

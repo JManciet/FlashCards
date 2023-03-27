@@ -1,10 +1,10 @@
-const tabButtons = document.querySelectorAll('.tab-button');
-const textTabButtons = document.querySelectorAll('.tab-button>span');
-const tabContents = document.querySelectorAll('.tab-content');
+const tabButtons = document.querySelectorAll('#playDeckZone .tab-button');
+const textTabButtons = document.querySelectorAll('#playDeckZone .tab-button>span');
+const tabContents = document.querySelectorAll('#playDeckZone .tab-content');
 
-const containerTabContents = document.querySelector('#container-tab-contents');
+const containerTabContents = document.querySelector('#playDeckZone .container-tab-contents');
 
-function displayTab(tabIndex) {
+function displayTabPlayDeck(tabIndex) {
 
   tabContents.forEach((tabContent) => {
     tabContent.classList.remove('active');
@@ -37,12 +37,66 @@ function displayTab(tabIndex) {
 tabButtons.forEach((tabButton) => {
   tabButton.addEventListener('click', (event) => {
     const tabIndex = event.target.getAttribute('data-tab');
-    displayTab(tabIndex);
+    displayTabPlayDeck(tabIndex);
     // setDimensions();
   });
 });
 
-displayTab(tabButtons[0].getAttribute('data-tab'));
+displayTabPlayDeck(tabButtons[0].getAttribute('data-tab'));
+
+
+
+
+
+
+
+
+
+const selectDeckTabButtons = document.querySelectorAll('#select-deck-zone .tab-button');
+const selectDeckTabContents = document.querySelectorAll('#select-deck-zone .tab-content');
+
+
+function displayTabSelectDeck(tabIndex) {
+
+  selectDeckTabContents.forEach((selectDeckTabContent) => {
+    selectDeckTabContent.classList.remove('active');
+    if (selectDeckTabContent.getAttribute('data-tab') === tabIndex) {
+      selectDeckTabContent.classList.add('active');
+    }
+  });
+
+  selectDeckTabButtons.forEach((selectDeckTabButton) => {
+    selectDeckTabButton.classList.remove('active');
+    selectDeckTabButton.style.backgroundColor = 'grey';
+    if (selectDeckTabButton.getAttribute('data-tab') === tabIndex) {
+      selectDeckTabButton.classList.add('active');
+      selectDeckTabButton.style.backgroundColor = 'red';
+    }
+  });
+
+}
+
+selectDeckTabButtons.forEach((selectDeckTabButton) => {
+  selectDeckTabButton.addEventListener('click', (event) => {
+    const tabIndex = event.target.getAttribute('data-tab');
+    displayTabSelectDeck(tabIndex);
+    // setDimensions();
+  });
+});
+
+displayTabSelectDeck(selectDeckTabButtons[0].getAttribute('data-tab'));
+
+
+
+
+
+
+
+
+
+
+
+
 
 $(document).ready(function(){
   $('[data-toggle="modal"]').click(function(){
@@ -118,9 +172,9 @@ var toggle = true;
 $(document).ready(function() {
   $("#bouton-shuffle").click(function() {
 
-    var dataTabValue = $(".tab-content.active").attr('data-tab');
+    var dataTabValue = $("#playDeckZone .tab-content.active").attr('data-tab');
 
-    var tabContent = $(".tab-content[data-tab='"+dataTabValue+"']");
+    var tabContent = $("#playDeckZone .tab-content[data-tab='"+dataTabValue+"']");
 
 
     if(toggle){
@@ -135,7 +189,7 @@ $(document).ready(function() {
 
 
 
-    $(".tab-content[data-tab='"+dataTabValue+"']").load(location.href + " .tab-content[data-tab='"+dataTabValue+"'] > *");
+    $("#playDeckZone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + "#playDeckZone .tab-content[data-tab='"+dataTabValue+"'] > *");
 
   });
 
