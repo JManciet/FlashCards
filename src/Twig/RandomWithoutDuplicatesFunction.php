@@ -34,7 +34,7 @@ class RandomWithoutDuplicatesFunction extends AbstractExtension
 
         $useds = $this->session->get($sessionTabPosition, []);
 
-        // var_dump($array);
+        // dd($array);
         // var_dump("asc",$useds);
         
        
@@ -64,7 +64,11 @@ class RandomWithoutDuplicatesFunction extends AbstractExtension
 
             $useds = array();
 
+            if(sizeof($remainings)>0)
             $random = $remainings[array_rand($remainings)];
+            else
+            $random = $remainings;
+
             $useds[] = $random;
 
         }else{
@@ -73,7 +77,10 @@ class RandomWithoutDuplicatesFunction extends AbstractExtension
             // var_dump("bbbb");
             
 
+            if(sizeof($remainings)>0)
             $random = $remainings[array_rand($remainings)];
+            else
+            $random = $remainings;
 
             
 

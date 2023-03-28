@@ -9,7 +9,7 @@
      {# Renvoie un élément aléatoire sans jamais retourner un élément précédemment retourné #}
 
 
-    {% set my_array = [1, 2, 3] %}
+    {# {% set my_array = [1, 2, 3] %}
 
     {% for row in my_array %}
     {% for row1 in my_array %}
@@ -17,7 +17,7 @@
     {{ random_without_duplicates(my_array, "arrayTest") }}
     {% endfor %}
     {% endfor %}
-    {% endfor %}
+    {% endfor %} #}
 
 
 
@@ -47,7 +47,7 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 Imprimmer le deck
             </button><a href="{{ path('ajouter_favori', {'id': deck.id}) }}">Ajouter aux favoris</a>
-            <button id="add-favori-btn" data-recette-id="{{ deck.id }}">Ajouter aux favoris AJAX</button>
+            <button id="add-favori-btn" data-deck-id="{{ deck.id }}">Ajouter aux favoris AJAX</button>
             <div id="tabs-play-deck">
                 <div class="tab-buttons">
                     <button class="tab-button grey" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span>{{cartesDeckNotInPositionCarte|length}}</button>
@@ -61,10 +61,11 @@
                         
                         {# {% block block_tab1 %} #}
                             {% if cartesDeckNotInPositionCarte|length != 0 %}
-                            <div class="card-container">
-                                <div class="card">
-                                    {% set randomCartesDeckNotInPositionCarte = random_without_duplicates(cartesDeckNotInPositionCarte, "sessionTab1")%}
+                            {% set randomCartesDeckNotInPositionCarte = random_without_duplicates(cartesDeckNotInPositionCarte, "sessionTab1")%}
 
+                            <div class="card-container" id-carte="{{ randomCartesDeckNotInPositionCarte.id }}">
+                                <div class="card">
+                                    {% set carteActif = randomCartesDeckNotInPositionCarte %}
                                     <div class="question">
                                         <div class="header-card"><span>Question:</span></div>
                                         <div class="body-card"><p>{{ randomCartesDeckNotInPositionCarte.question }}</p></div>
@@ -88,9 +89,10 @@
 
                         {# {% block block_tab2 %} #}
                             {% if cartesLevel0|length != 0 %}
-                            <div class="card-container">
+                            {% set randomCarteLevel0 = random_without_duplicates(cartesLevel0, "sessionTab2")%}
+                            <div class="card-container" id-carte="{{ randomCarteLevel0.id }}">
                                 <div class="card">
-                                    {% set randomCarteLevel0 = random_without_duplicates(cartesLevel0, "sessionTab2")%}
+                                    {% set carteActif = randomCarteLevel0 %}
                                     <div class="question">
                                         <div class="header-card"><span>Question:</span></div>
                                         <div class="body-card"><p>{{ randomCarteLevel0.question }}</p></div>
@@ -113,9 +115,10 @@
 
                         {# {% block block_tab3 %} #}
                             {% if cartesLevel1|length != 0 %}
-                            <div class="card-container">
+                            {% set randomCarteLevel1 = random_without_duplicates(cartesLevel1, "sessionTab3")%}
+                            <div class="card-container" id-carte="{{ randomCarteLevel1.id }}">
                                 <div class="card">
-                                    {% set randomCarteLevel1 = random_without_duplicates(cartesLevel1, "sessionTab3")%}
+                                    {% set carteActif = randomCarteLevel1 %}
                                     <div class="question">
                                         <div class="header-card"><span>Question:</span></div>
                                         <div class="body-card"><p>{{ randomCarteLevel1.question }}</p></div>
@@ -138,9 +141,12 @@
 
                         {# {% block block_tab4 %} #}
                             {% if cartesLevel2|length != 0 %}
-                            <div class="card-container">
+
+                            {% set randomCarteLevel2 = random_without_duplicates(cartesLevel2, "sessionTab4")%}
+
+                            <div class="card-container" id-carte="{{ randomCarteLevel2.id }}">
                                 <div class="card">
-                                    {% set randomCarteLevel2 = random_without_duplicates(cartesLevel2, "sessionTab4")%}
+                                    {% set carteActif = randomCarteLevel2 %}
                                     <div class="question">
                                         <div class="header-card"><span>Question:</span></div>
                                         <div class="body-card"><p>{{ randomCarteLevel2.question }}</p></div>
@@ -168,21 +174,36 @@
             <button type="button" onclick="flip()" class="btn btn-primary active" id="btn-see-response">
                 Montrer la réponse
             </button>
-            <div id="btns-response">
-                <button type="button" onclick="range('tab2')" class="btn btn-response red">
+            <div id="btns-response" class="active">
+                <button type="button" onclick="range('tab2'); addPositionCarte('tab2',0);" class="btn btn-response red">
                     Je savais pas
                 </button>
-                <button type="button" onclick="range('tab3')" class="btn btn-response blue">
+                <button type="button" onclick="range('tab3'); addPositionCarte('tab3',1);" class="btn btn-response blue">
                     Je sais un peu
                 </button>
-                <button type="button" onclick="range('tab4')" class="btn btn-response green">
+                <button type="button" onclick="range('tab4'); addPositionCarte('tab4',2);" class="btn btn-response green">
                     Je savais
                 </button>
+
+                {# <button id="add-position-btn" data-carte-id="{{ carteActif.id }}"  data-position-id="5">Ajouter une carte AJAX {{ carteActif.question }}</button> #}
             </div>
             <button type="button" class="btn btn-primary" id="btn-shuffle">
                 autre question
             </button>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         <div id="select-deck-zone">

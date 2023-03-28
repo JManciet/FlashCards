@@ -32,13 +32,13 @@ class FavoriController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        // Vérifier si l'utilisateur a déjà ajouté la recette en tant que favori
+        // Vérifier si l'utilisateur a déjà ajouté le deck en tant que favori
         $favoriExist = $entityManager->getRepository(Favori::class)->findOneBy([
             'utilisateur' => $this->getUser(),
             'deck' => $deck
         ]);
 
-        // Si l'utilisateur n'a pas encore ajouté la recette en tant que favori, la sauvegarder
+        // Si l'utilisateur n'a pas encore ajouté le deck en tant que favori, la sauvegarder
         if(!$favoriExist) {
             $favori = new Favori();
             $favori->setUtilisateur($this->getUser());

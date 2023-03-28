@@ -168,11 +168,23 @@ function flip() {
   var responseButtons = document.querySelector('#btns-response');
   var seeResponseButton = document.querySelector('#btn-see-response');
   
-  responseButtons.classList.toggle('active');
+  // responseButtons.classList.toggle('active');
 
-  seeResponseButton.classList.toggle('active');
+  // seeResponseButton.classList.toggle('active');
+
+  $.ajax({
+    url: window.location.href,
+    type: "GET",
+    success: function(response) {
+      var nouveauContenu = $(response).find("#add-position-btn");
+      $("#add-position-btn").replaceWith(nouveauContenu);
+    }
+  });
 
 }
+
+
+
 
 
 function range(tabIndex) {
@@ -209,7 +221,49 @@ function range(tabIndex) {
   card.style.transform = "translate("+(finalPos.x-currentPos.x)+"px,"+(finalPos.y-currentPos.y)+"px)"+ " scale(0)";
   // card.style.transform = "scale(0)";
 
-  $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + "#play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
+  $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
+
+}
+
+
+
+function addPositionCarte(tabIndex, position) {
+
+  var actualIdCarte = $("#play-deck-zone .tab-content.active .card-container").attr('id-carte');
+  var actualDataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
+
+// alert(actualCard)
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `/ajouter_position_carte/${actualIdCarte}/${position}`);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onload = function() {
+        if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
+            console.log('PositionCarte ajoutée');
+
+
+
+
+            $.ajax({
+              url: window.location.href,
+              type: "GET",
+              success: function(response) {
+                var nouveauContenu = $(response).find("#play-deck-zone .tab-button[data-tab='"+tabIndex+"']");
+                $("#play-deck-zone .tab-button[data-tab='"+tabIndex+"']").replaceWith(nouveauContenu);
+              }
+            });
+
+
+
+
+            // $("#play-deck-zone .tab-button[data-tab='"+tabIndex+"']").load(window.location.href + "#play-deck-zone .tab-button[data-tab='"+tabIndex+"'] > *");
+
+        } else {
+            console.error('Une erreur est survenue');
+        }
+    };
+    xhr.send();
+
 
 }
 
@@ -236,15 +290,15 @@ $(document).ready(function() {
       card.removeClass("translate-effect-right");
     }
 
-    var responseButtons = document.querySelector('#btns-response');
-    var seeResponseButton = document.querySelector('#btn-see-response');
+    // var responseButtons = document.querySelector('#btns-response');
+    // var seeResponseButton = document.querySelector('#btn-see-response');
   
-    responseButtons.classList.toggle('active');
+    // responseButtons.classList.toggle('active');
 
-    seeResponseButton.classList.toggle('active');
+    // seeResponseButton.classList.toggle('active');
 
 
-    $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + "#play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
+    $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
 
   });
 
@@ -266,16 +320,16 @@ $(document).ready(function() {
 const addFavoriBtn = document.querySelector('#add-favori-btn');
 addFavoriBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const recetteId = addFavoriBtn.dataset.recetteId;
+    const deckId = addFavoriBtn.dataset.deckId;
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', `/ajouter_favori/${recetteId}`);
+    xhr.open('POST', `/ajouter_favori/${deckId}`);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.onload = function() {
         if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
-            console.log('Recette ajoutée aux favoris');
+            console.log('Deck ajoutée aux favoris');
 
 
-            $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + "#select-deck-zone .tab-content[data-tab='tab2'] > *");
+            $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + " #select-deck-zone .tab-content[data-tab='tab2'] > *");
 
         } else {
             console.error('Une erreur est survenue');
@@ -287,14 +341,14 @@ addFavoriBtn.addEventListener('click', (e) => {
 
 // $('#ajouter-favori-btn').click(function(e) {
 //   e.preventDefault();
-//   const recetteId = $(this).data('recette-id');
+//   const deckId = $(this).data('deck-id');
 //   $.ajax({
 //       type: 'POST',
-//       url: '/ajouter_favori/' + recetteId,
+//       url: '/ajouter_favori/' + deckId,
 //       dataType: 'json',
 //       success: function(data) {
 //           if (data.success) {
-//               console.log('Recette ajoutée aux favoris');
+//               console.log('Deck ajoutée aux favoris');
 //               // Recharger la partie de la page HTML
 //               $('#select-deck-zone').load(window.location.href + ' #select-deck-zone >*');
 //           } else {
@@ -307,4 +361,27 @@ addFavoriBtn.addEventListener('click', (e) => {
 //           $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + "#select-deck-zone .tab-content[data-tab='tab2'] > *");
 //       }
 //   });
+// });
+
+
+// const addPositionBtn = document.querySelector('#add-position-btn');
+// addPositionBtn.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     const carteId = addPositionBtn.dataset.carteId;
+//     const position = addPositionBtn.dataset.positionId;
+//     const xhr = new XMLHttpRequest();
+//     xhr.open('POST', `/ajouter_position_carte/${carteId}/${position}`);
+//     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+//     xhr.onload = function() {
+//         if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
+//             console.log('PositionCarte ajoutée');
+
+
+//             $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + " #select-deck-zone .tab-content[data-tab='tab2'] > *");
+
+//         } else {
+//             console.error('Une erreur est survenue');
+//         }
+//     };
+//     xhr.send();
 // });
