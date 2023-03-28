@@ -1,8 +1,8 @@
-const tabButtons = document.querySelectorAll('#playDeckZone .tab-button');
-const textTabButtons = document.querySelectorAll('#playDeckZone .tab-button>span');
-const tabContents = document.querySelectorAll('#playDeckZone .tab-content');
+const tabButtons = document.querySelectorAll('#play-deck-zone .tab-button');
+const textTabButtons = document.querySelectorAll('#play-deck-zone .tab-button>span');
+const tabContents = document.querySelectorAll('#play-deck-zone .tab-content');
 
-const containerTabContents = document.querySelector('#playDeckZone .container-tab-contents');
+const containerTabContents = document.querySelector('#play-deck-zone .container-tab-contents');
 
 function displayTabPlayDeck(tabIndex) {
 
@@ -170,11 +170,11 @@ function flip() {
 var toggle = true;
 // Recharge la carte de la page lorsque l'utilisateur clique sur le bouton
 $(document).ready(function() {
-  $("#bouton-shuffle").click(function() {
+  $("#btn-shuffle").click(function() {
 
-    var dataTabValue = $("#playDeckZone .tab-content.active").attr('data-tab');
+    var dataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
 
-    var tabContent = $("#playDeckZone .tab-content[data-tab='"+dataTabValue+"']");
+    var tabContent = $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']");
 
 
     if(toggle){
@@ -189,7 +189,7 @@ $(document).ready(function() {
 
 
 
-    $("#playDeckZone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + "#playDeckZone .tab-content[data-tab='"+dataTabValue+"'] > *");
+    $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + "#play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
 
   });
 
@@ -205,4 +205,51 @@ $(document).ready(function() {
 //     // Ajoutez ensuite la classe CSS "translate-effect" à l'élément pour déclencher l'animation
 //     $("#votre-element-cible").addClass("translate-effect");
 //   }
+// });
+
+
+const addFavoriBtn = document.querySelector('#add-favori-btn');
+addFavoriBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const recetteId = addFavoriBtn.dataset.recetteId;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `/ajouter_favori/${recetteId}`);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onload = function() {
+        if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
+            console.log('Recette ajoutée aux favoris');
+
+
+            $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + "#select-deck-zone .tab-content[data-tab='tab2'] > *");
+
+        } else {
+            console.error('Une erreur est survenue');
+        }
+    };
+    xhr.send();
+});
+
+
+// $('#ajouter-favori-btn').click(function(e) {
+//   e.preventDefault();
+//   const recetteId = $(this).data('recette-id');
+//   $.ajax({
+//       type: 'POST',
+//       url: '/ajouter_favori/' + recetteId,
+//       dataType: 'json',
+//       success: function(data) {
+//           if (data.success) {
+//               console.log('Recette ajoutée aux favoris');
+//               // Recharger la partie de la page HTML
+//               $('#select-deck-zone').load(window.location.href + ' #select-deck-zone >*');
+//           } else {
+//               console.error('Une erreur est survenue1');
+//           }
+//       },
+//       error: function(xhr, status, error) {
+//           console.error('Une erreur est survenue2');
+
+//           $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + "#select-deck-zone .tab-content[data-tab='tab2'] > *");
+//       }
+//   });
 // });
