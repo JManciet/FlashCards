@@ -180,12 +180,20 @@
                 <div class="container-tab-contents">
                     <div class="tab-content active" data-tab="tab1">
 
-                         
+                        {% for accesDeck in utilisateur.accesDecks %}
+                            "{{ accesDeck.deck.titre }}" de la catégorie: {{ accesDeck.deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': accesDeck.deck.id} ) }}">Jouer avec ce deck</a>   <br>
+                        {% else %}
+                            No decks have been found.
+                        {% endfor %}
 
                     </div>
                     <div class="tab-content" data-tab="tab2">
 
-                        
+                        {% for favori in utilisateur.favoris %}
+                            "{{ favori.deck.titre }}" de la catégorie: {{ favori.deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': favori.deck.id} ) }}">Jouer avec ce deck</a>   <br>
+                        {% else %}
+                            No decks have been found.
+                        {% endfor %}
                     
                     </div>
                     <div class="tab-content" data-tab="tab3">
