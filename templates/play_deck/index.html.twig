@@ -9,8 +9,15 @@
      {# Renvoie un élément aléatoire sans jamais retourner un élément précédemment retourné #}
 
 
-    {% set my_array = [1, 2, 3, 4, 5] %}
-{# {{ random_without_duplicates(my_array) }} #}
+    {% set my_array = [1, 2, 3] %}
+
+    {% for row in my_array %}
+    {% for row1 in my_array %}
+    {% for row2 in my_array %}
+    {{ random_without_duplicates(my_array, "arrayTest") }}
+    {% endfor %}
+    {% endfor %}
+    {% endfor %}
 
 
 
