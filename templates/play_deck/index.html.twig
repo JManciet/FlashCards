@@ -37,6 +37,10 @@
 
     {% endfor %} 
 
+    <a href="" id="click">Click to move square</a>
+
+<div class="square" id="square1"></div>
+
     <div id="container">
         <div id="play-deck-zone">
             <h1>{{ deck.titre }}</h1>
@@ -48,7 +52,7 @@
                 <div class="tab-buttons">
                     <button class="tab-button grey" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span>{{cartesDeckNotInPositionCarte|length}}</button>
                     <button class="tab-button red" data-tab="tab2"><span class="" data-tab="tab2">Cartes non connues : </span>{{cartesLevel0|length}}</button>
-                    <button class="tab-button blue active" data-tab="tab3"><span class="" data-tab="tab3">Cartes à revoir : </span>{{cartesLevel1|length}}</button>
+                    <button class="tab-button blue active" data-tab="tab3"><span class="" data-tab="tab3">Cartes presque connues : </span>{{cartesLevel1|length}}</button>
                     <button class="tab-button green" data-tab="tab4"><span class="" data-tab="tab4">Cartes connues : </span>{{cartesLevel2|length}}</button>
                 </div>
 
@@ -161,9 +165,20 @@
                 </div>
             </div>
 
-            <button type="button" onclick="flip()" class="btn btn-primary" id="btn-response">
+            <button type="button" onclick="flip()" class="btn btn-primary active" id="btn-see-response">
                 Montrer la réponse
             </button>
+            <div id="btns-response">
+                <button type="button" onclick="range('tab2')" class="btn btn-response red">
+                    Je savais pas
+                </button>
+                <button type="button" onclick="range('tab3')" class="btn btn-response blue">
+                    Je sais un peu
+                </button>
+                <button type="button" onclick="range('tab4')" class="btn btn-response green">
+                    Je savais
+                </button>
+            </div>
             <button type="button" class="btn btn-primary" id="btn-shuffle">
                 autre question
             </button>

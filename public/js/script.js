@@ -164,7 +164,56 @@ $(document).ready(function(){
 function flip() {
   var flipBox = document.querySelector('.tab-content.active .card');
   flipBox.classList.toggle('flipped');
+
+  var responseButtons = document.querySelector('#btns-response');
+  var seeResponseButton = document.querySelector('#btn-see-response');
+  
+  responseButtons.classList.toggle('active');
+
+  seeResponseButton.classList.toggle('active');
+
 }
+
+
+function range(tabIndex) {
+
+
+  var dataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
+
+  var card = document.querySelector("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] .card-container");
+
+  var tab = document.querySelector("#play-deck-zone .tab-button[data-tab='"+tabIndex+"']");
+  
+
+  var positionCard = card.getBoundingClientRect();
+  var positionTab = tab.getBoundingClientRect();
+
+
+  let currentPos = {
+    x: positionCard.left + positionCard.width/2,
+    y: positionCard.top + positionCard.height/2
+  };
+
+
+  let finalPos = {
+    x: positionTab.left + positionTab.width/2, // position horizontale souhaitée
+    y: positionTab.top + positionTab.height/2 // position verticale souhaitée
+  };
+  
+
+  // alert(positionCentreTabX);
+  // alert(positionCentreTabY);
+
+
+
+  card.style.transform = "translate("+(finalPos.x-currentPos.x)+"px,"+(finalPos.y-currentPos.y)+"px)"+ " scale(0)";
+  // card.style.transform = "scale(0)";
+
+  $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + "#play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
+
+}
+
+
 
 
 var toggle = true;
@@ -174,19 +223,25 @@ $(document).ready(function() {
 
     var dataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
 
-    var tabContent = $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']");
+    var card = $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] .card-container");
 
 
     if(toggle){
       toggle = false;
-      tabContent.addClass("translate-effect-right");
-      tabContent.removeClass("translate-effect-left");
+      card.addClass("translate-effect-right");
+      card.removeClass("translate-effect-left");
     }else{
       toggle = true;
-      tabContent.addClass("translate-effect-left");
-      tabContent.removeClass("translate-effect-right");
+      card.addClass("translate-effect-left");
+      card.removeClass("translate-effect-right");
     }
 
+    var responseButtons = document.querySelector('#btns-response');
+    var seeResponseButton = document.querySelector('#btn-see-response');
+  
+    responseButtons.classList.toggle('active');
+
+    seeResponseButton.classList.toggle('active');
 
 
     $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + "#play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");

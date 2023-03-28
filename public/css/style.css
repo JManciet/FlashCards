@@ -50,7 +50,7 @@ h2 {
 #play-deck-zone{
   background-color: #d3d3d386;
   backdrop-filter: blur(7px);
-  width: 800px;
+  width: 850px;
   text-align: center;
   padding: 20px;
   margin: 0 20px;
@@ -85,13 +85,13 @@ h2 {
   #play-deck-zone .tab-button.grey {
     background-color: rgb(177, 177, 177);
   }
-  #play-deck-zone .tab-button.red {
+  #play-deck-zone .tab-button.red, .btn-response.red {
     background-color: rgb(255, 98, 98);
   }
-  #play-deck-zone .tab-button.blue {
+  #play-deck-zone .tab-button.blue, .btn-response.blue {
     background-color: rgb(52, 191, 255);
   }
-  #play-deck-zone .tab-button.green {
+  #play-deck-zone .tab-button.green, .btn-response.green {
     background-color: rgb(86, 192, 44);
   }
   
@@ -188,6 +188,23 @@ h2 {
   }
 
 
+  #btns-response{
+    display: none;
+  }
+
+  #btns-response.active{
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+  }
+
+  #btn-see-response{
+    display: none;
+  }
+
+  #btn-see-response.active{
+    display: inline-block;
+  }
 
 
 
@@ -199,6 +216,7 @@ h2 {
     font-size: 20px;
     display: inline-block;
     perspective: 1000px;
+    transition: all 0.5s ease-out;
   }
 
 
@@ -300,7 +318,7 @@ h2 {
 
   
 
-  @media screen and (max-width: 800px){
+  @media screen and (max-width: 900px){
     
     
     #play-deck-zone .tab-button>span {
