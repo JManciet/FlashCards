@@ -1,4 +1,4 @@
-const tabButtons = document.querySelectorAll('#play-deck-zone .tab-button');
+const selectPositionTabButtons = document.querySelectorAll('#play-deck-zone .tab-button');
 const textTabButtons = document.querySelectorAll('#play-deck-zone .tab-button>span');
 const tabContents = document.querySelectorAll('#play-deck-zone .tab-content');
 
@@ -18,10 +18,10 @@ function displayTabPlayDeck(tabIndex) {
     }
   });
 
-  tabButtons.forEach((tabButton) => {
-    tabButton.classList.remove('active');
-    if (tabButton.getAttribute('data-tab') === tabIndex) {
-       tabButton.classList.add('active');
+  selectPositionTabButtons.forEach((selectPositionTabButton) => {
+    selectPositionTabButton.classList.remove('active');
+    if (selectPositionTabButton.getAttribute('data-tab') === tabIndex) {
+      selectPositionTabButton.classList.add('active');
     }
   });
 
@@ -36,17 +36,29 @@ function displayTabPlayDeck(tabIndex) {
 
 //ajoute un évenement au clique sur chaque boutons des onglets
 
-tabButtons.forEach((tabButton) => {
-  tabButton.addEventListener('click', (event) => {
+selectPositionTabButtons.forEach((selectPositionTabButton) => {
+  selectPositionTabButton.addEventListener('click', (event) => {
     const tabIndex = event.target.getAttribute('data-tab');
     displayTabPlayDeck(tabIndex);
     displayBtnsPlay();
+    switchSeeResponseWithBtnsSelectResponse();
     // setDimensions();
   });
 });
 
-displayTabPlayDeck(tabButtons[0].getAttribute('data-tab'));
+displayTabPlayDeck(selectPositionTabButtons[0].getAttribute('data-tab'));
 
+
+function switchSeeResponseWithBtnsSelectResponse(){
+
+  var activeResponse = document.querySelector('.tab-content.active .card.flipped');
+
+  if(activeResponse){
+    BtnSeeResponseInFrontBtnsSelectResponse(false);
+  }else{
+    BtnSeeResponseInFrontBtnsSelectResponse(true);
+  }
+}
 
 function displayBtnsPlay(){
 
@@ -65,6 +77,30 @@ function displayBtnsPlay(){
 displayBtnsPlay()
 
 
+function displaySeeResponseButton(displayStyle){
+
+  var seeResponseButton = document.getElementById('btn-see-response');
+
+  seeResponseButton.style.display = displayStyle;
+  
+}
+
+function displayResponseButtons(displayStyle){
+
+  var responseButtons = document.querySelector('#btns-response');
+
+  responseButtons.style.display = displayStyle;
+  
+}
+
+function displaySpinner(displayStyle){
+
+  var spinner = document.querySelector(".spinner-border");
+
+  spinner.style.display = displayStyle;
+}
+
+displaySpinner('none');
 
 
 const selectDeckTabButtons = document.querySelectorAll('#select-deck-zone .tab-button');
@@ -182,7 +218,7 @@ function flip() {
 
   flipBox.classList.toggle('flipped');
 
-  switchBtnSeeResponseWhithBtnsSelectResponse();
+  BtnSeeResponseInFrontBtnsSelectResponse(false);
 
   // $.ajax({
   //   url: window.location.href,
@@ -195,13 +231,15 @@ function flip() {
 
 }
 
+function BtnSeeResponseInFrontBtnsSelectResponse(inFront){
 
-function switchBtnSeeResponseWhithBtnsSelectResponse(){
-  var responseButtons = document.querySelector('#btns-response');
-  var seeResponseButton = document.querySelector('#btn-see-response');
-  
-  responseButtons.classList.toggle('active');
-  seeResponseButton.classList.toggle('active');
+  if(inFront){
+    displaySeeResponseButton('inline-block');
+    displayResponseButtons('none');
+  }else{
+    displaySeeResponseButton('none');
+    displayResponseButtons('block');
+  }
 }
 
 
@@ -235,7 +273,7 @@ function range(tabIndex) {
 
 
 
-  switchBtnSeeResponseWhithBtnsSelectResponse();
+  // BtnSeeResponseInFrontBtnsSelectResponse(false);
 
   // $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
 
@@ -245,10 +283,20 @@ function range(tabIndex) {
 
 function addPositionCarte(tabIndex, position) {
 
+
+  BtnSeeResponseInFrontBtnsSelectResponse(false);
+
+  displayResponseButtons('none');
+
+  displaySpinner('inline-block');
+
   var actualIdCarte = $("#play-deck-zone .tab-content.active .card-container").attr('id-carte');
   var actualDataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
 
 // alert(actualCard)
+
+  // displaySeeResponseButton('none');
+  
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', `/ajouter_position_carte/${actualIdCarte}/${position}`);
@@ -257,13 +305,15 @@ function addPositionCarte(tabIndex, position) {
         if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
             console.log('PositionCarte ajoutée');
 
-
+            range(tabIndex);
 
             var dataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
 
             $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *", function() {
               // action à lancer après le rechargement du bouton
               displayBtnsPlay();
+              BtnSeeResponseInFrontBtnsSelectResponse(true);
+              displaySpinner('none');
             });
 
             $("#play-deck-zone .tab-content[data-tab='"+tabIndex+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+tabIndex+"'] > *");
@@ -316,25 +366,38 @@ var toggle = true;
 $(document).ready(function() {
   $("#btn-shuffle").click(function() {
 
+    displayResponseButtons('none');
+    displaySeeResponseButton('none');
+
+    displaySpinner('inline-block');
+
     var dataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
 
     var card = $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] .card-container");
 
-
+    var flipBox = document.querySelector('.tab-content.active .card');
+    
     if(toggle){
       toggle = false;
       card.addClass("translate-effect-right");
       card.removeClass("translate-effect-left");
+      flipBox.classList.toggle('flipped');
     }else{
       toggle = true;
       card.addClass("translate-effect-left");
       card.removeClass("translate-effect-right");
+      flipBox.classList.toggle('flipped');
     }
 
-    switchBtnSeeResponseWhithBtnsSelectResponse();
+    // BtnSeeResponseInFrontBtnsSelectResponse(true);
 
 
-    $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
+    $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *", function() {
+      // action à lancer après le rechargement du bouton
+      // displayBtnsPlay();
+      BtnSeeResponseInFrontBtnsSelectResponse(true);
+      displaySpinner('none');
+    });
 
   });
 

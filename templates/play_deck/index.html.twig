@@ -163,32 +163,32 @@
                         {# {% endblock %} #}
 
                     </div>
-                    {# <button type="button" class="btn btn-primary" id="bouton-shuffle">
+                    <button type="button" class="btn btn-primary" id="btn-shuffle">
                         autre question
-                    </button> #}
+                    </button>
                 </div>
             </div>
 
             <div id="zone-play-btns">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
                 <button type="button" onclick="flip()" class="btn btn-primary active" id="btn-see-response">
                     Montrer la réponse
                 </button>
                 <div id="btns-response" >
-                    <button type="button" onclick="range('tab2'); addPositionCarte('tab2',0);" class="btn btn-response red">
+                    <button type="button" onclick="addPositionCarte('tab2',0)" class="btn btn-response red">
                         Je ne sais pas
                     </button>
-                    <button type="button" onclick="range('tab3'); addPositionCarte('tab3',1);" class="btn btn-response blue">
+                    <button type="button" onclick="addPositionCarte('tab3',1)" class="btn btn-response blue">
                         Je sais un peu
                     </button>
-                    <button type="button" onclick="range('tab4'); addPositionCarte('tab4',2);" class="btn btn-response green">
+                    <button type="button" onclick="addPositionCarte('tab4',2)" class="btn btn-response green">
                         Je sais
                     </button>
                     {# <button id="add-position-btn" data-carte-id="{{ carteActif.id }}"  data-position-id="5">Ajouter une carte AJAX {{ carteActif.question }}</button> #}
                 </div>
             </div>
-            <button type="button" class="btn btn-primary" id="btn-shuffle">
-                autre question
-            </button>
         </div>
 
 

@@ -188,23 +188,15 @@ h2 {
   }
 
 
+  
+
   #btns-response{
     display: none;
-  }
-
-  #btns-response.active{
-    display: flex;
     justify-content: center;
     gap: 50px;
   }
 
-  #btn-see-response{
-    display: none;
-  }
-
-  #btn-see-response.active{
-    display: inline-block;
-  }
+ 
 
 
 
@@ -294,7 +286,7 @@ h2 {
 
   .translate-effect-right {
     animation-name: translateR;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-timing-function: ease-out;
   }
   
@@ -305,7 +297,7 @@ h2 {
 
   .translate-effect-left {
     animation-name: translateL;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-timing-function: ease-out;
   }
   
