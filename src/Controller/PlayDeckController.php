@@ -25,14 +25,14 @@ class PlayDeckController extends AbstractController
     {
 
         // $positionCartesByUtilisateur = $doctrine->getRepository(PositionCarte::class)->findBy(array('utilisateur' => $utilisateur->getId()));
-        $cartesDeckInPositionCarte = $doctrine->getRepository(Carte::class)->findCartesDeckInPositionCarte($utilisateur->getId(),$deck->getId());
+        $cartesDeckInPositionCarte = $doctrine->getRepository(Carte::class)->findCartesDeckInPositionCarte($this->getUser() ,$deck->getId());
 
-        $cartesDeckNotInPositionCarte = $doctrine->getRepository(Carte::class)->findCartesDeckNotInPositionCarte($utilisateur->getId(),$deck->getId());
+        $cartesDeckNotInPositionCarte = $doctrine->getRepository(Carte::class)->findCartesDeckNotInPositionCarte($this->getUser() ,$deck->getId());
         
         // dd($cartesDeckInPositionCartesByUtilisateur);
 
         return $this->render('play_deck/index.html.twig', [
-            'utilisateur' => $utilisateur,
+            'utilisateur' => $this->getUser(),
             'deck' => $deck,
             'cartesDeckInPositionCarte' => $cartesDeckInPositionCarte,
             'cartesDeckNotInPositionCarte' => $cartesDeckNotInPositionCarte,

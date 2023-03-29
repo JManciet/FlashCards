@@ -37,10 +37,6 @@
 
     {% endfor %} 
 
-    <a href="" id="click">Click to move square</a>
-
-<div class="square" id="square1"></div>
-
     <div id="container">
         <div id="play-deck-zone">
             <h1>{{ deck.titre }}</h1>
@@ -50,10 +46,10 @@
             <button id="add-favori-btn" data-deck-id="{{ deck.id }}">Ajouter aux favoris AJAX</button>
             <div id="tabs-play-deck">
                 <div class="tab-buttons">
-                    <button class="tab-button grey" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span>{{cartesDeckNotInPositionCarte|length}}</button>
-                    <button class="tab-button red" data-tab="tab2"><span class="" data-tab="tab2">Cartes non connues : </span>{{cartesLevel0|length}}</button>
-                    <button class="tab-button blue active" data-tab="tab3"><span class="" data-tab="tab3">Cartes presque connues : </span>{{cartesLevel1|length}}</button>
-                    <button class="tab-button green" data-tab="tab4"><span class="" data-tab="tab4">Cartes connues : </span>{{cartesLevel2|length}}</button>
+                    <button class="tab-button grey" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span><span class="nbr-carte">{{cartesDeckNotInPositionCarte|length}}</span></button>
+                    <button class="tab-button red" data-tab="tab2"><span class="" data-tab="tab2">Cartes non connues : </span><span class="nbr-carte">{{cartesLevel0|length}}</span></button>
+                    <button class="tab-button blue active" data-tab="tab3"><span class="" data-tab="tab3">Cartes presque connues : </span><span class="nbr-carte">{{cartesLevel1|length}}</span></button>
+                    <button class="tab-button green" data-tab="tab4"><span class="" data-tab="tab4">Cartes connues : </span><span class="nbr-carte">{{cartesLevel2|length}}</span></button>
                 </div>
 
                 <div class="container-tab-contents">
@@ -61,7 +57,7 @@
                         
                         {# {% block block_tab1 %} #}
                             {% if cartesDeckNotInPositionCarte|length != 0 %}
-                            {% set randomCartesDeckNotInPositionCarte = random_without_duplicates(cartesDeckNotInPositionCarte, "sessionTab1")%}
+                            {% set randomCartesDeckNotInPositionCarte = random(cartesDeckNotInPositionCarte, "sessionTab1")%}
 
                             <div class="card-container" id-carte="{{ randomCartesDeckNotInPositionCarte.id }}">
                                 <div class="card">
@@ -89,7 +85,9 @@
 
                         {# {% block block_tab2 %} #}
                             {% if cartesLevel0|length != 0 %}
-                            {% set randomCarteLevel0 = random_without_duplicates(cartesLevel0, "sessionTab2")%}
+                            {{ dump(cartesLevel0) }}
+        
+                            {% set randomCarteLevel0 = random(cartesLevel0, "sessionTab2")%}
                             <div class="card-container" id-carte="{{ randomCarteLevel0.id }}">
                                 <div class="card">
                                     {% set carteActif = randomCarteLevel0 %}
@@ -115,7 +113,7 @@
 
                         {# {% block block_tab3 %} #}
                             {% if cartesLevel1|length != 0 %}
-                            {% set randomCarteLevel1 = random_without_duplicates(cartesLevel1, "sessionTab3")%}
+                            {% set randomCarteLevel1 = random(cartesLevel1, "sessionTab3")%}
                             <div class="card-container" id-carte="{{ randomCarteLevel1.id }}">
                                 <div class="card">
                                     {% set carteActif = randomCarteLevel1 %}
@@ -142,7 +140,7 @@
                         {# {% block block_tab4 %} #}
                             {% if cartesLevel2|length != 0 %}
 
-                            {% set randomCarteLevel2 = random_without_duplicates(cartesLevel2, "sessionTab4")%}
+                            {% set randomCarteLevel2 = random(cartesLevel2, "sessionTab4")%}
 
                             <div class="card-container" id-carte="{{ randomCarteLevel2.id }}">
                                 <div class="card">
@@ -171,21 +169,22 @@
                 </div>
             </div>
 
-            <button type="button" onclick="flip()" class="btn btn-primary active" id="btn-see-response">
-                Montrer la réponse
-            </button>
-            <div id="btns-response" class="active">
-                <button type="button" onclick="range('tab2'); addPositionCarte('tab2',0);" class="btn btn-response red">
-                    Je savais pas
+            <div id="zone-play-btns">
+                <button type="button" onclick="flip()" class="btn btn-primary active" id="btn-see-response">
+                    Montrer la réponse
                 </button>
-                <button type="button" onclick="range('tab3'); addPositionCarte('tab3',1);" class="btn btn-response blue">
-                    Je sais un peu
-                </button>
-                <button type="button" onclick="range('tab4'); addPositionCarte('tab4',2);" class="btn btn-response green">
-                    Je savais
-                </button>
-
-                {# <button id="add-position-btn" data-carte-id="{{ carteActif.id }}"  data-position-id="5">Ajouter une carte AJAX {{ carteActif.question }}</button> #}
+                <div id="btns-response" >
+                    <button type="button" onclick="range('tab2'); addPositionCarte('tab2',0);" class="btn btn-response red">
+                        Je ne sais pas
+                    </button>
+                    <button type="button" onclick="range('tab3'); addPositionCarte('tab3',1);" class="btn btn-response blue">
+                        Je sais un peu
+                    </button>
+                    <button type="button" onclick="range('tab4'); addPositionCarte('tab4',2);" class="btn btn-response green">
+                        Je sais
+                    </button>
+                    {# <button id="add-position-btn" data-carte-id="{{ carteActif.id }}"  data-position-id="5">Ajouter une carte AJAX {{ carteActif.question }}</button> #}
+                </div>
             </div>
             <button type="button" class="btn btn-primary" id="btn-shuffle">
                 autre question

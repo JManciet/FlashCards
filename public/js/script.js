@@ -34,10 +34,13 @@ function displayTabPlayDeck(tabIndex) {
 
 }
 
+//ajoute un évenement au clique sur chaque boutons des onglets
+
 tabButtons.forEach((tabButton) => {
   tabButton.addEventListener('click', (event) => {
     const tabIndex = event.target.getAttribute('data-tab');
     displayTabPlayDeck(tabIndex);
+    displayBtnsPlay();
     // setDimensions();
   });
 });
@@ -45,9 +48,21 @@ tabButtons.forEach((tabButton) => {
 displayTabPlayDeck(tabButtons[0].getAttribute('data-tab'));
 
 
+function displayBtnsPlay(){
 
+  var activeCard = document.querySelector('.tab-content.active .card');
 
+  var zonePlayButtons = document.getElementById('zone-play-btns');
 
+  if(activeCard){
+    zonePlayButtons.style.display = 'block';
+  }else{
+    zonePlayButtons.style.display = 'none';
+  }
+
+}
+
+displayBtnsPlay()
 
 
 
@@ -163,27 +178,31 @@ $(document).ready(function(){
 
 function flip() {
   var flipBox = document.querySelector('.tab-content.active .card');
+
+
   flipBox.classList.toggle('flipped');
 
-  var responseButtons = document.querySelector('#btns-response');
-  var seeResponseButton = document.querySelector('#btn-see-response');
-  
-  // responseButtons.classList.toggle('active');
+  switchBtnSeeResponseWhithBtnsSelectResponse();
 
-  // seeResponseButton.classList.toggle('active');
-
-  $.ajax({
-    url: window.location.href,
-    type: "GET",
-    success: function(response) {
-      var nouveauContenu = $(response).find("#add-position-btn");
-      $("#add-position-btn").replaceWith(nouveauContenu);
-    }
-  });
+  // $.ajax({
+  //   url: window.location.href,
+  //   type: "GET",
+  //   success: function(response) {
+  //     var nouveauContenu = $(response).find("#add-position-btn");
+  //     $("#add-position-btn").replaceWith(nouveauContenu);
+  //   }
+  // });
 
 }
 
 
+function switchBtnSeeResponseWhithBtnsSelectResponse(){
+  var responseButtons = document.querySelector('#btns-response');
+  var seeResponseButton = document.querySelector('#btn-see-response');
+  
+  responseButtons.classList.toggle('active');
+  seeResponseButton.classList.toggle('active');
+}
 
 
 
@@ -211,17 +230,14 @@ function range(tabIndex) {
     x: positionTab.left + positionTab.width/2, // position horizontale souhaitée
     y: positionTab.top + positionTab.height/2 // position verticale souhaitée
   };
-  
-
-  // alert(positionCentreTabX);
-  // alert(positionCentreTabY);
-
-
 
   card.style.transform = "translate("+(finalPos.x-currentPos.x)+"px,"+(finalPos.y-currentPos.y)+"px)"+ " scale(0)";
-  // card.style.transform = "scale(0)";
 
-  $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
+
+
+  switchBtnSeeResponseWhithBtnsSelectResponse();
+
+  // $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
 
 }
 
@@ -243,18 +259,42 @@ function addPositionCarte(tabIndex, position) {
 
 
 
+            var dataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
 
-            $.ajax({
-              url: window.location.href,
-              type: "GET",
-              success: function(response) {
-                var nouveauContenu = $(response).find("#play-deck-zone .tab-button[data-tab='"+tabIndex+"']");
-                $("#play-deck-zone .tab-button[data-tab='"+tabIndex+"']").replaceWith(nouveauContenu);
-              }
+            $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *", function() {
+              // action à lancer après le rechargement du bouton
+              displayBtnsPlay();
             });
 
+            $("#play-deck-zone .tab-content[data-tab='"+tabIndex+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+tabIndex+"'] > *");
 
 
+          if(dataTabValue != tabIndex){
+            var spanNbrCarteCurrentTab = document.querySelector("#play-deck-zone .tab-button[data-tab='"+dataTabValue+"'] .nbr-carte");
+            var spanNbrCarteDestinationTab = document.querySelector("#play-deck-zone .tab-button[data-tab='"+tabIndex+"'] .nbr-carte");
+
+            var newTextNbrCarteCurrentTab = parseInt(spanNbrCarteCurrentTab.textContent) - 1;
+            var newTextNbrCarteDestinationTab = parseInt(spanNbrCarteDestinationTab.textContent) + 1;
+
+            spanNbrCarteCurrentTab.innerHTML = newTextNbrCarteCurrentTab;
+            spanNbrCarteDestinationTab.innerHTML = newTextNbrCarteDestinationTab;
+          }
+
+
+
+
+            // alert("Nombre de carte dans l'onglet actif : "+dataTab.innerHTML);
+
+
+
+            // $.ajax({
+            //   url: window.location.href,
+            //   type: "GET",
+            //   success: function(response) {
+            //     var nouveauContenu = $(response).find("#play-deck-zone .tab-button[data-tab='"+tabIndex+"']");
+            //     $("#play-deck-zone .tab-button[data-tab='"+tabIndex+"']").replaceWith(nouveauContenu);
+            //   }
+            // });
 
             // $("#play-deck-zone .tab-button[data-tab='"+tabIndex+"']").load(window.location.href + "#play-deck-zone .tab-button[data-tab='"+tabIndex+"'] > *");
 
@@ -271,7 +311,8 @@ function addPositionCarte(tabIndex, position) {
 
 
 var toggle = true;
-// Recharge la carte de la page lorsque l'utilisateur clique sur le bouton
+
+// Recharge une carte au hasard lorsque l'utilisateur clique sur le bouton
 $(document).ready(function() {
   $("#btn-shuffle").click(function() {
 
@@ -290,12 +331,7 @@ $(document).ready(function() {
       card.removeClass("translate-effect-right");
     }
 
-    // var responseButtons = document.querySelector('#btns-response');
-    // var seeResponseButton = document.querySelector('#btn-see-response');
-  
-    // responseButtons.classList.toggle('active');
-
-    // seeResponseButton.classList.toggle('active');
+    switchBtnSeeResponseWhithBtnsSelectResponse();
 
 
     $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *");
@@ -328,8 +364,7 @@ addFavoriBtn.addEventListener('click', (e) => {
         if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
             console.log('Deck ajoutée aux favoris');
 
-
-            $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + " #select-deck-zone .tab-content[data-tab='tab2'] > *");
+            $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + " #select-deck-zone .tab-content[data-tab='tab2']");
 
         } else {
             console.error('Une erreur est survenue');

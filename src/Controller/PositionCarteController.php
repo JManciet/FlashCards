@@ -34,24 +34,27 @@ class PositionCarteController extends AbstractController
         // dd("je suis là");
         $entityManager = $this->getDoctrine()->getManager();
 
-        // Vérifier si l'utilisateur a déjà ajouté la recette en tant que positionCarte
+        // Vérifier si l'utilisateur a déjà ajouté la carte dans positionCarte
         $positionCarteExist = $entityManager->getRepository(PositionCarte::class)->findOneBy([
             'utilisateur' => $this->getUser(),
             'carte' => $carte,
-            'position' => $position,
         ]);
 
-        // Si l'utilisateur n'a pas encore ajouté la recette en tant que positionCarte, la sauvegarder
-        if(!$positionCarteExist) {
-            $positionCarte = new PositionCarte();
-            $positionCarte->setUtilisateur($this->getUser());
-            $positionCarte->setCarte($carte);
-            $positionCarte->setPosition($position);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($positionCarte);
+        // Si une position est deja existante la supprimer
+        if($positionCarteExist) {
+            $entityManager->remove($positionCarteExist);
             $entityManager->flush();
         }
+
+        //  sauvegarder la carte dans positionCarte
+
+        $positionCarte = new PositionCarte();
+        $positionCarte->setUtilisateur($this->getUser());
+        $positionCarte->setCarte($carte);
+        $positionCarte->setPosition($position);
+        $entityManager->persist($positionCarte);
+        $entityManager->flush();
+    
 
         // return $this->redirect($request->headers->get('referer'));
         return new JsonResponse(['success' => true]);
