@@ -10,85 +10,88 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class RandomWithoutDuplicatesFunction extends AbstractExtension
 {
     // private $used = [];
-
+    private $session;
+    
     public function getFunctions()
     {
         return [
-            new TwigFunction('random_without_duplicates', [$this, 'randomWithoutDuplicates']),
+            new TwigFunction('randomWithoutDuplicates', [$this, 'randomWithoutDuplicates']),
+            // new TwigFunction('test', [$this, 'test']),
         ];
     }
 
-    private $session;
 
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
+        // dd('construct');
     }
 
-
+    public function test() {
+        dd("ok super");
+        return "ok";
+    }
 
     public function randomWithoutDuplicates(array $array, $sessionTabPosition)
     {
-
-
-        $useds = $this->session->get($sessionTabPosition, []);
-
-        // var_dump("asc",$useds);
         
-       
+        $useds = $this->session->get($sessionTabPosition, []);
+        
+        
         // dd("g");
         $remainings = $this->multi_array_diff($array, $useds);
         // var_dump($useds);
         // var_dump($remainings);
         // foreach($useds as $index){
             // var_dump($useds[2]->getId());
-        // }            
-        
-    
-
-        if (empty($remainings)) {
-
-            // var_dump("aaaa");
-            $remainings = $array;
+            // }            
             
-            $lastValueOfuseds = end($useds);
+            
+            
+            
+            if (empty($remainings)) {
 
-            // var_dump("asc",$useds);
+                // var_dump("aaaa");
+                $remainings = $array;
+                
+                $lastValueOfuseds = end($useds);
+                
+                // var_dump("asc",$useds);
+                
+                
+                //     $diff = array_udiff($array, $useds, [$this, 'compare_users']);
+                
+                $remainings = $this->multi_array_diff($array, [$lastValueOfuseds]);
+                
+                $useds = array();
+                
+                if(sizeof($remainings)>0)
+                $random = $remainings[array_rand($remainings)];
+                else
+                $random = $array[0];
 
-
-        //     $diff = array_udiff($array, $useds, [$this, 'compare_users']);
-
-            $remainings = $this->multi_array_diff($array, [$lastValueOfuseds]);
-
-            $useds = array();
-
-            if(sizeof($remainings)>0)
-            $random = $remainings[array_rand($remainings)];
-            else
-            $random = $array;
-
-            $useds[] = $random;
-
+                $useds[] = $random;
+            
         }else{
-
-
+            
+            
             // var_dump("bbbb");
             
-
+            
             if(sizeof($remainings)>0)
             $random = $remainings[array_rand($remainings)];
             else
-            $random = $array;
-
+            $random = $array[0];
             
-
+            
+            
             $useds[] = $random;
-        
+            
         }
-
+        
         $this->session->set($sessionTabPosition, $useds);
-
-
+        
+        
         // dd($remainings);
 
         return $random;

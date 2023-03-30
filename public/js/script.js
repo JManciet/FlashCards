@@ -66,10 +66,14 @@ function displayBtnsPlay(){
 
   var zonePlayButtons = document.getElementById('zone-play-btns');
 
+  var btnShuffle = document.getElementById('btn-shuffle');
+
   if(activeCard){
     zonePlayButtons.style.display = 'block';
+    btnShuffle.style.display = 'inline-block';
   }else{
     zonePlayButtons.style.display = 'none';
+    btnShuffle.style.display = 'none';
   }
 
 }
@@ -330,6 +334,8 @@ function addPositionCarte(tabIndex, position) {
 
             spanNbrCarteCurrentTab.innerHTML = newTextNbrCarteCurrentTab;
             spanNbrCarteDestinationTab.innerHTML = newTextNbrCarteDestinationTab;
+
+            majProgressBar();
           }
 
 
@@ -382,11 +388,17 @@ $(document).ready(function() {
       card.addClass("translate-effect-right");
       card.removeClass("translate-effect-left");
       flipBox.classList.toggle('flipped');
+      card.attr("style", "visibility: hidden");
+      // setTimeout(function myFunction() {
+      //   // alert('Hello');
+      //   card.attr("style", "visibility: hidden");
+      // }, 0);
     }else{
       toggle = true;
       card.addClass("translate-effect-left");
       card.removeClass("translate-effect-right");
       flipBox.classList.toggle('flipped');
+      card.attr("style", "visibility: hidden");
     }
 
     // BtnSeeResponseInFrontBtnsSelectResponse(true);
@@ -476,7 +488,7 @@ addFavoriIcons.forEach((addFavoriIcon) => {
               $(e.target).addClass('fa-heart-circle-plus')
             }
 
-            $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + " #select-deck-zone .tab-content[data-tab='tab2']");
+            $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + " #select-deck-zone .tab-content[data-tab='tab2'] #list-favorites");
 
         } else {
 
@@ -536,3 +548,42 @@ addFavoriIcons.forEach((addFavoriIcon) => {
 //     };
 //     xhr.send();
 // });
+
+
+majProgressBar();
+
+function majProgressBar(){
+
+  var spanNbrCardsTab1 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab1'] .nbr-carte");
+  var spanNbrCardsTab2 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab2'] .nbr-carte");
+  var spanNbrCardsTab3 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab3'] .nbr-carte");
+  var spanNbrCardsTab4 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab4'] .nbr-carte");
+
+  var nbrCardsTab1 = parseInt(spanNbrCardsTab1.textContent);
+  var nbrCardsTab2 = parseInt(spanNbrCardsTab2.textContent);
+  var nbrCardsTab3 = parseInt(spanNbrCardsTab3.textContent);
+  var nbrCardsTab4 = parseInt(spanNbrCardsTab4.textContent);
+
+  var progressBarWidth = parseInt(window.getComputedStyle(document.querySelector('.progress-deck.large')).getPropertyValue('width'));
+  
+  var nbrTotalCards = nbrCardsTab1 + nbrCardsTab2 + nbrCardsTab3 + nbrCardsTab4;
+
+  var noLevel =  document.querySelector(".progress-deck.large .no-level");
+  var level0 =  document.querySelector(".progress-deck.large .level-0");
+  var level1 =  document.querySelector(".progress-deck.large .level-1");
+  var level2 =  document.querySelector(".progress-deck.large .level-2");
+
+  alert(nbrCardsTab1)
+  noLevelWidth = nbrCardsTab1 * progressBarWidth / nbrTotalCards;
+  level0Width = nbrCardsTab2 * progressBarWidth / nbrTotalCards;
+  level1Width = nbrCardsTab3 * progressBarWidth / nbrTotalCards;
+  level2Width = nbrCardsTab4 * progressBarWidth / nbrTotalCards;
+
+
+  alert(noLevelWidth)
+  noLevel.style.width = noLevelWidth+"px";
+  level0.style.width = level0Width+"px";
+  level1.style.width = level1Width+"px";
+  level2.style.width = level2Width+"px";
+
+}

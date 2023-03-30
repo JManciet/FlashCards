@@ -14,7 +14,7 @@
     {% for row in my_array %}
     {% for row1 in my_array %}
     {% for row2 in my_array %}
-    {{ random_without_duplicates(my_array, "arrayTest") }}
+    {{ randomWithoutDuplicates(my_array, "arrayTest") }}
     {% endfor %}
     {% endfor %}
     {% endfor %} #}
@@ -62,7 +62,7 @@
                     {% endif %}     
                     </button>
                 {% endif %}
-                
+
                 {# <button id="add-favori-btn" data-deck-id="{{ deck.id }}">Ajouter aux favoris AJAX</button> #}
             </div>
             <div id="tabs-play-deck">
@@ -78,8 +78,7 @@
                         
                         {# {% block block_tab1 %} #}
                             {% if cartesDeckNotInPositionCarte|length != 0 %}
-                            {% set randomCartesDeckNotInPositionCarte = random(cartesDeckNotInPositionCarte, "sessionTab1")%}
-
+                            {% set randomCartesDeckNotInPositionCarte = randomWithoutDuplicates(cartesDeckNotInPositionCarte, "sessionTab1")%}
                             <div class="card-container" id-carte="{{ randomCartesDeckNotInPositionCarte.id }}">
                                 <div class="card">
                                     {% set carteActif = randomCartesDeckNotInPositionCarte %}
@@ -106,9 +105,7 @@
 
                         {# {% block block_tab2 %} #}
                             {% if cartesLevel0|length != 0 %}
-                            {{ dump(cartesLevel0) }}
-        
-                            {% set randomCarteLevel0 = random(cartesLevel0, "sessionTab2")%}
+                            {% set randomCarteLevel0 = randomWithoutDuplicates(cartesLevel0, "sessionTab2")%}
                             <div class="card-container" id-carte="{{ randomCarteLevel0.id }}">
                                 <div class="card">
                                     {% set carteActif = randomCarteLevel0 %}
@@ -134,7 +131,7 @@
 
                         {# {% block block_tab3 %} #}
                             {% if cartesLevel1|length != 0 %}
-                            {% set randomCarteLevel1 = random(cartesLevel1, "sessionTab3")%}
+                            {% set randomCarteLevel1 = randomWithoutDuplicates(cartesLevel1, "sessionTab3")%}
                             <div class="card-container" id-carte="{{ randomCarteLevel1.id }}">
                                 <div class="card">
                                     {% set carteActif = randomCarteLevel1 %}
@@ -160,9 +157,7 @@
 
                         {# {% block block_tab4 %} #}
                             {% if cartesLevel2|length != 0 %}
-
-                            {% set randomCarteLevel2 = random(cartesLevel2, "sessionTab4")%}
-
+                            {% set randomCarteLevel2 = randomWithoutDuplicates(cartesLevel2, "sessionTab4")%}
                             <div class="card-container" id-carte="{{ randomCarteLevel2.id }}">
                                 <div class="card">
                                     {% set carteActif = randomCarteLevel2 %}
@@ -184,9 +179,9 @@
                         {# {% endblock %} #}
 
                     </div>
-                    <button type="button" class="btn btn-primary" id="btn-shuffle">
-                        autre question
-                    </button>
+                    
+                        <i id="btn-shuffle" class="fa-solid fa-shuffle fa-2xl"></i>
+                    
                 </div>
             </div>
 
@@ -208,6 +203,11 @@
                         Je sais
                     </button>
                     {# <button id="add-position-btn" data-carte-id="{{ carteActif.id }}"  data-position-id="5">Ajouter une carte AJAX {{ carteActif.question }}</button> #}
+                </div>
+            </div>
+            <div>
+                <div class="progress-deck large">
+                    <div class="no-level"></div><div class="level-0"></div><div class="level-1"></div><div class="level-2"></div>
                 </div>
             </div>
         </div>
@@ -238,7 +238,7 @@
                     <div class="tab-content active" data-tab="tab1">
 
                         {% for accesDeck in utilisateur.accesDecks %}
-                            "{{ accesDeck.deck.titre }}" de la catégorie: {{ accesDeck.deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': accesDeck.deck.id} ) }}">Jouer avec ce deck</a>   <br>
+                            "{{ accesDeck.deck.titre }}" de la catégorie: {{ accesDeck.deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': accesDeck.deck.id} ) }}">Mémoriser ce deck</a>   <br>
                         {% else %}
                             No decks have been found.
                         {% endfor %}
@@ -246,17 +246,19 @@
                     </div>
                     <div class="tab-content" data-tab="tab2">
 
-                        {% for favori in utilisateur.favoris %}
-                            "{{ favori.deck.titre }}" de la catégorie: {{ favori.deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': favori.deck.id} ) }}">Jouer avec ce deck</a>   <br>
-                        {% else %}
-                            No decks have been found.
-                        {% endfor %}
+                        <div id="list-favorites">
+                            {% for favori in utilisateur.favoris %}
+                                "{{ favori.deck.titre }}" de la catégorie: {{ favori.deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': favori.deck.id} ) }}">Mémoriser ce deck</a>   <br>
+                            {% else %}
+                                No decks have been found.
+                            {% endfor %}
+                        </div>
                     
                     </div>
                     <div class="tab-content" data-tab="tab3">
 
                         {% for deck in utilisateur.decks %}
-                            "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': deck.id} ) }}">Jouer avec ce deck</a>   <br>
+                            "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': deck.id} ) }}">Mémoriser ce deck</a>   <br>
                         {% else %}
                             No decks have been found.
                         {% endfor %}
@@ -294,7 +296,7 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
           <button type="submit" class="btn btn-primary" form="formulairePdf">Générer PDF</button>
         </div>
       </div>

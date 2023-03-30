@@ -82,16 +82,16 @@ h2 {
     /* transition: background-color 0.3s ease-in-out; */
   }
 
-  #play-deck-zone .tab-button.grey {
+  #play-deck-zone .tab-button.grey , .no-level{
     background-color: rgb(177, 177, 177);
   }
-  #play-deck-zone .tab-button.red, .btn-response.red {
+  #play-deck-zone .tab-button.red, .btn-response.red , .level-0{
     background-color: rgb(255, 98, 98);
   }
-  #play-deck-zone .tab-button.blue, .btn-response.blue {
+  #play-deck-zone .tab-button.blue, .btn-response.blue, .level-1{
     background-color: rgb(52, 191, 255);
   }
-  #play-deck-zone .tab-button.green, .btn-response.green {
+  #play-deck-zone .tab-button.green, .btn-response.green, .level-2{
     background-color: rgb(86, 192, 44);
   }
   
@@ -332,11 +332,33 @@ h2 {
 
   
 
+  .progress-deck.large{
+    /* width: 300px; */
+    height: 20px;
+    border: 1px solid #000000 ;
+    border-radius: 5px;
+  }
+
+  .progress-deck{
+    display: flex;
+    /* width: 300px; */
+    height: 30px;
+    border: 2px solid #000000 ;
+  }
+
+
+
+
+
   @media screen and (max-width: 900px){
     
     
-    #play-deck-zone .tab-button>span {
+    #play-deck-zone .tab-button>span:first-child {
       display: none;
+    }
+
+    #play-deck-zone .tab-button>span.active {
+      display: inline;
     }
 
     
