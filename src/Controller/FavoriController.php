@@ -38,7 +38,7 @@ class FavoriController extends AbstractController
             'deck' => $deck
         ]);
 
-        // Si l'utilisateur n'a pas encore ajouté le deck en tant que favori, la sauvegarder
+        // Si l'utilisateur n'a pas encore ajouté le deck en tant que favori, la sauvegarder sinon la supprimer
         if(!$favoriExist) {
             $favori = new Favori();
             $favori->setUtilisateur($this->getUser());
@@ -47,9 +47,17 @@ class FavoriController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($favori);
             $entityManager->flush();
+        }else {
+            $entityManager->remove($favoriExist);
+            $entityManager->flush();
         }
 
         // return $this->redirect($request->headers->get('referer'));
         return new JsonResponse(['success' => true]);
     }
+
+
+
+
+    
 }

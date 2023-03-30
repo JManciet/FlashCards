@@ -39,11 +39,32 @@
 
     <div id="container">
         <div id="play-deck-zone">
-            <h1>{{ deck.titre }}</h1>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Imprimmer le deck
-            </button><a href="{{ path('ajouter_favori', {'id': deck.id}) }}">Ajouter aux favoris</a>
-            <button id="add-favori-btn" data-deck-id="{{ deck.id }}">Ajouter aux favoris AJAX</button>
+
+            <div class="inline">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    <i class="big fa-solid fa-print"></i>
+                </button>
+                <h1>{{ deck.titre }}</i></h1>
+                {# <a href="{{ path('ajouter_favori', {'id': deck.id}) }}"><i class="fa-solid fa-heart-circle-plus"></i></a> #}
+                
+                {% set isFavori = false %}
+                {% if app.user %}
+                    {% for favori in app.user.favoris %}
+                        {% if deck == favori.deck %}
+                            {% set isFavori = true %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if isFavori %}
+                        <i  id="foo1" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red big fa-solid fa-heart"></i>
+                    {% else %}
+                        <i id="foo1" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori big fa-solid fa-heart-circle-plus"></i>   
+                    {% endif %}     
+                    </button>
+                {% endif %}
+                
+                {# <button id="add-favori-btn" data-deck-id="{{ deck.id }}">Ajouter aux favoris AJAX</button> #}
+            </div>
             <div id="tabs-play-deck">
                 <div class="tab-buttons">
                     <button class="tab-button grey" data-tab="tab1"><span class="active" data-tab="tab1">Cartes non jouées : </span><span class="nbr-carte">{{cartesDeckNotInPositionCarte|length}}</span></button>

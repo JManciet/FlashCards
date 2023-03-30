@@ -244,7 +244,7 @@ function BtnSeeResponseInFrontBtnsSelectResponse(inFront){
 
 
 
-function range(tabIndex) {
+function animationCardInTab(tabIndex) {
 
 
   var dataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
@@ -305,10 +305,11 @@ function addPositionCarte(tabIndex, position) {
         if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
             console.log('PositionCarte ajoutée');
 
-            range(tabIndex);
+            animationCardInTab(tabIndex);
 
             var dataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
 
+            //mise à jour de la carte dans l'onglet d'origine
             $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *", function() {
               // action à lancer après le rechargement du bouton
               displayBtnsPlay();
@@ -316,9 +317,10 @@ function addPositionCarte(tabIndex, position) {
               displaySpinner('none');
             });
 
+            //mise à jour de la carte dans l'onglet de destination
             $("#play-deck-zone .tab-content[data-tab='"+tabIndex+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+tabIndex+"'] > *");
 
-
+          //mise à jour du nombre de cartes dans les onglets
           if(dataTabValue != tabIndex){
             var spanNbrCarteCurrentTab = document.querySelector("#play-deck-zone .tab-button[data-tab='"+dataTabValue+"'] .nbr-carte");
             var spanNbrCarteDestinationTab = document.querySelector("#play-deck-zone .tab-button[data-tab='"+tabIndex+"'] .nbr-carte");
@@ -329,12 +331,6 @@ function addPositionCarte(tabIndex, position) {
             spanNbrCarteCurrentTab.innerHTML = newTextNbrCarteCurrentTab;
             spanNbrCarteDestinationTab.innerHTML = newTextNbrCarteDestinationTab;
           }
-
-
-
-
-            // alert("Nombre de carte dans l'onglet actif : "+dataTab.innerHTML);
-
 
 
             // $.ajax({
@@ -350,6 +346,8 @@ function addPositionCarte(tabIndex, position) {
 
         } else {
             console.error('Une erreur est survenue');
+
+
         }
     };
     xhr.send();
@@ -377,6 +375,8 @@ $(document).ready(function() {
 
     var flipBox = document.querySelector('.tab-content.active .card');
     
+
+    //Ici on lance une animation de la carte couplé avec du css
     if(toggle){
       toggle = false;
       card.addClass("translate-effect-right");
@@ -393,7 +393,7 @@ $(document).ready(function() {
 
 
     $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load(location.href + " #play-deck-zone .tab-content[data-tab='"+dataTabValue+"'] > *", function() {
-      // action à lancer après le rechargement du bouton
+      // actions à lancer après le rechargement de la carte
       // displayBtnsPlay();
       BtnSeeResponseInFrontBtnsSelectResponse(true);
       displaySpinner('none');
@@ -416,24 +416,77 @@ $(document).ready(function() {
 // });
 
 
-const addFavoriBtn = document.querySelector('#add-favori-btn');
-addFavoriBtn.addEventListener('click', (e) => {
+const addFavoriIcons = document.querySelectorAll('.add-favori');
+
+
+
+
+
+selectPositionTabButtons.forEach((selectPositionTabButton) => {
+  selectPositionTabButton.addEventListener('click', (event) => {
+    const tabIndex = event.target.getAttribute('data-tab');
+    displayTabPlayDeck(tabIndex);
+    displayBtnsPlay();
+    switchSeeResponseWithBtnsSelectResponse();
+    // setDimensions();
+  });
+});
+
+
+
+
+addFavoriIcons.forEach((addFavoriIcon) => {
+  addFavoriIcon.addEventListener('click', (e) => {
+
     e.preventDefault();
-    const deckId = addFavoriBtn.dataset.deckId;
+
+    $(e.target).addClass('fa-beat-fade');
+
+    // const deckId = $(this).data('deck-id');
+    // const isFavori = $(this).data('is-favori');
+
+    const deckId = e.target.dataset.deckId;
+    const isFavori = e.target.dataset.isFavori;
+
+
     const xhr = new XMLHttpRequest();
     xhr.open('POST', `/ajouter_favori/${deckId}`);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.onload = function() {
         if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
-            console.log('Deck ajoutée aux favoris');
+
+            if (isFavori == 0) {
+
+              console.log('Deck ajouté aux favoris');
+
+              // $(e.target).data('is-favori', true);
+              $(e.target).attr('data-is-favori', 1);
+
+              $(e.target).removeClass('fa-beat-fade').removeClass('fa-heart-circle-plus');
+              $(e.target).addClass('fa-heart').addClass('red');
+
+            } else {
+
+              console.log('Deck supprimé des favoris');
+
+              // $(e.target).data('is-favori', false);
+              $(e.target).attr('data-is-favori', 0);
+
+              $(e.target).removeClass('fa-beat-fade').removeClass('fa-heart').removeClass('red');
+              $(e.target).addClass('fa-heart-circle-plus')
+            }
 
             $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + " #select-deck-zone .tab-content[data-tab='tab2']");
 
         } else {
+
+          $(e.target).removeClass('fa-beat-fade');
+
             console.error('Une erreur est survenue');
         }
     };
     xhr.send();
+  });
 });
 
 
