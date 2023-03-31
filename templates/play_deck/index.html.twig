@@ -249,7 +249,9 @@
                     <div class="tab-content active" data-tab="tab1">
 
                         {% for accesDeck in utilisateur.accesDecks %}
-                            "{{ accesDeck.deck.titre }}" de la catégorie: {{ accesDeck.deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': accesDeck.deck.id} ) }}">Mémoriser ce deck</a>   <br>
+
+                            {% include 'item_deck.html.twig' with {'deck': accesDeck.deck } %}
+                            
                         {% else %}
                             No decks have been found.
                         {% endfor %}
@@ -258,62 +260,10 @@
                     <div class="tab-content" data-tab="tab2">
 
                         <div id="list-favorites">
+
                             {% for favori in utilisateur.favoris %}
 
-
-                            <div>
-                                "{{ favori.deck.titre }}" de la catégorie: {{ favori.deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': favori.deck.id} ) }}">Mémoriser ce deck</a>   <br>
-                            </div>
-
-                            <div>
-
-                                <div>
-                                    <div>
-                                        <div>cateforie : {{ favori.deck.categorie.nom }}</div>
-                                        <div>{{ favori.deck.titre }}</div>
-                                        <div>par : <a href="{{ path('show_utilisateur', {'id': favori.deck.utilisateur.id }) }}">{{ favori.deck.utilisateur.pseudo }}</a></div>
-                                    </div>
-                                    <div>
-                                        {% set isFavori = false %}
-                {% if app.user %}
-                    {% for favorib in app.user.favoris %}
-                        {% if favori.deck == favorib.deck %}
-                            {% set isFavori = true %}
-                        {% endif %}
-                    {% endfor %}
-                    
-                    {% if isFavori %}
-                        <i  id="foo1" data-deck-id="{{ favori.deck.id }}" data-is-favori="1" class="add-favori red big fa-solid fa-heart"></i>
-                    {% else %}
-                        <i id="foo1" data-deck-id="{{ favori.deck.id }}" data-is-favori="0" class="add-favori big fa-solid fa-heart-circle-plus"></i>   
-                    {% endif %}     
-                    </button>
-                {% endif %}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div>description : {{ favori.deck.description }}</div>
-                                    <div>progression :  
-
-                                        <div class="progress-deck">
-
-
-                                            {% for carte in favori.deck.cartes %}
-
-                                            {{carte.question}}
-
-                                            {% endfor %}
-
-
-
-                                            <div class="no-level" nbr=""></div><div class="level-0" nbr=""></div><div class="level-1" nbr=""></div><div class="level-2" nbr=""></div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-
+                                {% include 'item_deck.html.twig' with {'deck': favori.deck } %}
 
                             {% else %}
                                 No decks have been found.
@@ -324,7 +274,9 @@
                     <div class="tab-content" data-tab="tab3">
 
                         {% for deck in utilisateur.decks %}
-                            "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': deck.id} ) }}">Mémoriser ce deck</a>   <br>
+                            
+                            {% include 'item_deck.html.twig' with {'deck': deck } %}
+
                         {% else %}
                             No decks have been found.
                         {% endfor %}

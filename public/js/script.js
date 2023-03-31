@@ -558,31 +558,71 @@ function majProgressBar(){
   var spanNbrCardsTab3 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab3'] .nbr-carte");
   var spanNbrCardsTab4 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab4'] .nbr-carte");
 
-  var nbrCardsTab1 = parseInt(spanNbrCardsTab1.textContent);
-  var nbrCardsTab2 = parseInt(spanNbrCardsTab2.textContent);
-  var nbrCardsTab3 = parseInt(spanNbrCardsTab3.textContent);
-  var nbrCardsTab4 = parseInt(spanNbrCardsTab4.textContent);
+  var nbrCardsZoneNoLevel = parseInt(spanNbrCardsTab1.textContent);
+  var nbrCardsZoneLevel0 = parseInt(spanNbrCardsTab2.textContent);
+  var nbrCardsZoneLevel1 = parseInt(spanNbrCardsTab3.textContent);
+  var nbrCardsZoneLevel2 = parseInt(spanNbrCardsTab4.textContent);
 
   var progressBarWidth = parseInt(window.getComputedStyle(document.querySelector('.progress-deck.large')).getPropertyValue('width'));
   
-  var nbrTotalCards = nbrCardsTab1 + nbrCardsTab2 + nbrCardsTab3 + nbrCardsTab4;
+  var nbrTotalCards = nbrCardsZoneNoLevel + nbrCardsZoneLevel0 + nbrCardsZoneLevel1 + nbrCardsZoneLevel2;
 
-  var noLevel =  document.querySelector(".progress-deck.large .no-level");
-  var level0 =  document.querySelector(".progress-deck.large .level-0");
-  var level1 =  document.querySelector(".progress-deck.large .level-1");
-  var level2 =  document.querySelector(".progress-deck.large .level-2");
+  var zoneNoLevel =  document.querySelector(".progress-deck.large .no-level");
+  var zoneLevel0 =  document.querySelector(".progress-deck.large .level-0");
+  var zoneLevel1 =  document.querySelector(".progress-deck.large .level-1");
+  var zoneLevel2 =  document.querySelector(".progress-deck.large .level-2");
 
-  noLevelWidth = nbrCardsTab1 * progressBarWidth / nbrTotalCards;
-  level0Width = nbrCardsTab2 * progressBarWidth / nbrTotalCards;
-  level1Width = nbrCardsTab3 * progressBarWidth / nbrTotalCards;
-  level2Width = nbrCardsTab4 * progressBarWidth / nbrTotalCards;
+  zoneNoLevelWidth = nbrCardsZoneNoLevel * progressBarWidth / nbrTotalCards;
+  zoneLevel0Width = nbrCardsZoneLevel0 * progressBarWidth / nbrTotalCards;
+  zoneLevel1Width = nbrCardsZoneLevel1 * progressBarWidth / nbrTotalCards;
+  zoneLevel2Width = nbrCardsZoneLevel2 * progressBarWidth / nbrTotalCards;
 
-  noLevel.style.width = noLevelWidth+"px";
-  level0.style.width = level0Width+"px";
-  level1.style.width = level1Width+"px";
-  level2.style.width = level2Width+"px";
+  zoneNoLevel.style.width = zoneNoLevelWidth+"px";
+  zoneLevel0.style.width = zoneLevel0Width+"px";
+  zoneLevel1.style.width = zoneLevel1Width+"px";
+  zoneLevel2.style.width = zoneLevel2Width+"px";
 
 }
+
+
+
+
+const progressBars = document.querySelectorAll('.progress-deck.list');
+
+progressBars.forEach((progressBar) => {
+
+  var zoneNoLevel =  progressBar.querySelector('.no-level');
+  var zoneLevel0 =  progressBar.querySelector('.level-0');
+  var zoneLevel1 =  progressBar.querySelector('.level-1');
+  var zoneLevel2 =  progressBar.querySelector('.level-2');
+
+  var nbrCardsZoneNoLevel =  parseInt(zoneNoLevel.getAttribute('nbr'));
+  var nbrCardsZoneLevel0 =  parseInt(zoneLevel0.getAttribute('nbr'));
+  var nbrCardsZoneLevel1 =  parseInt(zoneLevel1.getAttribute('nbr'));
+  var nbrCardsZoneLevel2 =  parseInt(zoneLevel2.getAttribute('nbr'));
+
+  var progressBarWidth = parseInt(window.getComputedStyle(progressBar).getPropertyValue('width'));
+  var test = progressBar.clientWidth;
+  
+  var nbrTotalCards = nbrCardsZoneNoLevel + nbrCardsZoneLevel0 + nbrCardsZoneLevel1 + nbrCardsZoneLevel2;
+
+  zoneNoLevelWidth = nbrCardsZoneNoLevel * progressBarWidth / nbrTotalCards;
+  zoneLevel0Width = nbrCardsZoneLevel0 * progressBarWidth / nbrTotalCards;
+  zoneLevel1Width = nbrCardsZoneLevel1 * progressBarWidth / nbrTotalCards;
+  zoneLevel2Width = nbrCardsZoneLevel2 * progressBarWidth / nbrTotalCards;
+
+
+  
+
+  zoneNoLevel.style.width = zoneNoLevelWidth+"px";
+  zoneLevel0.style.width = zoneLevel0Width+"px";
+  zoneLevel1.style.width = zoneLevel1Width+"px";
+  zoneLevel2.style.width = zoneLevel2Width+"px";
+
+    // $(e.target).addClass('fa-beat-fade');
+
+  
+});
 
 
 $(document).ready(function() {
