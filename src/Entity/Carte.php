@@ -33,6 +33,24 @@ class Carte
      */
     private $deck;
 
+
+
+
+
+    // /**
+    //  * @ORM\OneToMany(targetEntity=PositionCarte::class, mappedBy="carte", orphanRemoval=false)
+    //  */
+    // private $positionCartes;
+
+    // /**
+    //  * @ORM\ManyToOne(targetEntity=PositionCarte::class, inversedBy="cartes")
+    //  * @ORM\JoinColumn(nullable=false)
+    //  */
+    // private $positionCarte;
+
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,4 +91,30 @@ class Carte
 
         return $this;
     }
+
+
+
+
+    // /**
+    //  * @return Collection<int, PositionCarte>
+    //  */
+    // public function getPositionCartes(): Collection
+    // {
+    //     return $this->positionCartes;
+    // }
+
+
+    // public function getPositionCarte(): ?PositionCarte
+    // {
+    //     return $this->positionCarte;
+    // }
+
+    // public function setPositionCarte(?PositionCarte $positionCarte): self
+    // {
+    //     $this->positionCarte = $positionCarte;
+
+    //     return $this;
+    // }
+
+
 }

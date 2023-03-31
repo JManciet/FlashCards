@@ -428,10 +428,6 @@ $(document).ready(function() {
 // });
 
 
-const addFavoriIcons = document.querySelectorAll('.add-favori');
-
-
-
 
 
 selectPositionTabButtons.forEach((selectPositionTabButton) => {
@@ -446,11 +442,14 @@ selectPositionTabButtons.forEach((selectPositionTabButton) => {
 
 
 
+const addFavoriIcons = document.querySelectorAll('.add-favori');
 
 addFavoriIcons.forEach((addFavoriIcon) => {
   addFavoriIcon.addEventListener('click', (e) => {
 
     e.preventDefault();
+
+    alert('favori')
 
     $(e.target).addClass('fa-beat-fade');
 
