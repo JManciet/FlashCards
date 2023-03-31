@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CarteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,16 @@ class Carte
      * @ORM\JoinColumn(nullable=false)
      */
     private $deck;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PositionCarte::class, mappedBy="carte", orphanRemoval=true)
+     */
+    private $positionCartes;
+
+    public function __construct()
+    {
+        $this->positionCartes = new ArrayCollection();
+    }
 
 
 
@@ -115,6 +127,36 @@ class Carte
 
     //     return $this;
     // }
+
+    /**
+     * @return Collection<int, PositionCarte>
+     */
+    public function getPositionCartes(): Collection
+    {
+        return $this->positionCartes;
+    }
+
+    public function addPositionCarte(PositionCarte $positionCarte): self
+    {
+        if (!$this->positionCartes->contains($positionCarte)) {
+            $this->positionCartes[] = $positionCarte;
+            $positionCarte->setCarte($this);
+        }
+
+        return $this;
+    }
+
+    public function removePositionCarte(PositionCarte $positionCarte): self
+    {
+        if ($this->positionCartes->removeElement($positionCarte)) {
+            // set the owning side to null (unless already changed)
+            if ($positionCarte->getCarte() === $this) {
+                $positionCarte->setCarte(null);
+            }
+        }
+
+        return $this;
+    }
 
 
 }
