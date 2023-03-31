@@ -4,3 +4,7 @@
 pdf:
     path: /pdf/{id}
     controller: App\Controller\PdfController::generatePdf
+
+recharge_partie:
+    path: /recharge-partie/{deckId}/{dataTab}
+    controller: App\Controller\UpdateCardControlleurController::index

@@ -76,6 +76,9 @@
                 <div class="container-tab-contents">
                     <div class="tab-content" data-tab="tab1">
                         
+                        {# {% include 'play_deck/un_morceau.html.twig' %} #}
+
+
                         {# {% block block_tab1 %} #}
                             {% if cartesDeckNotInPositionCarte|length != 0 %}
                             {% set randomCartesDeckNotInPositionCarte = randomWithoutDuplicates(cartesDeckNotInPositionCarte, "sessionTab1")%}
@@ -205,6 +208,8 @@
                     {# <button id="add-position-btn" data-carte-id="{{ carteActif.id }}"  data-position-id="5">Ajouter une carte AJAX {{ carteActif.question }}</button> #}
                 </div>
             </div>
+
+            {# <button id="mon_bouton">clickme</button> #}
             <div>
                 <div class="progress-deck large">
                     <div class="no-level"></div><div class="level-0"></div><div class="level-1"></div><div class="level-2"></div>

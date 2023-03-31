@@ -573,17 +573,37 @@ function majProgressBar(){
   var level1 =  document.querySelector(".progress-deck.large .level-1");
   var level2 =  document.querySelector(".progress-deck.large .level-2");
 
-  alert(nbrCardsTab1)
   noLevelWidth = nbrCardsTab1 * progressBarWidth / nbrTotalCards;
   level0Width = nbrCardsTab2 * progressBarWidth / nbrTotalCards;
   level1Width = nbrCardsTab3 * progressBarWidth / nbrTotalCards;
   level2Width = nbrCardsTab4 * progressBarWidth / nbrTotalCards;
 
-
-  alert(noLevelWidth)
   noLevel.style.width = noLevelWidth+"px";
   level0.style.width = level0Width+"px";
   level1.style.width = level1Width+"px";
   level2.style.width = level2Width+"px";
 
 }
+
+
+$(document).ready(function() {
+
+  // Chargement initial de la page
+  // $('#mom_bouton').load('/recharge-partie');
+  
+  // Recharge la partie de la page lorsque l'utilisateur clique sur un bouton
+  $('#mon_bouton').click(function(e) {
+
+    var dataTabValue = $("#play-deck-zone .tab-content.active").attr('data-tab');
+
+    deckId = 1;
+    // alert("hhbbhh")
+    // $('#mon_bouton').load('/recharge-partie/'+dataTabValue);
+    $("#play-deck-zone .tab-content[data-tab='"+dataTabValue+"']").load('/recharge-partie/'+deckId+'/'+dataTabValue, function() {
+      // actions à lancer après le rechargement de la carte
+      // displayBtnsPlay();
+      BtnSeeResponseInFrontBtnsSelectResponse(true);
+      displaySpinner('none');
+    });
+  });
+});

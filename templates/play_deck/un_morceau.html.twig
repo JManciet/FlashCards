@@ -1,0 +1,20 @@
+{% if cartesDeckNotInPositionCarte|length != 0 %}
+    {% set randomCartesDeckNotInPositionCarte = randomWithoutDuplicates(cartesDeckNotInPositionCarte, "sessionTab1")%}
+    <div class="card-container" id-carte="{{ randomCartesDeckNotInPositionCarte.id }}">
+        <div class="card">
+            {% set carteActif = randomCartesDeckNotInPositionCarte %}
+            <div class="question">
+                <div class="header-card"><span>Question:</span></div>
+                <div class="body-card"><p>{{ randomCartesDeckNotInPositionCarte.question }}</p></div>
+            </div>
+            <div class="response">
+                <div class="header-card"><span>Reponse:</span></div>
+                <div class="body-card"><p>{{ randomCartesDeckNotInPositionCarte.reponse }}</p></div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <div class="missing-card">
+            Pas de cartes dans cet onglet !
+        </div>
+{% endif %}
