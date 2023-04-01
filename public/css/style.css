@@ -331,14 +331,22 @@ h2 {
   }
 
   
+
+
   .progress-deck{
     display: flex;
     border: 1px solid #000000 ;
+    border-radius: 20px;
+    background-color: #000000;
   }
+
+  .progress-deck div{
+    border-radius: 20px;
+  }
+
+
   .progress-deck.large{
-    /* width: 300px; */
     height: 20px;
-    border-radius: 5px;
     margin-top: 20px;
   }
 
@@ -347,6 +355,8 @@ h2 {
     width: 300px;
     height: 10px;
   }
+
+
 
 
   .item-deck.tree-1{

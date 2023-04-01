@@ -45,7 +45,7 @@
                     <i class="big fa-solid fa-print"></i>
                 </button>
                 <h1>{{ deck.titre }}</i></h1>
-                {# <a href="{{ path('ajouter_favori', {'id': deck.id}) }}"><i class="fa-solid fa-heart-circle-plus"></i></a> #}
+                <a href="{{ path('ajouter_favori', {'id': deck.id}) }}"><i class="fa-solid fa-heart-circle-plus"></i></a>
                 
                 {% set isFavori = false %}
                 {% if app.user %}
@@ -56,9 +56,9 @@
                     {% endfor %}
                     
                     {% if isFavori %}
-                        <i  id="foo1" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red big fa-solid fa-heart"></i>
+                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red big fa-solid fa-heart">aaaaa</i>
                     {% else %}
-                        <i id="foo1" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori big fa-solid fa-heart-circle-plus"></i>   
+                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori big fa-solid fa-heart-circle-plus">aaaaa</i>   
                     {% endif %}     
                     </button>
                 {% endif %}
@@ -201,14 +201,21 @@
                 <button type="button" onclick="flip()" class="btn btn-primary active" id="btn-see-response">
                     Montrer la réponse
                 </button>
+
+                {% set nbrCarte = deck.cartes|length %}
+                {% set nbrNoLevel = cartesDeckNotInPositionCarte|length %}
+                {% set nbrLevel0 = cartesLevel0|length %}
+                {% set nbrLevel1 = cartesLevel1|length %}
+                {% set nbrLevel2 = cartesLevel2|length %}
+
                 <div id="btns-response" >
-                    <button type="button" onclick="addPositionCarte('tab2',0)" class="btn btn-response red">
+                    <button type="button" data-deck-id="{{ deck.id }}" onclick="addPositionCarte('tab2',0,this);" class="btn btn-response red">
                         Je ne sais pas
                     </button>
-                    <button type="button" onclick="addPositionCarte('tab3',1)" class="btn btn-response blue">
+                    <button type="button" data-deck-id="{{ deck.id }}" onclick="addPositionCarte('tab3',1,this);" class="btn btn-response blue">
                         Je sais un peu
                     </button>
-                    <button type="button" onclick="addPositionCarte('tab4',2)" class="btn btn-response green">
+                    <button type="button" data-deck-id="{{ deck.id }}" onclick="addPositionCarte('tab4',2,this);" class="btn btn-response green">
                         Je sais
                     </button>
                     {# <button id="add-position-btn" data-carte-id="{{ carteActif.id }}"  data-position-id="5">Ajouter une carte AJAX {{ carteActif.question }}</button> #}
@@ -217,8 +224,12 @@
 
             {# <button id="mon_bouton">clickme</button> #}
             <div>
-                <div class="progress-deck large">
-                    <div class="no-level"></div><div class="level-0"></div><div class="level-1"></div><div class="level-2"></div>
+                <div data-deck-id="{{ deck.id }}" class="progress-deck large" >
+
+                    <div class="no-level" {{'style=width:'~ 100 * nbrNoLevel / nbrCarte ~'%'}}></div>
+                    <div class="level-0" {{'style=width:'~ 100 * nbrLevel0 / nbrCarte ~'%'}}></div>
+                    <div class="level-1" {{'style=width:'~ 100 * nbrLevel1 / nbrCarte ~'%'}}></div>
+                    <div class="level-2" {{'style=width:'~ 100 * nbrLevel2 / nbrCarte ~'%'}}></div>
                 </div>
             </div>
         </div>
@@ -251,7 +262,7 @@
                         {% for accesDeck in utilisateur.accesDecks %}
 
                             {% include 'item_deck.html.twig' with {'deck': accesDeck.deck } %}
-                            
+
                         {% else %}
                             No decks have been found.
                         {% endfor %}

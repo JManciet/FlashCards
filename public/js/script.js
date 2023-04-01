@@ -285,7 +285,7 @@ function animationCardInTab(tabIndex) {
 
 
 
-function addPositionCarte(tabIndex, position) {
+function addPositionCarte(tabIndex, position, responseButton) {
 
 
   BtnSeeResponseInFrontBtnsSelectResponse(false);
@@ -335,7 +335,7 @@ function addPositionCarte(tabIndex, position) {
             spanNbrCarteCurrentTab.innerHTML = newTextNbrCarteCurrentTab;
             spanNbrCarteDestinationTab.innerHTML = newTextNbrCarteDestinationTab;
 
-            majProgressBar();
+            updateProgressBar(responseButton);
           }
 
 
@@ -442,63 +442,63 @@ selectPositionTabButtons.forEach((selectPositionTabButton) => {
 
 
 
-const addFavoriIcons = document.querySelectorAll('.add-favori');
-
-addFavoriIcons.forEach((addFavoriIcon) => {
-  addFavoriIcon.addEventListener('click', (e) => {
-
-    e.preventDefault();
-
-    alert('favori')
-
-    $(e.target).addClass('fa-beat-fade');
-
-    // const deckId = $(this).data('deck-id');
-    // const isFavori = $(this).data('is-favori');
-
-    const deckId = e.target.dataset.deckId;
-    const isFavori = e.target.dataset.isFavori;
 
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', `/ajouter_favori/${deckId}`);
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.onload = function() {
-        if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
 
-            if (isFavori == 0) {
 
-              console.log('Deck ajouté aux favoris');
+function addFavori(addFavoriIcon){
 
-              // $(e.target).data('is-favori', true);
-              $(e.target).attr('data-is-favori', 1);
+  $(addFavoriIcon).addClass('fa-beat-fade');
 
-              $(e.target).removeClass('fa-beat-fade').removeClass('fa-heart-circle-plus');
-              $(e.target).addClass('fa-heart').addClass('red');
+  const deckId = addFavoriIcon.dataset.deckId;
+  const isFavori = addFavoriIcon.dataset.isFavori;
 
-            } else {
+  const sameDeckIdaddFavoriIcons = document.querySelectorAll(".add-favori[data-deck-id='"+deckId+"']")
 
-              console.log('Deck supprimé des favoris');
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', `/ajouter_favori/${deckId}`);
+  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  xhr.onload = function() {
+      if(xhr.status === 200 && JSON.parse(xhr.responseText).success) {
 
-              // $(e.target).data('is-favori', false);
-              $(e.target).attr('data-is-favori', 0);
+          if (isFavori == 0) {
 
-              $(e.target).removeClass('fa-beat-fade').removeClass('fa-heart').removeClass('red');
-              $(e.target).addClass('fa-heart-circle-plus')
-            }
+            console.log('Deck ajouté aux favoris');
 
-            $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + " #select-deck-zone .tab-content[data-tab='tab2'] #list-favorites");
+            sameDeckIdaddFavoriIcons.forEach((sameDeckIdaddFavoriIcon) => {
 
-        } else {
+              $(sameDeckIdaddFavoriIcon).attr('data-is-favori', 1);
 
-          $(e.target).removeClass('fa-beat-fade');
+              $(sameDeckIdaddFavoriIcon).removeClass('fa-beat-fade').removeClass('fa-heart-circle-plus');
+              $(sameDeckIdaddFavoriIcon).addClass('fa-heart').addClass('red');
+            });
 
-            console.error('Une erreur est survenue');
-        }
-    };
-    xhr.send();
-  });
-});
+          } else {
+
+            console.log('Deck supprimé des favoris');
+
+            sameDeckIdaddFavoriIcons.forEach((sameDeckIdaddFavoriIcon) => {
+
+              $(sameDeckIdaddFavoriIcon).attr('data-is-favori', 0);
+
+              $(sameDeckIdaddFavoriIcon).removeClass('fa-beat-fade').removeClass('fa-heart').removeClass('red');
+              $(sameDeckIdaddFavoriIcon).addClass('fa-heart-circle-plus')
+            });
+
+          }
+
+          $("#select-deck-zone .tab-content[data-tab='tab2']").load(window.location.href + " #select-deck-zone .tab-content[data-tab='tab2'] #list-favorites");
+
+      } else {
+
+        $(asc).removeClass('fa-beat-fade');
+
+        console.error('Une erreur est survenue');
+      }
+  };
+  xhr.send();
+  
+}
 
 
 // $('#ajouter-favori-btn').click(function(e) {
@@ -549,80 +549,166 @@ addFavoriIcons.forEach((addFavoriIcon) => {
 // });
 
 
-majProgressBar();
 
-function majProgressBar(){
+
+function updateProgressBar(buttonResponse){
 
   var spanNbrCardsTab1 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab1'] .nbr-carte");
   var spanNbrCardsTab2 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab2'] .nbr-carte");
   var spanNbrCardsTab3 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab3'] .nbr-carte");
   var spanNbrCardsTab4 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab4'] .nbr-carte");
 
-  var nbrCardsZoneNoLevel = parseInt(spanNbrCardsTab1.textContent);
-  var nbrCardsZoneLevel0 = parseInt(spanNbrCardsTab2.textContent);
-  var nbrCardsZoneLevel1 = parseInt(spanNbrCardsTab3.textContent);
-  var nbrCardsZoneLevel2 = parseInt(spanNbrCardsTab4.textContent);
-
-  var progressBarWidth = parseInt(window.getComputedStyle(document.querySelector('.progress-deck.large')).getPropertyValue('width'));
+  var nbrCardsNoLevel = parseInt(spanNbrCardsTab1.textContent);
+  var nbrCardsLevel0 = parseInt(spanNbrCardsTab2.textContent);
+  var nbrCardsLevel1 = parseInt(spanNbrCardsTab3.textContent);
+  var nbrCardsLevel2 = parseInt(spanNbrCardsTab4.textContent);
   
-  var nbrTotalCards = nbrCardsZoneNoLevel + nbrCardsZoneLevel0 + nbrCardsZoneLevel1 + nbrCardsZoneLevel2;
+  var nbrTotalCards = nbrCardsNoLevel + nbrCardsLevel0 + nbrCardsLevel1 + nbrCardsLevel2;
 
-  var zoneNoLevel =  document.querySelector(".progress-deck.large .no-level");
-  var zoneLevel0 =  document.querySelector(".progress-deck.large .level-0");
-  var zoneLevel1 =  document.querySelector(".progress-deck.large .level-1");
-  var zoneLevel2 =  document.querySelector(".progress-deck.large .level-2");
+  var zoneNoLevelWidth = 100 * nbrCardsNoLevel / nbrTotalCards;
+  var zoneLevel0Width = 100 * nbrCardsLevel0 / nbrTotalCards;
+  var zoneLevel1Width = 100 * nbrCardsLevel1 / nbrTotalCards;
+  var zoneLevel2Width = 100 * nbrCardsLevel2 / nbrTotalCards;
 
-  zoneNoLevelWidth = nbrCardsZoneNoLevel * progressBarWidth / nbrTotalCards;
-  zoneLevel0Width = nbrCardsZoneLevel0 * progressBarWidth / nbrTotalCards;
-  zoneLevel1Width = nbrCardsZoneLevel1 * progressBarWidth / nbrTotalCards;
-  zoneLevel2Width = nbrCardsZoneLevel2 * progressBarWidth / nbrTotalCards;
+  alert(buttonResponse)
 
-  zoneNoLevel.style.width = zoneNoLevelWidth+"px";
-  zoneLevel0.style.width = zoneLevel0Width+"px";
-  zoneLevel1.style.width = zoneLevel1Width+"px";
-  zoneLevel2.style.width = zoneLevel2Width+"px";
+  const deckId = buttonResponse.dataset.deckId;
+
+  alert(deckId)
+
+  var sameDeckIdProgressBars =  document.querySelectorAll(".progress-deck[data-deck-id='"+deckId+"']");
+
+
+  sameDeckIdProgressBars.forEach((sameDeckIdProgressBar) => {
+
+
+    var zoneNoLevel =  sameDeckIdProgressBar.querySelector(".no-level");
+    var zoneLevel0 =  sameDeckIdProgressBar.querySelector(".level-0");
+    var zoneLevel1 =  sameDeckIdProgressBar.querySelector(".level-1");
+    var zoneLevel2 =  sameDeckIdProgressBar.querySelector(".level-2");
+
+    zoneNoLevel.style.width = zoneNoLevelWidth+"%";
+    zoneLevel0.style.width = zoneLevel0Width+"%";
+    zoneLevel1.style.width = zoneLevel1Width+"%";
+    zoneLevel2.style.width = zoneLevel2Width+"%";
+
+  });
+    
 
 }
 
 
 
 
-const progressBars = document.querySelectorAll('.progress-deck.list');
+// majProgressBarOld();
 
-progressBars.forEach((progressBar) => {
+function majProgressBarOld(){
 
-  var zoneNoLevel =  progressBar.querySelector('.no-level');
-  var zoneLevel0 =  progressBar.querySelector('.level-0');
-  var zoneLevel1 =  progressBar.querySelector('.level-1');
-  var zoneLevel2 =  progressBar.querySelector('.level-2');
 
-  var nbrCardsZoneNoLevel =  parseInt(zoneNoLevel.getAttribute('nbr'));
-  var nbrCardsZoneLevel0 =  parseInt(zoneLevel0.getAttribute('nbr'));
-  var nbrCardsZoneLevel1 =  parseInt(zoneLevel1.getAttribute('nbr'));
-  var nbrCardsZoneLevel2 =  parseInt(zoneLevel2.getAttribute('nbr'));
+  const progressBars = document.querySelectorAll('.progress-deck');
 
-  var progressBarWidth = parseInt(window.getComputedStyle(progressBar).getPropertyValue('width'));
-  var test = progressBar.clientWidth;
+  progressBars.forEach((progressBar) => {
   
-  var nbrTotalCards = nbrCardsZoneNoLevel + nbrCardsZoneLevel0 + nbrCardsZoneLevel1 + nbrCardsZoneLevel2;
+    var zoneNoLevel =  progressBar.querySelector('.no-level');
+    var zoneLevel0 =  progressBar.querySelector('.level-0');
+    var zoneLevel1 =  progressBar.querySelector('.level-1');
+    var zoneLevel2 =  progressBar.querySelector('.level-2');
+  
+    var nbrCardsZoneNoLevel =  parseInt(zoneNoLevel.getAttribute('nbr'));
+    var nbrCardsZoneLevel0 =  parseInt(zoneLevel0.getAttribute('nbr'));
+    var nbrCardsZoneLevel1 =  parseInt(zoneLevel1.getAttribute('nbr'));
+    var nbrCardsZoneLevel2 =  parseInt(zoneLevel2.getAttribute('nbr'));
+  
+    var progressBarWidth = parseInt(window.getComputedStyle(progressBar).getPropertyValue('width'));
+    
+    var nbrTotalCards = nbrCardsZoneNoLevel + nbrCardsZoneLevel0 + nbrCardsZoneLevel1 + nbrCardsZoneLevel2;
+  
+    zoneNoLevelWidth = nbrCardsZoneNoLevel * progressBarWidth / nbrTotalCards;
+    zoneLevel0Width = nbrCardsZoneLevel0 * progressBarWidth / nbrTotalCards;
+    zoneLevel1Width = nbrCardsZoneLevel1 * progressBarWidth / nbrTotalCards;
+    zoneLevel2Width = nbrCardsZoneLevel2 * progressBarWidth / nbrTotalCards;
+  
+  
+    
+  
+    zoneNoLevel.style.width = zoneNoLevelWidth+"px";
+    zoneLevel0.style.width = zoneLevel0Width+"px";
+    zoneLevel1.style.width = zoneLevel1Width+"px";
+    zoneLevel2.style.width = zoneLevel2Width+"px";
+    
+  });
 
-  zoneNoLevelWidth = nbrCardsZoneNoLevel * progressBarWidth / nbrTotalCards;
-  zoneLevel0Width = nbrCardsZoneLevel0 * progressBarWidth / nbrTotalCards;
-  zoneLevel1Width = nbrCardsZoneLevel1 * progressBarWidth / nbrTotalCards;
-  zoneLevel2Width = nbrCardsZoneLevel2 * progressBarWidth / nbrTotalCards;
+
+
+
+  // var spanNbrCardsTab1 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab1'] .nbr-carte");
+  // var spanNbrCardsTab2 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab2'] .nbr-carte");
+  // var spanNbrCardsTab3 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab3'] .nbr-carte");
+  // var spanNbrCardsTab4 = document.querySelector("#play-deck-zone .tab-button[data-tab='tab4'] .nbr-carte");
+
+  // var nbrCardsZoneNoLevel = parseInt(spanNbrCardsTab1.textContent);
+  // var nbrCardsZoneLevel0 = parseInt(spanNbrCardsTab2.textContent);
+  // var nbrCardsZoneLevel1 = parseInt(spanNbrCardsTab3.textContent);
+  // var nbrCardsZoneLevel2 = parseInt(spanNbrCardsTab4.textContent);
+
+  // var progressBarWidth = parseInt(window.getComputedStyle(document.querySelector('.progress-deck.large')).getPropertyValue('width'));
+  
+  // var nbrTotalCards = nbrCardsZoneNoLevel + nbrCardsZoneLevel0 + nbrCardsZoneLevel1 + nbrCardsZoneLevel2;
+
+  // var zoneNoLevel =  document.querySelector(".progress-deck.large .no-level");
+  // var zoneLevel0 =  document.querySelector(".progress-deck.large .level-0");
+  // var zoneLevel1 =  document.querySelector(".progress-deck.large .level-1");
+  // var zoneLevel2 =  document.querySelector(".progress-deck.large .level-2");
+
+  // zoneNoLevelWidth = nbrCardsZoneNoLevel * progressBarWidth / nbrTotalCards;
+  // zoneLevel0Width = nbrCardsZoneLevel0 * progressBarWidth / nbrTotalCards;
+  // zoneLevel1Width = nbrCardsZoneLevel1 * progressBarWidth / nbrTotalCards;
+  // zoneLevel2Width = nbrCardsZoneLevel2 * progressBarWidth / nbrTotalCards;
+
+  // zoneNoLevel.style.width = zoneNoLevelWidth+"px";
+  // zoneLevel0.style.width = zoneLevel0Width+"px";
+  // zoneLevel1.style.width = zoneLevel1Width+"px";
+  // zoneLevel2.style.width = zoneLevel2Width+"px";
+
+}
+
+
+
+
+// const progressBars = document.querySelectorAll('.progress-deck.list');
+
+// progressBars.forEach((progressBar) => {
+
+//   var zoneNoLevel =  progressBar.querySelector('.no-level');
+//   var zoneLevel0 =  progressBar.querySelector('.level-0');
+//   var zoneLevel1 =  progressBar.querySelector('.level-1');
+//   var zoneLevel2 =  progressBar.querySelector('.level-2');
+
+//   var nbrCardsZoneNoLevel =  parseInt(zoneNoLevel.getAttribute('nbr'));
+//   var nbrCardsZoneLevel0 =  parseInt(zoneLevel0.getAttribute('nbr'));
+//   var nbrCardsZoneLevel1 =  parseInt(zoneLevel1.getAttribute('nbr'));
+//   var nbrCardsZoneLevel2 =  parseInt(zoneLevel2.getAttribute('nbr'));
+
+//   alert(zoneLevel1Width)
+
+//   var progressBarWidth = parseInt(window.getComputedStyle(progressBar).getPropertyValue('width'));
+  
+//   var nbrTotalCards = nbrCardsZoneNoLevel + nbrCardsZoneLevel0 + nbrCardsZoneLevel1 + nbrCardsZoneLevel2;
+
+//   zoneNoLevelWidth = nbrCardsZoneNoLevel * progressBarWidth / nbrTotalCards;
+//   zoneLevel0Width = nbrCardsZoneLevel0 * progressBarWidth / nbrTotalCards;
+//   zoneLevel1Width = nbrCardsZoneLevel1 * progressBarWidth / nbrTotalCards;
+//   zoneLevel2Width = nbrCardsZoneLevel2 * progressBarWidth / nbrTotalCards;
 
 
   
 
-  zoneNoLevel.style.width = zoneNoLevelWidth+"px";
-  zoneLevel0.style.width = zoneLevel0Width+"px";
-  zoneLevel1.style.width = zoneLevel1Width+"px";
-  zoneLevel2.style.width = zoneLevel2Width+"px";
-
-    // $(e.target).addClass('fa-beat-fade');
-
+//   zoneNoLevel.style.width = zoneNoLevelWidth+"px";
+//   zoneLevel0.style.width = zoneLevel0Width+"px";
+//   zoneLevel1.style.width = zoneLevel1Width+"px";
+//   zoneLevel2.style.width = zoneLevel2Width+"px";
   
-});
+// });
 
 
 $(document).ready(function() {
