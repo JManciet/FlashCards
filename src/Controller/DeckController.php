@@ -31,12 +31,28 @@ class DeckController extends AbstractController
         {
             $user = $this->getUser();
     
+
+            
+
+
+
             if(!$deck){
+
                 $deck = new Deck();
+                $deck->setUtilisateur($user);
+
+            }elseif($user != $deck->getUtilisateur()){
+
+                $copiedMode = true;
+
+                $deck = clone $deck;
+                $deck->setUtilisateur($user);
+
             }
 
-            $deck->setUtilisateur($user);
-    
+
+
+
             $form = $this->createForm(DeckType::class, $deck);
             $form->handleRequest($request);
     
@@ -59,7 +75,8 @@ class DeckController extends AbstractController
             return $this->render('deck/create.html.twig', [
                 'deck' => $deck,
                 'form' => $form->createView(),
-                'editMode' => $deck->getId()
+                'editMode' => $deck->getId(),
+                'copiedMode' => $copiedMode
             ]);
         }
     

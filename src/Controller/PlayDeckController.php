@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Deck;
 use App\Entity\Carte;
+use App\Entity\AccesDeck;
 use App\Entity\Utilisateur;
 use App\Entity\PositionCarte;
 use Doctrine\Persistence\ManagerRegistry;
@@ -23,6 +25,25 @@ class PlayDeckController extends AbstractController
 
     public function index(ManagerRegistry $doctrine, Utilisateur $utilisateur ,Deck $deck): Response
     {
+
+
+        $accesDeck = $doctrine->getRepository(AccesDeck::class)->findOneBy(array('utilisateur' => $this->getUser(), 'deck' => $deck));
+        
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $now = new \DateTime();
+
+        if(!$accesDeck){
+            $accesDeck = new AccesDeck();
+            $accesDeck->setUtilisateur($this->getUser())->setDeck($deck)->setDateDernierAcces($now);
+            $entityManager->persist($accesDeck);
+        }else{
+            $accesDeck->setDateDernierAcces($now);
+        }
+        $entityManager->flush();
+       
+
+
 
         // $positionCartesByUtilisateur = $doctrine->getRepository(PositionCarte::class)->findBy(array('utilisateur' => $utilisateur->getId()));
         $cartesDeckInPositionCarte = $doctrine->getRepository(Carte::class)->findCartesDeckInPositionCarte($this->getUser() ,$deck->getId());
