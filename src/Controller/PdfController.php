@@ -111,12 +111,7 @@ class PdfController extends AbstractController
             $x = $this->rectX + $this->colonneEnCour * $this->rectWidth;
             $y = $this->rectY + $this->ligneEnCour * $this->rectHeight;
 
-            // Dessin du rectangle
-            $this->pdf->Rect($x, $y, $this->rectWidth, $this->rectHeight);
-
-            // Ajout du texte dans le rectangle
-            $this->pdf->SetXY($x + 5, $y + 5);
-            $this->pdf->MultiCell($this->rectWidth - 10, 10, 'Question de la carte '.$index.': '.$carte->getQuestion()." ".$this->colonneEnCour." ".$this->ligneEnCour, 0, 'C');
+            $this->dessinerRectangleAvecText($this->pdf, $x, $y, $this->rectWidth, $this->rectHeight, $carte->getQuestion());
 
             $lastCarte = $cartesDeck->last();
 
@@ -128,8 +123,6 @@ class PdfController extends AbstractController
             }
         }
     }
-
-
 
     function faireVerso($cartesDeck){
 
@@ -162,14 +155,16 @@ class PdfController extends AbstractController
             $x = (210 - $this->rectWidth) - ($this->rectX + $this->colonneEnCour * $this->rectWidth);
             $y = $this->rectY + $this->ligneEnCour * $this->rectHeight;
 
-            // Dessin du rectangle
-            $this->pdf->Rect($x, $y, $this->rectWidth, $this->rectHeight);
-
-            // Ajout du texte dans le rectangle
-            $this->pdf->SetXY($x + 5, $y + 5);
-            $this->pdf->MultiCell($this->rectWidth - 10, 10, 'Reponse de la carte '.$index.': '.$carte->getReponse()." ".$this->colonneEnCour." ".$this->ligneEnCour, 0, 'C');
+            $this->dessinerRectangleAvecText($this->pdf, $x, $y, $this->rectWidth, $this->rectHeight, $carte->getReponse());
 
             unset($cartesDeck[$index]);
         }
+    }
+
+    function dessinerRectangleAvecText($pdf, $x, $y, $width, $height, $text) {
+        $pdf->Rect($x, $y, $width, $height);
+        // Ajout du texte dans le rectangle
+        $pdf->SetXY($x + 5, $y + 5);
+        $pdf->MultiCell($width - 10, 10, $text, 0, 'C');
     }
 }

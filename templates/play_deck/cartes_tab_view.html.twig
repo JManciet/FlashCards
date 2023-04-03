@@ -1,0 +1,20 @@
+{% if cartes|length != 0 %}
+{% set ramdomCarte = randomWithoutDuplicates(cartes, nomSession)%}
+<div class="card-container" id-carte="{{ ramdomCarte.id }}">
+    <div class="card">
+        {% set carteActif = ramdomCarte %}
+        <div class="question">
+            <div class="header-card"><span>Question:</span></div>
+            <div class="body-card"><p>{{ ramdomCarte.question }}</p></div>
+        </div>
+        <div class="response">
+            <div class="header-card"><span>Reponse:</span></div>
+            <div class="body-card"><p>{{ ramdomCarte.reponse }}</p></div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="missing-card">
+    Pas de cartes dans cet onglet !
+</div>
+{% endif %} 

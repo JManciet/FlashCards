@@ -83,110 +83,26 @@
                 <div class="container-tab-contents">
                     <div class="tab-content" data-tab="tab1">
                         
-                        {# {% include 'play_deck/un_morceau.html.twig' %} #}
 
-
-                        {# {% block block_tab1 %} #}
-                            {% if cartesDeckNotInPositionCarte|length != 0 %}
-                            {% set randomCartesDeckNotInPositionCarte = randomWithoutDuplicates(cartesDeckNotInPositionCarte, "sessionTab1")%}
-                            <div class="card-container" id-carte="{{ randomCartesDeckNotInPositionCarte.id }}">
-                                <div class="card">
-                                    {% set carteActif = randomCartesDeckNotInPositionCarte %}
-                                    <div class="question">
-                                        <div class="header-card"><span>Question:</span></div>
-                                        <div class="body-card"><p>{{ randomCartesDeckNotInPositionCarte.question }}</p></div>
-                                    </div>
-                                    <div class="response">
-                                        <div class="header-card"><span>Reponse:</span></div>
-                                        <div class="body-card"><p>{{ randomCartesDeckNotInPositionCarte.reponse }}</p></div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% else %}
-                                <div class="missing-card">
-                                    Pas de cartes dans cet onglet !
-                                </div>
-                            {% endif %}
-                        {# {% endblock %} #}
+                        {% include 'play_deck/cartes_tab_view.html.twig' with {'cartes': cartesDeckNotInPositionCarte, 'nomSession': "sessionTab1" } %}
                          
 
                     </div>
                     <div class="tab-content" data-tab="tab2">
 
-                        {# {% block block_tab2 %} #}
-                            {% if cartesLevel0|length != 0 %}
-                            {% set randomCarteLevel0 = randomWithoutDuplicates(cartesLevel0, "sessionTab2")%}
-                            <div class="card-container" id-carte="{{ randomCarteLevel0.id }}">
-                                <div class="card">
-                                    {% set carteActif = randomCarteLevel0 %}
-                                    <div class="question">
-                                        <div class="header-card"><span>Question:</span></div>
-                                        <div class="body-card"><p>{{ randomCarteLevel0.question }}</p></div>
-                                    </div>
-                                    <div class="response">
-                                        <div class="header-card"><span>Reponse:</span></div>
-                                        <div class="body-card"><p>{{ randomCarteLevel0.reponse }}</p></div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% else %}
-                                <div class="missing-card">
-                                    Pas de cartes dans cet onglet !
-                                </div>
-                            {% endif %}
-                        {# {% endblock %}  #}
+                        {% include 'play_deck/cartes_tab_view.html.twig' with {'cartes': cartesLevel0, 'nomSession': "sessionTab2" } %}
                     
                     </div>
                     <div class="tab-content active" id="bloc1" data-tab="tab3">
 
-                        {# {% block block_tab3 %} #}
-                            {% if cartesLevel1|length != 0 %}
-                            {% set randomCarteLevel1 = randomWithoutDuplicates(cartesLevel1, "sessionTab3")%}
-                            <div class="card-container" id-carte="{{ randomCarteLevel1.id }}">
-                                <div class="card">
-                                    {% set carteActif = randomCarteLevel1 %}
-                                    <div class="question">
-                                        <div class="header-card"><span>Question:</span></div>
-                                        <div class="body-card"><p>{{ randomCarteLevel1.question }}</p></div>
-                                    </div>
-                                    <div class="response">
-                                        <div class="header-card"><span>Reponse:</span></div>
-                                        <div class="body-card"><p>{{ randomCarteLevel1.reponse }}</p></div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% else %}
-                            <div class="missing-card">
-                                Pas de cartes dans cet onglet !
-                            </div>
-                            {% endif %} 
-                        {# {% endblock %} #}
+                        {% include 'play_deck/cartes_tab_view.html.twig' with {'cartes': cartesLevel1, 'nomSession': "sessionTab3" } %}
 
                     </div>
                     <div class="tab-content" data-tab="tab4">
 
-                        {# {% block block_tab4 %} #}
-                            {% if cartesLevel2|length != 0 %}
-                            {% set randomCarteLevel2 = randomWithoutDuplicates(cartesLevel2, "sessionTab4")%}
-                            <div class="card-container" id-carte="{{ randomCarteLevel2.id }}">
-                                <div class="card">
-                                    {% set carteActif = randomCarteLevel2 %}
-                                    <div class="question">
-                                        <div class="header-card"><span>Question:</span></div>
-                                        <div class="body-card"><p>{{ randomCarteLevel2.question }}</p></div>
-                                    </div>
-                                    <div class="response">
-                                        <div class="header-card"><span>Reponse:</span></div>
-                                        <div class="body-card"><p>{{ randomCarteLevel2.reponse }}</p></div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% else %}
-                            <div class="missing-card">
-                                Pas de cartes dans cet onglet !
-                            </div>
-                            {% endif %} 
-                        {# {% endblock %} #}
+
+                        {% include 'play_deck/cartes_tab_view.html.twig' with {'cartes': cartesLevel2, 'nomSession': "sessionTab4" } %}
+                        
 
                     </div>
                     
