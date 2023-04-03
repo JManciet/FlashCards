@@ -1,17 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Créer un nouveau deck</h1>
+
+{% if editMode %}
+<h1>Editer votre deck</h1>
+{% else %}
+<h1>Créer un nouveau deck</h1>
+{% endif %}
 
     {{ form_start(form) }}
 
     {{ form_row(form.titre) }}
     {{ form_row(form.description) }}
+    {{ form_row(form.categorie) }}
+    {{ form_row(form.visibilite) }}
+
 
     <h2>Cartes</h2>
-    <table class="table">
+    <table class="table table-dark table-striped">
         <thead>
             <tr>
+                <th>#</th>
                 <th>Question</th>
                 <th>Réponse</th>
                 <th>Action</th>
@@ -19,8 +28,11 @@
         </thead>
         <tbody id="deck_cartes"
              data-prototype="{{ form_widget(form.cartes.vars.prototype)|e('html_attr') }}">
+             {% set nbrCarte = 0 %}
             {% for carte in form.cartes %}
+            {% set nbrCarte = nbrCarte +1 %}
                 <tr class="carte">
+                    <td>{{ nbrCarte }}</td>
                     <td>{{ form_widget(carte.question) }}</td>
                     <td>{{ form_widget(carte.reponse) }}</td>
                     <td>
@@ -34,7 +46,16 @@
 
     <br>
 
-    {# <button type="submit" class="btn btn-primary">Créer le deck</button> #}
+
+    {% if editMode %}
+        <button type="submit" class="btn btn-primary">Editer le deck</button>
+    {% else %}
+        <button type="submit" class="btn btn-primary">Créer le deck</button>
+    {% endif %}
+    
+
+
+
     {{ form_end(form) }}
 {% endblock %}
 
@@ -43,43 +64,63 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // On récupère l'élément HTML du bouton "Ajouter une carte"
-var $addCardButton = $('<button type="button" class="btn btn-sm btn-success" data-card-add>Ajouter une carte</button>');
+var $addCardButton = $('[data-card-add]');
 
 // On récupère l'élément HTML qui contient les champs de formulaire pour les cartes
 var $cardCollectionHolder = $('#deck_cartes');
 
 // On ajoute le bouton "Ajouter une carte" à la fin de l'élément HTML contenant les champs de formulaire pour les cartes
-$cardCollectionHolder.parent().append($addCardButton);
+//$cardCollectionHolder.parent().append($addCardButton);
 
 // On compte le nombre de cartes déjà affichées dans le formulaire
-var index = $cardCollectionHolder.find('.card').length;
+var index = $cardCollectionHolder.find('.carte').length;
+
+var nbrAddCarte = index;
 
 // On associe une fonction au clic sur le bouton "Ajouter une carte"
 $addCardButton.on('click', function() {
 
+
+    addFormCarte()
+
+});
+
+addFormCarte()
+
+function addFormCarte(){
     // On récupère le prototype HTML pour les champs de formulaire de la carte
     var prototype = $cardCollectionHolder.data('prototype');
 
     // On remplace les "__name__" dans le prototype HTML par l'index courant
     var newForm = prototype.replace(/__name__/g, index);
-
     // On crée un nouvel élément HTML pour la carte avec les champs de formulaire et le bouton de suppression
-var $newCard = $('<tr class="carte"></tr>').append(
-    $('<td></td>').append($(newForm).find('textarea[id$="_question"]').prop('outerHTML')),
-    $('<td></td>').append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML')),
-    $('<td></td>').append('<button type="button" class="btn btn-sm btn-danger" data-card-remove>Supprimer cette carte</button>')
-);
+
+    
+    var $newCard = $('<tr class="carte"></tr>').append(
+        $('<td></td>').append(++nbrAddCarte),
+        $('<td></td>').append($(newForm).find('textarea[id$="_question"]').prop('outerHTML')),
+        $('<td></td>').append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML')),
+        $('<td></td>').append('<button type="button" class="btn btn-sm btn-danger" data-card-remove>Supprimer cette carte</button>')
+    );
+    
 
 // On ajoute le nouvel élément HTML de la carte à la fin de l'élément HTML contenant les champs de formulaire pour les cartes
 $cardCollectionHolder.append($newCard);
 
     // On incrémente le compteur d'index pour le prochain ajout de carte
     index++;
-});
+}
 
 // On associe une fonction au clic sur le bouton de suppression pour les cartes existantes
 $cardCollectionHolder.on('click', '[data-card-remove]', function() {
+    nbrAddCarte--;
     $(this).closest('.carte').remove();
+
+    var refreshNbrAddCarte = 0;
+
+    $('.carte').each(function() {
+        $(this).find('td:first-child').text(++refreshNbrAddCarte)
+    })
 });
     </script>
 {% endblock %}

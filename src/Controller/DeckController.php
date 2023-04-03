@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Deck;
 use App\Form\DeckType;
+use Monolog\DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,13 +24,17 @@ class DeckController extends AbstractController
 
 
         /**
-         * @Route("/deck/create", name="deck_create", methods={"GET","POST"})
+         * @Route("/deck/nouveau", name="deck_create", methods={"GET","POST"})
+         * @Route("/deck/editer/{id}", name="deck_edit")
          */
-        public function create(Request $request): Response
+        public function create(Request $request, Deck $deck = null): Response
         {
             $user = $this->getUser();
     
-            $deck = new Deck();
+            if(!$deck){
+                $deck = new Deck();
+            }
+
             $deck->setUtilisateur($user);
     
             $form = $this->createForm(DeckType::class, $deck);
@@ -37,6 +42,8 @@ class DeckController extends AbstractController
     
             if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager = $this->getDoctrine()->getManager();
+                $now = new \DateTimeImmutable();
+                $deck->setDateCreation($now);
                 $entityManager->persist($deck);
     
                 foreach ($deck->getCartes() as $carte) {
@@ -52,6 +59,7 @@ class DeckController extends AbstractController
             return $this->render('deck/create.html.twig', [
                 'deck' => $deck,
                 'form' => $form->createView(),
+                'editMode' => $deck->getId()
             ]);
         }
     

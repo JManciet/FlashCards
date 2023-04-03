@@ -99,7 +99,7 @@ class CarteRepository extends ServiceEntityRepository
         $sub->select('cart.id', 'cart.question', 'cart.reponse')
             ->from('App\Entity\Deck', 'de')
             ->innerJoin('de.cartes', 'cart')
-            ->where('de.utilisateur = :uId')
+            // ->where('de.utilisateur = :uId')
             ->andwhere('de.id = :dId ')
             ->andwhere($sub->expr()->notIn('cart.id', $qb->getDQL()))
             ->setParameter('uId', $utilisateurId)

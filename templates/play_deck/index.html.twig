@@ -44,6 +44,7 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     <i class="big fa-solid fa-print"></i>
                 </button>
+                <a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                 <h1>{{ deck.titre }}</i></h1>
                 <a href="{{ path('ajouter_favori', {'id': deck.id}) }}"><i class="fa-solid fa-heart-circle-plus"></i></a>
                 
@@ -226,10 +227,12 @@
             <div>
                 <div data-deck-id="{{ deck.id }}" class="progress-deck large" >
 
-                    <div class="no-level" {{'style=width:'~ 100 * nbrNoLevel / nbrCarte ~'%'}}></div>
-                    <div class="level-0" {{'style=width:'~ 100 * nbrLevel0 / nbrCarte ~'%'}}></div>
-                    <div class="level-1" {{'style=width:'~ 100 * nbrLevel1 / nbrCarte ~'%'}}></div>
-                    <div class="level-2" {{'style=width:'~ 100 * nbrLevel2 / nbrCarte ~'%'}}></div>
+                    {% if nbrCarte != 0  %}
+                        <div class="no-level" {{'style=width:'~ 100 * nbrNoLevel / nbrCarte ~'%'}}></div>
+                        <div class="level-0" {{'style=width:'~ 100 * nbrLevel0 / nbrCarte ~'%'}}></div>
+                        <div class="level-1" {{'style=width:'~ 100 * nbrLevel1 / nbrCarte ~'%'}}></div>
+                        <div class="level-2" {{'style=width:'~ 100 * nbrLevel2 / nbrCarte ~'%'}}></div>
+                    {% endif %}
                 </div>
             </div>
         </div>

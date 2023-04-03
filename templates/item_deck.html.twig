@@ -77,11 +77,12 @@
                     {% endfor %}
 
                 {% endfor %}
-
-                <div class="no-level" {{'style=width:'~ 100 * nbrNoLevel / nbrCarte ~'%'}}></div>
+                {% if nbrCarte != 0  %}
+                    <div class="no-level" {{'style=width:'~ 100 * nbrNoLevel / nbrCarte ~'%'}}></div>
                     <div class="level-0" {{'style=width:'~ 100 * nbrLevel0 / nbrCarte ~'%'}}></div>
                     <div class="level-1" {{'style=width:'~ 100 * nbrLevel1 / nbrCarte ~'%'}}></div>
                     <div class="level-2" {{'style=width:'~ 100 * nbrLevel2 / nbrCarte ~'%'}}></div>
+                {% endif %}
             </div>
 
         </div>

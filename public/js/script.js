@@ -570,11 +570,11 @@ function updateProgressBar(buttonResponse){
   var zoneLevel1Width = 100 * nbrCardsLevel1 / nbrTotalCards;
   var zoneLevel2Width = 100 * nbrCardsLevel2 / nbrTotalCards;
 
-  alert(buttonResponse)
+  // alert(buttonResponse)
 
   const deckId = buttonResponse.dataset.deckId;
 
-  alert(deckId)
+  // alert(deckId)
 
   var sameDeckIdProgressBars =  document.querySelectorAll(".progress-deck[data-deck-id='"+deckId+"']");
 
