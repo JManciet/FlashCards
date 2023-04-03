@@ -94,11 +94,11 @@ class PdfController extends AbstractController
             $this->colonneEnCour++;
 
             if($this->colonneEnCour == $this->nbrColonne){
-                // Rangée pleine, nous commençons une nouvelle rangée
+                // Rangée pleine, je commence une nouvelle rangée
                 $this->colonneEnCour=0;
                 $this->ligneEnCour++;
                 if ($this->ligneEnCour == $this->nbrLigne) {
-                    // Fin de la page atteinte, nous commençons une nouvelle page
+                    // Fin de la page atteinte, je commence une nouvelle page
                     $this->colonneEnCour=-1;
                     $this->ligneEnCour=0;
                     $this->pdf->AddPage();

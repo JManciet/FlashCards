@@ -12,21 +12,11 @@
 
             <div class="item-deck title">{{ deck.titre }}</div>
             <div>
-                {% set isFavori = false %}
-                {% if app.user %}
-                    {% for favorib in app.user.favoris %}
-                        {% if deck == favorib.deck %}
-                            {% set isFavori = true %}
-                        {% endif %}
-                    {% endfor %}
-                    
-                    {% if isFavori %}
-                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red fa-solid fa-heart"></i>
-                    {% else %}
-                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori fa-solid fa-heart-circle-plus"></i>   
-                    {% endif %}     
-                    </button>
-                {% endif %}
+                {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
+                    <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red fa-solid fa-heart"></i>
+                {% else %}
+                    <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori fa-solid fa-heart-circle-plus"></i>   
+                {% endfor %}  
             </div>
 
         </div>

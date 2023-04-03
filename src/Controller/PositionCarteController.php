@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Deck;
 use App\Entity\Carte;
 use App\Entity\PositionCarte;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,5 +59,42 @@ class PositionCarteController extends AbstractController
 
         // return $this->redirect($request->headers->get('referer'));
         return new JsonResponse(['success' => true]);
+    }
+
+
+    /**
+     * @Route("/recommencer_le_deck/{id}", name="retry_deck")
+     * @ParamConverter("deck", options={"mapping": {"id": "id"}})
+     */
+    public function removePositionCartes(Deck $deck, Request $request)
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $listPositionCartesByUser = $entityManager->getRepository(PositionCarte::class)->findBy([
+            'utilisateur' => $this->getUser(),
+        ]);
+
+        $listCartesByDeck = $deck->getCartes();
+
+
+        foreach($listCartesByDeck as $carte){
+
+            $positionCarte = $entityManager->getRepository(PositionCarte::class)->findOneBy([
+                'utilisateur' => $this->getUser(),
+                'carte' => $carte
+            ]);
+
+            // Si une position est deja existante la supprimer
+            if($positionCarte){
+                $entityManager->remove($positionCarte);
+            }
+
+        }
+
+        $entityManager->flush();
+
+        return $this->redirect($request->headers->get('referer'));
+        // return new JsonResponse(['success' => true]);
     }
 }

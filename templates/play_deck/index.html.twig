@@ -48,22 +48,13 @@
                 <h1>{{ deck.titre }}</i></h1>
                 <a href="{{ path('ajouter_favori', {'id': deck.id}) }}"><i class="fa-solid fa-heart-circle-plus"></i></a>
                 
-                {% set isFavori = false %}
-                {% if app.user %}
-                    {% for favori in app.user.favoris %}
-                        {% if deck == favori.deck %}
-                            {% set isFavori = true %}
-                        {% endif %}
-                    {% endfor %}
-                    
-                    {% if isFavori %}
-                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red big fa-solid fa-heart">aaaaa</i>
+                    {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
+                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red big fa-solid fa-heart"></i>
                     {% else %}
-                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori big fa-solid fa-heart-circle-plus">aaaaa</i>   
-                    {% endif %}     
-                    </button>
-                {% endif %}
-
+                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori big fa-solid fa-heart-circle-plus"></i>   
+                    {% endfor %}     
+                    
+                <a href="{{ path('retry_deck', {'id': deck.id}) }}">recomencer</a>
                 {# <button id="add-favori-btn" data-deck-id="{{ deck.id }}">Ajouter aux favoris AJAX</button> #}
             </div>
             <div>
