@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Créer un nouveau deck</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.titre) }}
+    {{ form_row(form.description) }}
+
+    <h2>Cartes</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Réponse</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="deck_cartes"
+             data-prototype="{{ form_widget(form.cartes.vars.prototype)|e('html_attr') }}">
+            {% for carte in form.cartes %}
+                <tr class="carte">
+                    <td>{{ form_widget(carte.question) }}</td>
+                    <td>{{ form_widget(carte.reponse) }}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger" data-card-remove>Supprimer cette carte</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-sm btn-success" data-card-add>Ajouter une carte</button>
+
+    <br>
+
+    {# <button type="submit" class="btn btn-primary">Créer le deck</button> #}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // On récupère l'élément HTML du bouton "Ajouter une carte"
+var $addCardButton = $('<button type="button" class="btn btn-sm btn-success" data-card-add>Ajouter une carte</button>');
+
+// On récupère l'élément HTML qui contient les champs de formulaire pour les cartes
+var $cardCollectionHolder = $('#deck_cartes');
+
+// On ajoute le bouton "Ajouter une carte" à la fin de l'élément HTML contenant les champs de formulaire pour les cartes
+$cardCollectionHolder.parent().append($addCardButton);
+
+// On compte le nombre de cartes déjà affichées dans le formulaire
+var index = $cardCollectionHolder.find('.card').length;
+
+// On associe une fonction au clic sur le bouton "Ajouter une carte"
+$addCardButton.on('click', function() {
+
+    // On récupère le prototype HTML pour les champs de formulaire de la carte
+    var prototype = $cardCollectionHolder.data('prototype');
+
+    // On remplace les "__name__" dans le prototype HTML par l'index courant
+    var newForm = prototype.replace(/__name__/g, index);
+
+    // On crée un nouvel élément HTML pour la carte avec les champs de formulaire et le bouton de suppression
+var $newCard = $('<tr class="carte"></tr>').append(
+    $('<td></td>').append($(newForm).find('textarea[id$="_question"]').prop('outerHTML')),
+    $('<td></td>').append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML')),
+    $('<td></td>').append('<button type="button" class="btn btn-sm btn-danger" data-card-remove>Supprimer cette carte</button>')
+);
+
+// On ajoute le nouvel élément HTML de la carte à la fin de l'élément HTML contenant les champs de formulaire pour les cartes
+$cardCollectionHolder.append($newCard);
+
+    // On incrémente le compteur d'index pour le prochain ajout de carte
+    index++;
+});
+
+// On associe une fonction au clic sur le bouton de suppression pour les cartes existantes
+$cardCollectionHolder.on('click', '[data-card-remove]', function() {
+    $(this).closest('.carte').remove();
+});
+    </script>
+{% endblock %}
