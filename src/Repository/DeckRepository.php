@@ -39,6 +39,28 @@ class DeckRepository extends ServiceEntityRepository
         }
     }
 
+
+    // Find/search articles by title/content
+    public function findArticlesByName(string $query)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->orX(
+                        $qb->expr()->like('p.titre', ':query'),
+                        $qb->expr()->like('p.description', ':query'),
+                    ),
+                    $qb->expr()->isNotNull('p.date_creation')
+                )
+            )
+            ->setParameter('query', '%' . $query . '%')
+        ;
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Deck[] Returns an array of Deck objects
 //     */

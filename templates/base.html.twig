@@ -30,6 +30,15 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             <li><a href="">Panneau d'administration</a></li>
                         {% endif %}
+                        {# {{ render(controller(
+                            'App\\Controller\\SearchController::searchBar'
+                     )) }} #}
+                     <form method="GET" action="{{ path('search') }}">
+                        <label for="query">Rechercher :</label>
+                        <input type="text" id="query" name="query" value="{{ app.request.query.get('query') }}" />
+                    
+                        <button type="submit">Rechercher</button>
+                    </form>
                     </ul>
                 </nav>
             </div>

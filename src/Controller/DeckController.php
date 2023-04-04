@@ -26,14 +26,11 @@ class DeckController extends AbstractController
         /**
          * @Route("/deck/nouveau", name="deck_create", methods={"GET","POST"})
          * @Route("/deck/editer/{id}", name="deck_edit")
+         * @Route("/deck/cloner/{id}", name="deck_clone")
          */
         public function create(Request $request, Deck $deck = null): Response
         {
             $user = $this->getUser();
-    
-
-            
-
 
 
             if(!$deck){
@@ -49,8 +46,6 @@ class DeckController extends AbstractController
                 $deck->setUtilisateur($user);
 
             }
-
-
 
 
             $form = $this->createForm(DeckType::class, $deck);
@@ -76,7 +71,6 @@ class DeckController extends AbstractController
                 'deck' => $deck,
                 'form' => $form->createView(),
                 'editMode' => $deck->getId(),
-                'copiedMode' => $copiedMode
             ]);
         }
     

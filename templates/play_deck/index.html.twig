@@ -41,27 +41,29 @@
         <div id="play-deck-zone">
 
             <div class="inline">
+
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     <i class="big fa-solid fa-print"></i>
                 </button>
-                <a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                 <h1>{{ deck.titre }}</i></h1>
-                <a href="{{ path('ajouter_favori', {'id': deck.id}) }}"><i class="fa-solid fa-heart-circle-plus"></i></a>
+                {# <a href="{{ path('ajouter_favori', {'id': deck.id}) }}"><i class="fa-solid fa-heart-circle-plus"></i></a> #}
                 
-                    {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
-                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red big fa-solid fa-heart"></i>
-                    {% else %}
-                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori big fa-solid fa-heart-circle-plus"></i>   
-                    {% endfor %}     
-                    
-                <a href="{{ path('retry_deck', {'id': deck.id}) }}">recomencer</a>
+                {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
+                    <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red big fa-solid fa-heart"></i>
+                {% else %}
+                    <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori big fa-solid fa-heart-circle-plus"></i>   
+                {% endfor %}     
+                
                 {# <button id="add-favori-btn" data-deck-id="{{ deck.id }}">Ajouter aux favoris AJAX</button> #}
             </div>
             <div>
                 par <a href="{{ path('show_utilisateur', {'id': utilisateur.id}) }}">{{deck.utilisateur.pseudo}}</a> | description :{{deck.description}}
             </div>
             <div>
-                <a href="#">Noté moi</a>
+                <a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"> Editer</i></a>  |  
+                <a href="{{ path('deck_clone', {'id': deck.id}) }}"><i class="fa-solid fa-clone fa-lg"> Cloner</i></a>  |  
+                <a href="{{ path('retry_deck', {'id': deck.id}) }}"><i class="fa-solid fa-rotate-left fa-lg"> Recommencer</i></a>  |  
+                <a href="#"><i class="fa-regular fa-star-half-stroke fa-lg"> Notez ce deck</i></a>
             </div>
             <div id="tabs-play-deck">
                 <div class="tab-buttons">
