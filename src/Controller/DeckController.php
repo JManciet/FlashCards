@@ -62,20 +62,17 @@ class DeckController extends AbstractController
 
                 foreach ($cartes as $carte) {
 
-                    // dd($cartes);
-                    // $carte->setDeck($deck);
+                
+                    $carte->getData()->setDeck($deck);
 
                     // Gestion du champ 'image' de la carte
                     $imageFile = $carte->get("image_question")->getData();
 
 
-                    // dd($imageFile);
                     // this condition is needed because the 'brochure' field is not required
                     // so the PDF file must be processed only when a file is uploaded
                     if ($imageFile) {
 
-                        // dd("deedee");
-                        // $newFilename = uniqid().'.'.$imageFile->guessExtension();
 
                         $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                         // this is needed to safely include the file name as part of the URL
@@ -94,11 +91,11 @@ class DeckController extends AbstractController
         
                         // updates the 'brochureFilename' property to store the PDF file name
                         // instead of its contents
-                        $carte->setImageQuestion($newFilename);
+                        $carte->getData()->setImageQuestion($newFilename);
 
                     }
 
-                    $entityManager->persist($carte);
+                    $entityManager->persist($carte->getData());
                 }
     
                 $entityManager->flush();

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Deck;
+use App\Entity\Carte;
 use App\Form\CarteType;
 use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
@@ -50,7 +51,8 @@ class DeckType extends AbstractType
                 'attr' => ['class' => 'btn btn-success'],
                 'label' => 'Créer le deck'
                 ])
-        ;
+            ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
