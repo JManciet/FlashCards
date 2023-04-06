@@ -40,6 +40,16 @@ class Carte
      */
     private $positionCartes;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image_question;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image_reponse;
+
     public function __construct()
     {
         $this->positionCartes = new ArrayCollection();
@@ -154,6 +164,30 @@ class Carte
                 $positionCarte->setCarte(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImageQuestion(): ?string
+    {
+        return $this->image_question;
+    }
+
+    public function setImageQuestion(?string $image_question): self
+    {
+        $this->image_question = $image_question;
+
+        return $this;
+    }
+
+    public function getImageReponse(): ?string
+    {
+        return $this->image_reponse;
+    }
+
+    public function setImageReponse(?string $image_reponse): self
+    {
+        $this->image_reponse = $image_reponse;
 
         return $this;
     }

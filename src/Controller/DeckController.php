@@ -8,6 +8,7 @@ use Monolog\DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DeckController extends AbstractController
@@ -28,7 +29,7 @@ class DeckController extends AbstractController
          * @Route("/deck/editer/{id}", name="deck_edit")
          * @Route("/deck/cloner/{id}", name="deck_clone")
          */
-        public function create(Request $request, Deck $deck = null): Response
+        public function create(Request $request, SluggerInterface $slugger, Deck $deck = null): Response
         {
             $user = $this->getUser();
 
@@ -56,9 +57,47 @@ class DeckController extends AbstractController
                 $now = new \DateTimeImmutable();
                 $deck->setDateCreation($now);
                 $entityManager->persist($deck);
-    
-                foreach ($deck->getCartes() as $carte) {
-                    $carte->setDeck($deck);
+
+                $cartes = $form->get('cartes');
+
+                foreach ($cartes as $carte) {
+
+                    // dd($cartes);
+                    // $carte->setDeck($deck);
+
+                    // Gestion du champ 'image' de la carte
+                    $imageFile = $carte->get("image_question")->getData();
+
+
+                    // dd($imageFile);
+                    // this condition is needed because the 'brochure' field is not required
+                    // so the PDF file must be processed only when a file is uploaded
+                    if ($imageFile) {
+
+                        // dd("deedee");
+                        // $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                        // this is needed to safely include the file name as part of the URL
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+        
+                        // Move the file to the directory where brochures are stored
+                        try {
+                            $imageFile->move(
+                                $this->getParameter('image_directory'),
+                                $newFilename
+                            );
+                        } catch (FileException $e) {
+                            // ... handle exception if something happens during file upload
+                        }
+        
+                        // updates the 'brochureFilename' property to store the PDF file name
+                        // instead of its contents
+                        $carte->setImageQuestion($newFilename);
+
+                    }
+
                     $entityManager->persist($carte);
                 }
     
