@@ -24,6 +24,7 @@ class CarteType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add('image_question', FileType::class, [
+                'attr' => ['class' => 'image-input'],
                 'label' => 'Brochure (PDF file)',
                 'data_class' => null,
                 // unmapped means that this field is not associated to any entity property
@@ -46,6 +47,7 @@ class CarteType extends AbstractType
                 ],
             ])
             ->add('image_reponse', FileType::class, [
+                'attr' => ['class' => 'image-input'],
                 'label' => 'Brochure (PDF file)',
                 'data_class' => null,
                 // unmapped means that this field is not associated to any entity property

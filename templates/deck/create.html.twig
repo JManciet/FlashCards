@@ -20,16 +20,10 @@
     <table class="table table-dark table-striped">
         <thead>
             <tr>
-                <th rowspan="2">#</th>
-                <th colspan="2">Question</th>
-                <th colspan="2">Réponse</th>
-                <th rowspan="2">Action</th>
-            </tr>
-            <tr>
-                <th>Texte</th>
-                <th>Image</th>
-                <th>Texte</th>
-                <th>Image</th>
+                <th>#</th>
+                <th>Question</th>
+                <th>Réponse</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody id="deck_cartes"
@@ -38,16 +32,23 @@
             {% for carte in form.cartes %}
             {% set nbrCarte = nbrCarte +1 %}
                 <tr class="carte">
-                    <td>{{ nbrCarte }}</td>
-                    <td>{{ form_widget(carte.question) }}</td>
                     <td>
-                        {% if deck.cartes[loop.index0].imageQuestion %}
-                        <div class="image-card"><p><img id="image-preview" src="{{ asset('uploads/img/'~deck.cartes[loop.index0].imageQuestion) }}" alt=""></p></div>
-                        {% endif %}
-                        {{ form_widget(carte.image_question, {'attr': {'class': 'image-input'}}) }}
+                        {{ nbrCarte }}
                     </td>
-                    <td>{{ form_widget(carte.reponse) }}</td>
-                    <td>{{ form_widget(carte.image_reponse) }}</td>
+                    <td>{{ form_widget(carte.question) }}
+                    
+                        
+                        <div class="image-card"><p><img class="image-preview" src="{{ asset('uploads/img/'~deck.cartes[loop.index0].imageQuestion) }}" alt=""></p></div>
+                        
+                        {{ form_widget(carte.image_question) }}
+                    </td>
+                    <td>{{ form_widget(carte.reponse) }}
+
+                        
+                        <div class="image-card"><p><img class="image-preview" src="{{ asset('uploads/img/'~deck.cartes[loop.index0].imageReponse) }}" alt=""></p></div>
+                        
+                        {{ form_widget(carte.image_reponse) }}
+                    </td>
                     <td>
                         <button type="button" class="btn btn-sm btn-danger" data-card-remove>Supprimer cette carte</button>
                     </td>
@@ -111,10 +112,8 @@ function addFormCarte(){
     
     var $newCard = $('<tr class="carte"></tr>').append(
         $('<td></td>').append(++nbrAddCarte),
-        $('<td></td>').append($(newForm).find('textarea[id$="_question"]').prop('outerHTML')),
-        $('<td></td>').append($(newForm).find('input[id$="_image_question"]').prop('outerHTML')),
-        $('<td></td>').append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML')),
-        $('<td></td>').append($(newForm).find('input[id$="_image_reponse"]').prop('outerHTML')),
+        $('<td></td>').append($(newForm).find('textarea[id$="_question"]').prop('outerHTML')).append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>').append($(newForm).find('input[id$="_image_question"]').prop('outerHTML')),
+        $('<td></td>').append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML')).append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>').append($(newForm).find('input[id$="_image_reponse"]').prop('outerHTML')),
         $('<td></td>').append('<button type="button" class="btn btn-sm btn-danger" data-card-remove>Supprimer cette carte</button>')
     );
     
@@ -138,20 +137,31 @@ $cardCollectionHolder.on('click', '[data-card-remove]', function() {
     })
 });
 
-var imageInputs = document.querySelector('.image-input')
+var imageInputs = document.querySelectorAll('.image-input')
 
 
+selectPositionTabButtons.forEach((selectPositionTabButton) => {
+    selectPositionTabButton.addEventListener('click', (event) => {
+      const tabIndex = event.target.getAttribute('data-tab');
+      displayTabPlayDeck(tabIndex);
+      displayBtnsPlay();
+      switchSeeResponseWithBtnsSelectResponse();
+      // setDimensions();
+    });
+  });
 
-
-imageInputs.addEventListener('change', function(event) {
+imageInputs.forEach((imageInput) => { 
+    imageInput.addEventListener('change', function(event) {
     previewImage(event);
   });
+});
 
 function previewImage(event) {
     var input = event.target;
     var reader = new FileReader();
+    
     reader.onload = function(){
-      var preview = document.getElementById('image-preview');
+      var preview = event.target.parentElement.querySelector('.image-preview');
       preview.src = reader.result;
     }
     reader.readAsDataURL(input.files[0]);
