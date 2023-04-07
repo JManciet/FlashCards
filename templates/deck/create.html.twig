@@ -32,17 +32,17 @@
             {% for carte in form.cartes %}
             {% set nbrCarte = nbrCarte +1 %}
                 <tr class="carte">
-                    <td>
+                    <td data-label="#">
                         {{ nbrCarte }}
                     </td>
-                    <td>{{ form_widget(carte.question) }}
+                    <td data-label="Question :">{{ form_widget(carte.question) }}
                     
                         
                         <div class="image-card"><p><img class="image-preview" src="{{ asset('uploads/img/'~deck.cartes[loop.index0].imageQuestion) }}" alt=""></p></div>
                         
                         {{ form_widget(carte.image_question) }}
                     </td>
-                    <td>{{ form_widget(carte.reponse) }}
+                    <td data-label="Reponse :">{{ form_widget(carte.reponse) }}
 
                         
                         <div class="image-card"><p><img class="image-preview" src="{{ asset('uploads/img/'~deck.cartes[loop.index0].imageReponse) }}" alt=""></p></div>
@@ -111,9 +111,9 @@ function addFormCarte(){
 
     
     var $newCard = $('<tr class="carte"></tr>').append(
-        $('<td></td>').append(++nbrAddCarte),
-        $('<td></td>').append($(newForm).find('textarea[id$="_question"]').prop('outerHTML')).append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>').append($(newForm).find('input[id$="_image_question"]').prop('outerHTML')),
-        $('<td></td>').append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML')).append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>').append($(newForm).find('input[id$="_image_reponse"]').prop('outerHTML')),
+        $('<td data-label="#"></td>').append(++nbrAddCarte),
+        $('<td data-label="Question :"></td>').append($(newForm).find('textarea[id$="_question"]').prop('outerHTML')).append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>').append($(newForm).find('input[id$="_image_question"]').prop('outerHTML')),
+        $('<td data-label="Reponse :"></td>').append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML')).append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>').append($(newForm).find('input[id$="_image_reponse"]').prop('outerHTML')),
         $('<td></td>').append('<button type="button" class="btn btn-sm btn-danger" data-card-remove>Supprimer cette carte</button>')
     );
     

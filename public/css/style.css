@@ -400,6 +400,28 @@ h2 {
       display: inline;
     }
 
+
+
+    .table thead {
+      display: none;
+      }
+      
+      .table tr{
+      display: block;
+      /* margin-bottom: 40px; */
+      }
+      
+      .table td {
+      display: block;
+      /* text-align: right; */
+      }
+
+      .table td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        }
+
     
 
 }
