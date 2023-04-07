@@ -26,11 +26,11 @@
     {% if decks|length == 0 %}
         <p>Aucun résultat trouvé.</p>
     {% else %}
-        <ul>
+        <div>
             {% for deck in decks %}
                 {% include 'item_deck.html.twig' with {'deck': deck } %}
             {% endfor %}
-        </ul>
+        </div>
     {% endif %}
 </div>
 

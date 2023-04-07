@@ -386,6 +386,14 @@ h2 {
   }
 
 
+  #search-results > div{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .item-deck{
+    flex: auto;
+  }
 
 
 
