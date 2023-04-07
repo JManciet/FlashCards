@@ -61,40 +61,25 @@ class DeckController extends AbstractController
                 $cartes = $form->get('cartes');
 
                 foreach ($cartes as $carte) {
-
                 
                     $carte->getData()->setDeck($deck);
 
-                    // Gestion du champ 'image' de la carte
-                    $imageFile = $carte->get("image_question")->getData();
+                    $imageQuestionFile = $carte->get("image_question")->getData();
+                    $imageReponseFile = $carte->get("image_reponse")->getData();
 
-
-                    // this condition is needed because the 'brochure' field is not required
-                    // so the PDF file must be processed only when a file is uploaded
-                    if ($imageFile) {
-
-
-                        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                        // this is needed to safely include the file name as part of the URL
-                        $safeFilename = $slugger->slug($originalFilename);
-                        $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
-        
-                        // Move the file to the directory where brochures are stored
-                        try {
-                            $imageFile->move(
-                                $this->getParameter('image_directory'),
-                                $newFilename
-                            );
-                        } catch (FileException $e) {
-                            // ... handle exception if something happens during file upload
-                        }
-        
-                        // updates the 'brochureFilename' property to store the PDF file name
-                        // instead of its contents
-                        $carte->getData()->setImageQuestion($newFilename);
-
+                    // supprimer l'ancienne image si elle existe
+                    if ($carte->getData()->getImageQuestion()) {
+                        // $imageReponseFile = $carte->get("image_question")->getData();
+                        // dd($imageReponseFile->getClientOriginalName());
+                        unlink($this->getParameter('image_directory').'/'.$carte->getData()->getImageQuestion());
                     }
 
+                    $newFilenameImageQuestion = $this->registerImage($imageQuestionFile, $form, $slugger);
+                    $newFilenameImageReponse = $this->registerImage($imageReponseFile, $form, $slugger);
+                    
+                    $carte->getData()->setImageQuestion($newFilenameImageQuestion);
+                    $carte->getData()->setImageReponse($newFilenameImageReponse);
+                    
                     $entityManager->persist($carte->getData());
                 }
     
@@ -102,12 +87,44 @@ class DeckController extends AbstractController
     
                 return $this->redirectToRoute('deck_show', ['id' => $deck->getId()]);
             }
-    
             return $this->render('deck/create.html.twig', [
                 'deck' => $deck,
                 'form' => $form->createView(),
                 'editMode' => $deck->getId(),
             ]);
+        }
+
+        private function registerImage($imageFile, $form, $slugger)
+        {
+            
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($imageFile) {
+
+
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+
+                    $imageFile->move(
+                        $this->getParameter('image_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+
+                return $newFilename;
+
+            }
         }
     
         /**

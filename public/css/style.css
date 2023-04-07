@@ -127,9 +127,10 @@ h2 {
   }
 
 
-
-
-
+  .image-card img{
+    max-height: 200px;
+    max-width: 270px;
+  }
 
 
   #select-deck-zone .tab-buttons {
@@ -227,6 +228,8 @@ h2 {
   }
 
   .question, .response {
+    display: flex;
+    flex-direction: column;
     border: 15px solid whitesmoke;
     border-radius: 15px;
     position: absolute;

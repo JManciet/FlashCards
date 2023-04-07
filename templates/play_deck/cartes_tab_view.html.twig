@@ -6,10 +6,16 @@
         <div class="question">
             <div class="header-card"><span>Question:</span></div>
             <div class="body-card"><p>{{ ramdomCarte.question }}</p></div>
+            {% if ramdomCarte.image_question %}
+            <div class="image-card"><p><img src="{{ asset('uploads/img/'~ramdomCarte.image_question) }}" alt=""></p></div>
+            {% endif %}
         </div>
         <div class="response">
             <div class="header-card"><span>Reponse:</span></div>
             <div class="body-card"><p>{{ ramdomCarte.reponse }}</p></div>
+            {% if ramdomCarte.image_reponse %}
+            <div class="image-card"><p><img src="{{ asset('uploads/img/'~ramdomCarte.image_reponse) }}" alt=""></p></div>
+            {% endif %}
         </div>
     </div>
 </div>

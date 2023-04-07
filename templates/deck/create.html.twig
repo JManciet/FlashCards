@@ -40,7 +40,12 @@
                 <tr class="carte">
                     <td>{{ nbrCarte }}</td>
                     <td>{{ form_widget(carte.question) }}</td>
-                    <td>{{ form_widget(carte.image_question) }}</td>
+                    <td>
+                        {% if deck.cartes[loop.index0].imageQuestion %}
+                        <div class="image-card"><p><img id="image-preview" src="{{ asset('uploads/img/'~deck.cartes[loop.index0].imageQuestion) }}" alt=""></p></div>
+                        {% endif %}
+                        {{ form_widget(carte.image_question, {'attr': {'class': 'image-input'}}) }}
+                    </td>
                     <td>{{ form_widget(carte.reponse) }}</td>
                     <td>{{ form_widget(carte.image_reponse) }}</td>
                     <td>
@@ -132,5 +137,24 @@ $cardCollectionHolder.on('click', '[data-card-remove]', function() {
         $(this).find('td:first-child').text(++refreshNbrAddCarte)
     })
 });
+
+var imageInputs = document.querySelector('.image-input')
+
+
+
+
+imageInputs.addEventListener('change', function(event) {
+    previewImage(event);
+  });
+
+function previewImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+    reader.onload = function(){
+      var preview = document.getElementById('image-preview');
+      preview.src = reader.result;
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
     </script>
 {% endblock %}

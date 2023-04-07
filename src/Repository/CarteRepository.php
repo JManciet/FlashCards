@@ -46,7 +46,7 @@ class CarteRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select('cart.id', 'cart.question', 'cart.reponse', 'po.position',)
+        $qb->select('cart.id', 'cart.question', 'cart.image_question', 'cart.reponse', 'cart.image_reponse', 'po.position',)
             ->from('App\Entity\PositionCarte', 'po')
             ->innerJoin('po.carte', 'cart')
             ->where('po.utilisateur = :uId')
@@ -96,7 +96,7 @@ class CarteRepository extends ServiceEntityRepository
 
 
         $sub = $em->createQueryBuilder();
-        $sub->select('cart.id', 'cart.question', 'cart.reponse')
+        $sub->select('cart.id', 'cart.question', 'cart.image_question', 'cart.reponse', 'cart.image_reponse')
             ->from('App\Entity\Deck', 'de')
             ->innerJoin('de.cartes', 'cart')
             // ->where('de.utilisateur = :uId')
