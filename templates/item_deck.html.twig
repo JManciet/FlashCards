@@ -1,81 +1,83 @@
-<div class="item-deck tree-1">
+<div id="container-item-deck">
+    <div class="item-deck tree-1">
 
-    <div class="item-deck tree-1-1">
+        <div class="item-deck tree-1-1">
 
-        <div class="item-deck tree-1-1-1">
+            <div class="item-deck tree-1-1-1">
 
-            <div class="item-deck tree-1-1-1-1"><span>categorie : </span><span>{{ deck.categorie.nom }}</span></div>  
-            <div class="item-deck tree-1-1-1-2"><a href="{{ path('app_play_deck', {'idUtilisateur': deck.utilisateur.id,'idDeck': deck.id} ) }}">Mémoriser ce deck</a><span>{{ deck.cartes|length }} cartes</span></div>
-        
-        </div>
-        <div class="item-deck tree-1-1-2">
+                <div class="item-deck tree-1-1-1-1"><span>categorie : </span><span>{{ deck.categorie.nom }}</span></div>  
+                <div class="item-deck tree-1-1-1-2"><a href="{{ path('app_play_deck', {'idUtilisateur': deck.utilisateur.id,'idDeck': deck.id} ) }}">Mémoriser ce deck</a><span>{{ deck.cartes|length }} cartes</span></div>
+            
+            </div>
+            <div class="item-deck tree-1-1-2">
 
-            <div class="item-deck title">{{ deck.titre }}</div>
-            <div>
-                {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
-                    <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red fa-solid fa-heart"></i>
-                {% else %}
-                    <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori fa-solid fa-heart-circle-plus"></i>   
-                {% endfor %}  
+                <div class="item-deck title">{{ deck.titre }}</div>
+                <div>
+                    {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
+                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red fa-solid fa-heart"></i>
+                    {% else %}
+                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori fa-solid fa-heart-circle-plus"></i>   
+                    {% endfor %}  
+                </div>
+
             </div>
 
+            <div class="item-deck tree-1-1-3">
+
+                    <div>
+                        <span>par : </span><a href="{{ path('show_utilisateur', {'id': deck.utilisateur.id }) }}">{{ deck.utilisateur.pseudo }}</a>
+                    </div>
+                    <div>
+                        Note avec étoiles
+                    </div>
+
+            </div>
         </div>
+        <div class="item-deck tree-1-2">
+            <div class="item-deck tree-1-2-1"><span>description : </span>{{ deck.description }}</div>
+            <div class="item-deck tree-1-2-2"><span>progression : </span> 
 
-        <div class="item-deck tree-1-1-3">
-
-                <div>
-                    <span>par : </span><a href="{{ path('show_utilisateur', {'id': deck.utilisateur.id }) }}">{{ deck.utilisateur.pseudo }}</a>
-                </div>
-                <div>
-                    Note avec étoiles
-                </div>
-
-        </div>
-    </div>
-    <div class="item-deck tree-1-2">
-        <div class="item-deck tree-1-2-1"><span>description : </span>{{ deck.description }}</div>
-        <div class="item-deck tree-1-2-2"><span>progression : </span> 
-
-            <div data-deck-id="{{ deck.id }}" class="progress-deck list">
+                <div data-deck-id="{{ deck.id }}" class="progress-deck list">
 
 
-                {% set nbrCarte = deck.cartes|length %}
-                {% set nbrNoLevel = nbrCarte %}
-                {% set nbrLevel0 = 0 %}
-                {% set nbrLevel1 = 0 %}
-                {% set nbrLevel2 = 0 %}
-                {% for carte in deck.cartes %}
+                    {% set nbrCarte = deck.cartes|length %}
+                    {% set nbrNoLevel = nbrCarte %}
+                    {% set nbrLevel0 = 0 %}
+                    {% set nbrLevel1 = 0 %}
+                    {% set nbrLevel2 = 0 %}
+                    {% for carte in deck.cartes %}
 
-                    {% for positionCarte in carte.positionCartes|filter(positionCarte => positionCarte.utilisateur == app.user) %}
+                        {% for positionCarte in carte.positionCartes|filter(positionCarte => positionCarte.utilisateur == app.user) %}
 
-                        {% set nbrNoLevel = nbrNoLevel - 1 %}
+                            {% set nbrNoLevel = nbrNoLevel - 1 %}
 
-                        {% if positionCarte.position == 0 %}
+                            {% if positionCarte.position == 0 %}
 
-                            {% set nbrLevel0 = nbrLevel0 + 1 %}
+                                {% set nbrLevel0 = nbrLevel0 + 1 %}
 
-                        {% elseif positionCarte.position == 1 %}
+                            {% elseif positionCarte.position == 1 %}
 
-                            {% set nbrLevel1 = nbrLevel1 + 1 %}
+                                {% set nbrLevel1 = nbrLevel1 + 1 %}
 
-                        {% elseif positionCarte.position == 2 %}
+                            {% elseif positionCarte.position == 2 %}
 
-                            {% set nbrLevel2 = nbrLevel2 + 1 %}
+                                {% set nbrLevel2 = nbrLevel2 + 1 %}
 
-                        {% endif %}
+                            {% endif %}
+
+                        {% endfor %}
 
                     {% endfor %}
+                    {% if nbrCarte != 0  %}
+                        <div class="no-level" {{'style=width:'~ 100 * nbrNoLevel / nbrCarte ~'%'}}></div>
+                        <div class="level-0" {{'style=width:'~ 100 * nbrLevel0 / nbrCarte ~'%'}}></div>
+                        <div class="level-1" {{'style=width:'~ 100 * nbrLevel1 / nbrCarte ~'%'}}></div>
+                        <div class="level-2" {{'style=width:'~ 100 * nbrLevel2 / nbrCarte ~'%'}}></div>
+                    {% endif %}
+                </div>
 
-                {% endfor %}
-                {% if nbrCarte != 0  %}
-                    <div class="no-level" {{'style=width:'~ 100 * nbrNoLevel / nbrCarte ~'%'}}></div>
-                    <div class="level-0" {{'style=width:'~ 100 * nbrLevel0 / nbrCarte ~'%'}}></div>
-                    <div class="level-1" {{'style=width:'~ 100 * nbrLevel1 / nbrCarte ~'%'}}></div>
-                    <div class="level-2" {{'style=width:'~ 100 * nbrLevel2 / nbrCarte ~'%'}}></div>
-                {% endif %}
             </div>
-
         </div>
-    </div>
 
+    </div>
 </div>

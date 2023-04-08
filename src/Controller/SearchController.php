@@ -6,6 +6,7 @@ use App\Entity\Deck;
 use App\Entity\Categorie;
 use App\Repository\DeckRepository;
 use App\Repository\CategorieRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -73,7 +74,7 @@ class SearchController extends AbstractController
     /**
      * @Route("/recherche", name="search")
      */
-    public function search(Request $request, CategorieRepository $repository)
+    public function search(Request $request, CategorieRepository $repository, PaginatorInterface $paginator)
 {
 
     $categories = $repository->findAll();
@@ -122,9 +123,17 @@ class SearchController extends AbstractController
 
     $decks = $queryBuilder->getQuery()->getResult();
 
+    $pagination = $paginator->paginate(
+        $decks, /* query NOT result */
+        $request->query->getInt('page', 1), /*page number*/
+        10 /*limit per page*/
+    );
+
+
     return $this->render('search/results.html.twig', [
         'decks' => $decks,
-        'categories' => $categories
+        'categories' => $categories,
+        'pagination' => $pagination
     ]);
 }
 }

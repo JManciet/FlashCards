@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Résultats de la recherche</h1>
+    <h1>Résultats de la recherche:</h1>
 
 
     <form method="GET" action="{{ path('search') }}">
@@ -26,14 +26,17 @@
     {% if decks|length == 0 %}
         <p>Aucun résultat trouvé.</p>
     {% else %}
+    {{ pagination.getTotalItemCount }} résultas.
         <div>
-            {% for deck in decks %}
+            {% for deck in pagination %}
                 {% include 'item_deck.html.twig' with {'deck': deck } %}
             {% endfor %}
         </div>
     {% endif %}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 </div>
-
 <script>
 const searchInput = document.querySelector('#query');
 const titreInput = document.querySelector('#titre');
