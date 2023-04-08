@@ -1,4 +1,4 @@
-<div id="container-item-deck">
+<div class="container-item-deck">
     <div class="item-deck tree-1">
 
         <div class="item-deck tree-1-1">
@@ -6,7 +6,7 @@
             <div class="item-deck tree-1-1-1">
 
                 <div class="item-deck tree-1-1-1-1"><span>categorie : </span><span>{{ deck.categorie.nom }}</span></div>  
-                <div class="item-deck tree-1-1-1-2"><a href="{{ path('app_play_deck', {'idUtilisateur': deck.utilisateur.id,'idDeck': deck.id} ) }}">Mémoriser ce deck</a><span>{{ deck.cartes|length }} cartes</span></div>
+                <div class="item-deck tree-1-1-1-2"><a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Mémoriser ce deck</a><span>{{ deck.cartes|length }} cartes</span></div>
             
             </div>
             <div class="item-deck tree-1-1-2">

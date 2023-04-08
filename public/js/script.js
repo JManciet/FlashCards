@@ -125,7 +125,7 @@ function displayTabSelectDeck(tabIndex) {
     selectDeckTabButton.style.backgroundColor = 'grey';
     if (selectDeckTabButton.getAttribute('data-tab') === tabIndex) {
       selectDeckTabButton.classList.add('active');
-      selectDeckTabButton.style.backgroundColor = 'red';
+      selectDeckTabButton.style.backgroundColor = '#e7e7e7';
     }
   });
 

@@ -6,4 +6,11 @@
 
 <h1>Bienvenue {{ app.user.pseudo }}</h1>
 
+<form class="form-inline my-2 my-lg-0" method="GET" action="{{ path('search') }}">
+
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="query" name="query" value="{{ app.request.query.get('query') }}" />
+    <button type="submit" class="btn btn-outline-success my-2 my-sm-0"><i class="fas fa-search"></i></button>
+
+</form>
+
 {% endblock %}

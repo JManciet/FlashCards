@@ -18,12 +18,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class PlayDeckController extends AbstractController
 {
     /**
-     * @Route("/play/deck/{idUtilisateur}/{idDeck}", name="app_play_deck")
-     * @ParamConverter("utilisateur", options={"mapping": {"idUtilisateur": "id"}})
-     * @ParamConverter("deck", options={"mapping": {"idDeck": "id"}})
+     * @Route("/play/deck/{id}", name="app_play_deck")
      */
 
-    public function index(ManagerRegistry $doctrine, Utilisateur $utilisateur ,Deck $deck): Response
+    public function index(ManagerRegistry $doctrine ,Deck $deck): Response
     {
 
 
