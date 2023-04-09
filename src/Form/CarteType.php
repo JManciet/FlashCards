@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class CarteType extends AbstractType
@@ -24,7 +25,8 @@ class CarteType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add('image_question', FileType::class, [
-                'attr' => ['class' => 'image-input'],
+                'attr' => ['class' => 'image-input',
+                            'onchange' => 'previewImage(this)'],
                 'label' => 'Brochure (PDF file)',
                 'data_class' => null,
                 // unmapped means that this field is not associated to any entity property
@@ -68,6 +70,20 @@ class CarteType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image file',
                     ])
                 ],
+            ])
+            ->add('image_question_delete', CheckboxType::class, [
+                'attr' => ['class' => 'hidden-delete',
+                            'onchange' => 'deleteImage(this)',
+                            'style' => 'display: none;'],
+                'required'   => false,
+                'mapped' => false
+            ])
+            ->add('image_reponse_delete', CheckboxType::class, [
+                'attr' => ['class' => 'hidden-delete',
+                            'onchange' => 'deleteImage(this)',
+                            'style' => 'display: none;'],
+                'required'   => false,
+                'mapped' => false
             ])
             // ->add('deck', HiddenType::class)
         ;

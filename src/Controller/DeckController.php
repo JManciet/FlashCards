@@ -67,19 +67,31 @@ class DeckController extends AbstractController
                     $imageQuestionFile = $carte->get("image_question")->getData();
                     $imageReponseFile = $carte->get("image_reponse")->getData();
 
+                    $deleteImageQuestion = $carte->get("image_question_delete")->getData();
+                    $deleteImageReponse = $carte->get("image_reponse_delete")->getData();
+                    // dd($delete);
+
                     // supprimer l'ancienne image si elle existe
-                    if ($carte->getData()->getImageQuestion()) {
-                        // $imageReponseFile = $carte->get("image_question")->getData();
-                        // dd($imageReponseFile->getClientOriginalName());
-                        unlink($this->getParameter('image_directory').'/'.$carte->getData()->getImageQuestion());
+                    if (($deleteImageQuestion || $imageQuestionFile) && $carte->getData()->getImageQuestion() ) {
+                        @unlink($this->getParameter('image_directory').'/'.$carte->getData()->getImageQuestion());
                     }
 
-                    $newFilenameImageQuestion = $this->registerImage($imageQuestionFile, $form, $slugger);
-                    $newFilenameImageReponse = $this->registerImage($imageReponseFile, $form, $slugger);
-                    
-                    $carte->getData()->setImageQuestion($newFilenameImageQuestion);
-                    $carte->getData()->setImageReponse($newFilenameImageReponse);
-                    
+                    // supprimer l'ancienne image si elle existe
+                    if (($deleteImageReponse || $imageReponseFile) && $carte->getData()->getImageReponse() ) {
+                        @unlink($this->getParameter('image_directory').'/'.$carte->getData()->getImageReponse());
+                    }
+                
+
+                    if(!$deleteImageQuestion && $imageQuestionFile){
+                        $newFilenameImageQuestion = $this->registerImage($imageQuestionFile, $form, $slugger);
+                        $carte->getData()->setImageQuestion($newFilenameImageQuestion);
+                    }
+
+                    if(!$deleteImageReponse && $imageReponseFile){
+                        $newFilenameImageReponse = $this->registerImage($imageReponseFile, $form, $slugger);
+                        $carte->getData()->setImageReponse($newFilenameImageReponse);
+                    }
+
                     $entityManager->persist($carte->getData());
                 }
     

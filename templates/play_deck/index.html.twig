@@ -45,7 +45,7 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     <i class="big fa-solid fa-print"></i>
                 </button>
-                <h1>{{ deck.titre }}</i></h1>
+                <h1><a href="{{ path('deck_show', {'id': deck.id} ) }}">{{ deck.titre }}</a></h1>
                 {# <a href="{{ path('ajouter_favori', {'id': deck.id}) }}"><i class="fa-solid fa-heart-circle-plus"></i></a> #}
                 
                 {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
@@ -60,10 +60,10 @@
                 par <a href="{{ path('show_utilisateur', {'id': utilisateur.id}) }}">{{deck.utilisateur.pseudo}}</a> | description :{{deck.description}}
             </div>
             <div>
-                <a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"> Editer</i></a>  |  
-                <a href="{{ path('deck_clone', {'id': deck.id}) }}"><i class="fa-solid fa-clone fa-lg"> Cloner</i></a>  |  
-                <a href="{{ path('retry_deck', {'id': deck.id}) }}"><i class="fa-solid fa-rotate-left fa-lg"> Recommencer</i></a>  |  
-                <a href="#"><i class="fa-regular fa-star-half-stroke fa-lg"> Notez ce deck</i></a>
+                <a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i>Editer</a>  |  
+                <a href="{{ path('deck_clone', {'id': deck.id}) }}"><i class="fa-solid fa-clone fa-lg"></i>Cloner</a>  |  
+                <a href="{{ path('retry_deck', {'id': deck.id}) }}"><i class="fa-solid fa-rotate-left fa-lg"></i>Recommencer</a>  |  
+                <a href="#"><i class="fa-regular fa-star-half-stroke fa-lg"></i>Notez ce deck</a>
             </div>
             <div id="tabs-play-deck">
                 <div class="tab-buttons">

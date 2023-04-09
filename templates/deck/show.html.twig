@@ -1,1 +1,53 @@
-à definir
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DeckController!{% endblock %}
+
+{% block body %}
+
+<h1>Détail du deck</h1>
+<a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Mémoriser ce deck</a><br>
+<a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i>Editer</a>
+<h2>Titre : {{deck.titre}}</h2>
+<p>Auteur : {{deck.utilisateur.pseudo}}</p>
+<p>Description : {{deck.description}}</p>
+
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Question</th>
+            <th>Réponse</th>
+        </tr>
+    </thead>
+    <tbody id="deck_cartes">
+        {% set nbrCarte = 0 %}
+        {% for carte in deck.cartes %}
+        {% set nbrCarte = nbrCarte +1 %}
+            <tr class="carte">
+                <td data-label="#">
+                    {{ nbrCarte }}
+                </td>
+                <td data-label="Question :">
+                
+                    <div><span>{{ carte.question }}</span></div>
+                    
+                    <div class="image-card"><p><img class="image-preview" src="{{ asset('uploads/img/'~carte.imageQuestion) }}" alt=""></p></div>
+                    
+                    
+                </td>
+                <td data-label="Reponse :">
+
+                    <div><span>{{ carte.reponse }}</span></div>
+                    
+                    <div class="image-card"><p><img class="image-preview" src="{{ asset('uploads/img/'~carte.imageReponse) }}" alt=""></p></div>
+                    
+                    
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

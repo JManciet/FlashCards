@@ -35,12 +35,25 @@
                     <td data-label="#">
                         {{ nbrCarte }}
                     </td>
-                    <td data-label="Question :">{{ form_widget(carte.question) }}
-                    
+                    <td data-label="Question :">
                         
+                        {{ form_widget(carte.question) }}
+
                         <div class="image-card"><p><img class="image-preview" src="{{ asset('uploads/img/'~deck.cartes[loop.index0].imageQuestion) }}" alt=""></p></div>
                         
+                        {% if deck.cartes[loop.index0].imageQuestion is not null %}
+                        <button class="delete-image btn btn-danger" type="button" onclick="deleteImage(this)">Supprimer l'image</button>
+                        {% else %}
+                        <button class="delete-image btn btn-danger" type="button" onclick="deleteImage(this)" style="display: none;">Supprimer l'image</button>
+                        {% endif %}
+
+                        <br>
+
                         {{ form_widget(carte.image_question) }}
+
+                        <div class="display-none">
+                            {{ form_row(carte.image_question_delete) }}
+                        </div>
                     </td>
                     <td data-label="Reponse :">{{ form_widget(carte.reponse) }}
 
@@ -99,8 +112,6 @@ $addCardButton.on('click', function() {
 
 });
 
-addFormCarte()
-
 function addFormCarte(){
     // On récupère le prototype HTML pour les champs de formulaire de la carte
     var prototype = $cardCollectionHolder.data('prototype');
@@ -111,9 +122,21 @@ function addFormCarte(){
 
     
     var $newCard = $('<tr class="carte"></tr>').append(
+
         $('<td data-label="#"></td>').append(++nbrAddCarte),
-        $('<td data-label="Question :"></td>').append($(newForm).find('textarea[id$="_question"]').prop('outerHTML')).append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>').append($(newForm).find('input[id$="_image_question"]').prop('outerHTML')),
-        $('<td data-label="Reponse :"></td>').append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML')).append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>').append($(newForm).find('input[id$="_image_reponse"]').prop('outerHTML')),
+
+        $('<td data-label="Question :"></td>')
+            .append($(newForm).find('textarea[id$="_question"]').prop('outerHTML'))
+            .append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>')
+            .append($(newForm).find('input[id$="_image_question"]').prop('outerHTML'))
+            .append($(newForm).find('input[id$="_image_question_delete"]').prop('outerHTML')),
+
+        $('<td data-label="Reponse :"></td>')
+            .append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML'))
+            .append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>')
+            .append($(newForm).find('input[id$="_image_reponse"]').prop('outerHTML'))
+            .append($(newForm).find('input[id$="_image_reponse_delete"]').prop('outerHTML')),
+
         $('<td></td>').append('<button type="button" class="btn btn-sm btn-danger" data-card-remove>Supprimer cette carte</button>')
     );
     
@@ -137,34 +160,55 @@ $cardCollectionHolder.on('click', '[data-card-remove]', function() {
     })
 });
 
+
+//selectPositionTabButtons.forEach((selectPositionTabButton) => {
+ //   selectPositionTabButton.addEventListener('click', (event) => {
+//      const tabIndex = event.target.getAttribute('data-tab');
+ //     displayTabPlayDeck(tabIndex);
+ //     displayBtnsPlay();
+//      switchSeeResponseWithBtnsSelectResponse();
+//      // setDimensions();
+//    });
+//});
+
 var imageInputs = document.querySelectorAll('.image-input')
-
-
-selectPositionTabButtons.forEach((selectPositionTabButton) => {
-    selectPositionTabButton.addEventListener('click', (event) => {
-      const tabIndex = event.target.getAttribute('data-tab');
-      displayTabPlayDeck(tabIndex);
-      displayBtnsPlay();
-      switchSeeResponseWithBtnsSelectResponse();
-      // setDimensions();
-    });
-  });
 
 imageInputs.forEach((imageInput) => { 
     imageInput.addEventListener('change', function(event) {
-    previewImage(event);
+    previewImage(event.target);
   });
 });
 
 function previewImage(event) {
-    var input = event.target;
+    
     var reader = new FileReader();
     
     reader.onload = function(){
-      var preview = event.target.parentElement.querySelector('.image-preview');
+      var preview = event.parentElement.querySelector('.image-preview');
+      $(preview).attr('style', 'display: block;')
+      $(event).parent().find('.delete-image').attr('style', 'display: block;');
+      $(event).parent().find('.hidden-delete').prop('checked', false);
       preview.src = reader.result;
     }
-    reader.readAsDataURL(input.files[0]);
-  }
-    </script>
+    reader.readAsDataURL(event.files[0]);
+}
+
+
+
+function deleteImage (event) {
+    //var carteImagePreview = $('#carte-image-preview');
+    //carteImagePreview.attr('src', '{{ asset('images/no-image.jpg') }}');
+    //carteImagePreview.removeAttr('class');
+    //carteImagePreview.attr('hidden', 'hidden');
+    //$('#deck_carteImagesDelete').val('true');
+    //$('#deck_carteImages').val('');
+    //$('#modifier-image').attr('style', 'display: none;');
+    $(event).attr('style', 'display: none;');
+
+    $(event).parent().find('.image-preview').attr('style', 'display: none;');
+    $(event).parent().find('.hidden-delete').prop('checked', true);
+}
+
+
+</script>
 {% endblock %}
