@@ -107,7 +107,7 @@ class PdfController extends AbstractController
                 }
             }
 
-
+            // Calcul de la position du rectangle
             $x = $this->rectX + $this->colonneEnCour * $this->rectWidth;
             $y = $this->rectY + $this->ligneEnCour * $this->rectHeight;
 
@@ -147,11 +147,7 @@ class PdfController extends AbstractController
             }
 
 
-            // // Calcul de la position du rectangle
-            // $x = $rectX + ($index % 3) * $rectWidth;
-            // $y = $rectY + floor($index / 3) * $rectHeight;
-
-            
+            // Calcul de la position du rectangle
             $x = (210 - $this->rectWidth) - ($this->rectX + $this->colonneEnCour * $this->rectWidth);
             $y = $this->rectY + $this->ligneEnCour * $this->rectHeight;
 

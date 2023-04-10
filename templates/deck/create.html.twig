@@ -55,12 +55,26 @@
                             {{ form_row(carte.image_question_delete) }}
                         </div>
                     </td>
-                    <td data-label="Reponse :">{{ form_widget(carte.reponse) }}
+                    <td data-label="Reponse :">
 
                         
+                        {{ form_widget(carte.reponse) }}
+
                         <div class="image-card"><p><img class="image-preview" src="{{ asset('uploads/img/'~deck.cartes[loop.index0].imageReponse) }}" alt=""></p></div>
                         
+                        {% if deck.cartes[loop.index0].imageReponse is not null %}
+                        <button class="delete-image btn btn-danger" type="button" onclick="deleteImage(this)">Supprimer l'image</button>
+                        {% else %}
+                        <button class="delete-image btn btn-danger" type="button" onclick="deleteImage(this)" style="display: none;">Supprimer l'image</button>
+                        {% endif %}
+
+                        <br>
+
                         {{ form_widget(carte.image_reponse) }}
+
+                        <div class="display-none">
+                            {{ form_row(carte.image_reponse_delete) }}
+                        </div>
                     </td>
                     <td>
                         <button type="button" class="btn btn-sm btn-danger" data-card-remove>Supprimer cette carte</button>
@@ -128,12 +142,14 @@ function addFormCarte(){
         $('<td data-label="Question :"></td>')
             .append($(newForm).find('textarea[id$="_question"]').prop('outerHTML'))
             .append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>')
+            .append('<button class="delete-image btn btn-danger" type="button" onclick="deleteImage(this)" style="display: none;">Supprimer l\'image</button>')
             .append($(newForm).find('input[id$="_image_question"]').prop('outerHTML'))
             .append($(newForm).find('input[id$="_image_question_delete"]').prop('outerHTML')),
 
         $('<td data-label="Reponse :"></td>')
             .append($(newForm).find('textarea[id$="_reponse"]').prop('outerHTML'))
             .append('<div class="image-card"><p><img class="image-preview" src="" alt=""></p></div>')
+            .append('<button class="delete-image btn btn-danger" type="button" onclick="deleteImage(this)" style="display: none;">Supprimer l\'image</button>')
             .append($(newForm).find('input[id$="_image_reponse"]').prop('outerHTML'))
             .append($(newForm).find('input[id$="_image_reponse_delete"]').prop('outerHTML')),
 
@@ -209,7 +225,6 @@ function deleteImage (event) {
     $(event).parent().find('.image-input').val("");
     $(event).parent().find('.hidden-delete').val(true);
 }
-
 
 </script>
 {% endblock %}

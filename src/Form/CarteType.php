@@ -27,7 +27,7 @@ class CarteType extends AbstractType
                 'required' => false,
             ])
             ->add('image_question', FileType::class, [
-                'attr' => ['class' => 'image-input',
+                'attr' => ['class' => 'image-input custom-file',
                             'onchange' => 'previewImage(this)'],
                 'label' => 'Brochure (PDF file)',
                 'data_class' => null,
@@ -51,7 +51,8 @@ class CarteType extends AbstractType
                 ],
             ])
             ->add('image_reponse', FileType::class, [
-                'attr' => ['class' => 'image-input'],
+                'attr' => ['class' => 'image-input custom-file',
+                            'onchange' => 'previewImage(this)'],
                 'label' => 'Brochure (PDF file)',
                 'data_class' => null,
                 // unmapped means that this field is not associated to any entity property

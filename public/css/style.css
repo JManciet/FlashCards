@@ -1,3 +1,5 @@
+@import "~bs-custom-file-input/dist/bs-custom-file-input.min.css";
+
 *{
   margin: 0;
   padding: 0;
@@ -184,7 +186,8 @@ h2 {
     padding: 10px;
     background-color: #e8e8e8;
     height: 700px;
-    overflow-y: scroll;
+    border-radius: 0 10px 10px 0;
+    overflow-y: auto;
   }
   
   #select-deck-zone .tab-content {
@@ -194,7 +197,8 @@ h2 {
   }
   
   #select-deck-zone .tab-content.active {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
     /* transition: background-color 3s ease-in-out; */
   }
 
@@ -425,7 +429,7 @@ h2 {
     font-size: 15px;
   }
 
-  @media screen and (max-width: 900px){
+@media screen and (max-width: 900px){
     
     
     #play-deck-zone .tab-button>span:first-child {
@@ -440,23 +444,23 @@ h2 {
 
     .table thead {
       display: none;
-      }
+    }
       
-      .table tr{
-      display: block;
-      /* margin-bottom: 40px; */
-      }
+    .table tr{
+    display: block;
+    /* margin-bottom: 40px; */
+    }
       
-      .table td {
-      display: block;
-      /* text-align: right; */
-      }
+    .table td {
+    display: block;
+    /* text-align: right; */
+    }
 
-      .table td:before {
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        }
+    .table td:before {
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+    }
 
     
 

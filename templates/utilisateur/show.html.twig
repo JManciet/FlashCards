@@ -13,7 +13,7 @@
     <h2>Liste decks</h2>
     <p>
         {% for deck in utilisateur.decks %}
-            "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'idUtilisateur': utilisateur.id,'idDeck': deck.id} ) }}">Jouer avec ce deck</a>   <br>
+            "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Jouer avec ce deck</a>   <br>
             
         {% else %}
             No decks have been found.
