@@ -187,7 +187,7 @@ function previewImage(event) {
       var preview = event.parentElement.querySelector('.image-preview');
       $(preview).attr('style', 'display: block;')
       $(event).parent().find('.delete-image').attr('style', 'display: block;');
-      $(event).parent().find('.hidden-delete').prop('checked', false);
+      $(event).parent().find('.hidden-delete').val(null);
       preview.src = reader.result;
     }
     reader.readAsDataURL(event.files[0]);
@@ -206,7 +206,8 @@ function deleteImage (event) {
     $(event).attr('style', 'display: none;');
 
     $(event).parent().find('.image-preview').attr('style', 'display: none;');
-    $(event).parent().find('.hidden-delete').prop('checked', true);
+    $(event).parent().find('.image-input').val("");
+    $(event).parent().find('.hidden-delete').val(true);
 }
 
 

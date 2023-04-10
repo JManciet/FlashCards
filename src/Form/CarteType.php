@@ -19,10 +19,12 @@ class CarteType extends AbstractType
     {
         $builder
             ->add('question', TextareaType::class, [
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
+                'required' => false,
             ])
             ->add('reponse', TextareaType::class, [
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
+                'required' => false,
             ])
             ->add('image_question', FileType::class, [
                 'attr' => ['class' => 'image-input',
@@ -71,17 +73,13 @@ class CarteType extends AbstractType
                     ])
                 ],
             ])
-            ->add('image_question_delete', CheckboxType::class, [
-                'attr' => ['class' => 'hidden-delete',
-                            'onchange' => 'deleteImage(this)',
-                            'style' => 'display: none;'],
+            ->add('image_question_delete', HiddenType::class, [
+                'attr' => ['class' => 'hidden-delete'],
                 'required'   => false,
                 'mapped' => false
             ])
-            ->add('image_reponse_delete', CheckboxType::class, [
-                'attr' => ['class' => 'hidden-delete',
-                            'onchange' => 'deleteImage(this)',
-                            'style' => 'display: none;'],
+            ->add('image_reponse_delete', HiddenType::class, [
+                'attr' => ['class' => 'hidden-delete'],
                 'required'   => false,
                 'mapped' => false
             ])

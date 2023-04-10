@@ -69,7 +69,8 @@ class DeckController extends AbstractController
 
                     $deleteImageQuestion = $carte->get("image_question_delete")->getData();
                     $deleteImageReponse = $carte->get("image_reponse_delete")->getData();
-                    // dd($delete);
+                    
+                    
 
                     // supprimer l'ancienne image si elle existe
                     if (($deleteImageQuestion || $imageQuestionFile) && $carte->getData()->getImageQuestion() ) {

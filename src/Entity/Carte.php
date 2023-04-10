@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CarteRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CarteRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass=CarteRepository::class)
@@ -20,12 +21,12 @@ class Carte
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $question;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $reponse;
 
@@ -192,5 +193,17 @@ class Carte
         return $this;
     }
 
+
+    public function validateOneFieldFilled(ExecutionContextInterface $context, $payload)
+{
+    if (!$this->reponse && !$this->question) {
+        $context->buildViolation('Au moins un champ doit être rempli')
+            ->atPath('reponse')
+            ->addViolation();
+        $context->buildViolation('Au moins un champ doit être rempli')
+            ->atPath('question')
+            ->addViolation();
+    }
+}
 
 }
