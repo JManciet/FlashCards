@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte utilisateur{% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('warning') %}
+      <div class="alert alert-warning mt-4">
+        {{ message }}
+      </div>
+    {% endfor %}
+    {% for message in app.flashes('success') %}
+      <div class="success alert-success mt-4">
+        {{ message }}
+      </div>
+    {% endfor %}
+
+
+    <h1>{{ user.pseudo }}</h1>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pseudoModal">
+        Changer de pseudo
+    </button>
+
+    <p>
+        {{ user.email }} <br>
+        {# Date d'inscription : {{ user.dateInscription | date('d-m-Y') }} #}
+    </p>
+
+    <h2>Liste de mes decks</h2>
+    <p>
+        {% for deck in user.decks %}
+            "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Jouer avec ce deck</a>   <br>
+            
+        {% else %}
+            No decks have been found.
+        {% endfor %}
+    </p>
+
+
+
+
+
+    <div class="modal fade" id="pseudoModal" tabindex="-1" role="dialog" aria-labelledby="pseudoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Formulaire de modification du pseudo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              {{ form(form) }}
+          
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% endblock %}
