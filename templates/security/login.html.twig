@@ -3,6 +3,12 @@
 {% block title %}Se connecter!{% endblock %}
 
 {% block body %}
+
+    {% for message in app.flashes('success') %}
+      <div class="success alert-success mt-4">
+        {{ message }}
+      </div>
+    {% endfor %}
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

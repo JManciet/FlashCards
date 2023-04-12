@@ -23,7 +23,7 @@ class UtilisateurType extends AbstractType
                 'maxlenght' => '50',
             ],
             'required' => true,
-            'label' => 'Pseudo',
+            'label' => 'Nouveau pseudo',
             'label_attr' => [
                 'class' => 'form-label  mt-4'
             ],
@@ -36,7 +36,7 @@ class UtilisateurType extends AbstractType
             'attr' => [
                 'class' => 'form-control'
             ],
-            'label' => 'Mot de passe',
+            'label' => 'Mot de passe actuel',
             'label_attr' => [
                 'class' => 'form-label  mt-4'
             ]

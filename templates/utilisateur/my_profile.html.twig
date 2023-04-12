@@ -16,16 +16,22 @@
     {% endfor %}
 
 
-    <h1>{{ user.pseudo }}</h1>
+    <p>Votre pseudo : {{ user.pseudo }}</p>
 
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pseudoModal">
-        Changer de pseudo
+        Changer votre pseudo
     </button>
-
+    <br><br>
     <p>
-        {{ user.email }} <br>
+      Votre email :  {{ user.email }}
         {# Date d'inscription : {{ user.dateInscription | date('d-m-Y') }} #}
     </p>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailModal">
+      Changer votre email
+    </button>
+    <br><br>
+    <a class="btn btn-primary" href="{{ path('app_forgot_password_request') }}">Changer votre mot de passe</a>
 
     <h2>Liste de mes decks</h2>
     <p>
@@ -33,7 +39,7 @@
             "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Jouer avec ce deck</a>   <br>
             
         {% else %}
-            No decks have been found.
+          Aucun decks n'a été trouvé.
         {% endfor %}
     </p>
 
