@@ -4,10 +4,45 @@
 
 {% block body %}
 
-    {% for utilisateur in utilisateurs %}
-        <a href="{{ path('show_utilisateur', {'id': utilisateur.id}) }}">{{ utilisateur.pseudo }}</a> <br>
-    {% else %}
-        No users have been found.
-    {% endfor %}
+   <h1>Liste des utilisateurs</h1>
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pseudo</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="deck_cartes">
+            {% set nbrCarte = 0 %}
+            {% for utilisateur in utilisateurs %}
+            {% set nbrCarte = nbrCarte +1 %}
+                <tr class="carte">
+                    <td data-label="#">
+                        {{ nbrCarte }}
+                    </td>
+                    <td data-label="Pseudo : ">
+                    
+                        <a href="{{ path('show_utilisateur', {'id': utilisateur.id}) }}">{{ utilisateur.pseudo }}</a>
+                        
+                    </td>
+                    <td data-label="Email : ">
+    
+                        {{ utilisateur.email }}
+                        
+                    </td>
+                    <td data-label="">
+    
+                        supprimer
+                        
+                    </td>
+                </tr>
+            {% else %}
+                Aucun utilisateur n'a été trouvé.
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

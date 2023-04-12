@@ -72,7 +72,7 @@
                                 </div>
                             </li>
                             {% if is_granted('ROLE_ADMIN') %}
-                                <li class="nav-item btn btn-dark ml-3"><a href="">Panneau d'administration</a></li>
+                                <li class="nav-item btn btn-dark ml-3"><a href="{{ path('app_utilisateur') }}">Panneau d'administration</a></li>
                             {% endif %}
 
                         </ul>
