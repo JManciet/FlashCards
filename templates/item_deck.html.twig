@@ -25,7 +25,11 @@
             <div class="item-deck tree-1-1-3">
 
                     <div>
+                        {% if deck.utilisateur %}
                         <span>par : </span><a href="{{ path('show_utilisateur', {'id': deck.utilisateur.id }) }}">{{ deck.utilisateur.pseudo }}</a>
+                        {% else %}
+                        <span>par : utilisateur supprimmé</span>
+                        {% endif %}
                     </div>
                     <div>
                         Note avec étoiles

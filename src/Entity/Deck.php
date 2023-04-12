@@ -52,6 +52,7 @@ class Deck
 
     /**
      * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="decks")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $utilisateur;
 

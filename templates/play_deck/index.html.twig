@@ -57,7 +57,11 @@
                 {# <button id="add-favori-btn" data-deck-id="{{ deck.id }}">Ajouter aux favoris AJAX</button> #}
             </div>
             <div>
-                par <a href="{{ path('show_utilisateur', {'id': utilisateur.id}) }}">{{deck.utilisateur.pseudo}}</a> | description :{{deck.description}}
+                {% if deck.utilisateur %}
+                par <a href="{{ path('show_utilisateur', {'id': deck.utilisateur.id}) }}">{{deck.utilisateur.pseudo}}</a> | description :{{deck.description}}
+                {% else %}
+                <span>par : utilisateur supprimmé</span>
+                {% endif %}
             </div>
             <div>
                 <a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i>Editer</a>  |  

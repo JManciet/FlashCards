@@ -88,7 +88,7 @@ class SearchController extends AbstractController
     $repository = $this->getDoctrine()->getRepository(Deck::class);
 
     $queryBuilder = $repository->createQueryBuilder('d')
-        ->innerJoin('d.utilisateur', 'utilisateur');
+        ->leftJoin('d.utilisateur', 'utilisateur');
 
 
     $searchAll = false;

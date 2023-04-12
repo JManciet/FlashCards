@@ -27,6 +27,29 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
+
+
+    /**
+     * @Route("/utilisateur/supprimer/{id}", name="delete_user", methods={"GET"})
+     */
+    public function delete(EntityManagerInterface $manager, Utilisateur $utilisateur): Response 
+    {
+        if($this->getUser() == $utilisateur || $this->isGranted('ROLE_ADMIN')){
+            $manager->remove($utilisateur);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'L\'utilisateur a été supprimé avec succès !'
+            );
+        }
+
+        return $this->redirectToRoute('app_utilisateur');
+    }
+
+
+
+
     /**
      * @Route("/utilisateur/{id}", name="show_utilisateur")
      */
