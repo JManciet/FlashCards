@@ -32,13 +32,13 @@ class DeckController extends AbstractController
          * @Route("/deck/nouveau", name="deck_create", methods={"GET","POST"})
          * @Route("/deck/editer/{id}/{isClone}", name="deck_edit")
          */
-        public function create(Request $request, SluggerInterface $slugger, String $isClone ,Deck $deck = null): Response
+        public function create(Request $request, SluggerInterface $slugger, String $isClone = null,Deck $deck = null): Response
         {
             $user = $this->getUser();
             $cloneMode = false;
 
 
-            if($deck->isVisibilite() && $deck->getUtilisateur() != $user){
+            if($deck && $deck->isVisibilite() && $deck->getUtilisateur() != $user){
 
                 $this->addFlash(
                     'warning',

@@ -11,13 +11,15 @@
             </div>
             <div class="item-deck tree-1-1-2">
 
-                <div class="item-deck title">{{ deck.titre }}</div>
+                <div class="item-deck title"><a href="{{ path('deck_show', {'id': deck.id} ) }}">{{ deck.titre }}</a></div>
                 <div>
-                    {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
-                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red fa-solid fa-heart"></i>
-                    {% else %}
-                        <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori fa-solid fa-heart-circle-plus"></i>   
-                    {% endfor %}  
+                    {% if app.user %}
+                        {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
+                            <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="1" class="add-favori red fa-solid fa-heart"></i>
+                        {% else %}
+                            <i onclick="addFavori(this)" data-deck-id="{{ deck.id }}" data-is-favori="0" class="add-favori fa-solid fa-heart-circle-plus"></i>   
+                        {% endfor %}  
+                    {% endif %}
                 </div>
 
             </div>

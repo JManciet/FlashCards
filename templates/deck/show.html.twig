@@ -5,10 +5,15 @@
 {% block body %}
 
 <h1>Détail du deck</h1>
-<a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Mémoriser ce deck</a><br>
-<a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i>Editer</a>
+<a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Mémoriser ce deck</a><br><br>
+{% if deck.utilisateur == app.user %}
+    <a href="{{ path('deck_edit', {'id': deck.id, 'isClone': 0 }) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i>Editer</a>  | 
+{% endif %} 
+<a href="{{ path('deck_edit', {'id': deck.id, 'isClone': 1 }) }}"><i class="fa-solid fa-clone fa-lg"></i>Cloner</a>
+<br>
+<br>
 <h2>Titre : {{deck.titre}}</h2>
-<p>Auteur : {{deck.utilisateur.pseudo}}</p>
+<p>Auteur : <a href="{{ path('show_utilisateur', {'id': deck.utilisateur.id }) }}">{{ deck.utilisateur.pseudo }}</a></p>
 <p>Description : {{deck.description}}</p>
 
 

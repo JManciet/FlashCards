@@ -25,7 +25,7 @@ class DeckType extends AbstractType
             ->add('visibilite', CheckboxType::class, [
                 'attr' => ['class' => 'checkbox-inline'],
                 'required'   => false,
-                'label' => 'Cochez cette case pour que le deck ne soit visible que par vous même : '
+                'label' => 'Cochez cette case pour que le deck ne soit visible que par vous même :  ',
             ])
             ->add('titre', TextType::class, [
                 'attr' => ['class' => 'form-control']

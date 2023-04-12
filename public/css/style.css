@@ -434,6 +434,14 @@ h2 {
     align-items: flex-start;
   }
 
+#list-decks{
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 60px;
+  row-gap: 20px;
+}
+
+
 @media screen and (max-width: 900px){
     
     

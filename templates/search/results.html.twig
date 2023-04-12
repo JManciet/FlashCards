@@ -1,16 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Résultats de la recherche:</h1>
+    <h1>Résultats de la recherche.</h1>
+ <br>
 
-
+    <h4>Rechercher dans :</h4>
     <form method="GET" action="{{ path('search') }}">
         <label for="titre">Titre</label>
-        <input onchange="updateResults()" type="checkbox" id="titre" name="titre" value="titre" />
+        <input onchange="updateResults()" type="checkbox" id="titre" name="titre" value="titre" /> | 
         <label for="description">Description</label>
-        <input onchange="updateResults()" type="checkbox" id="description" name="description" value="description" />
+        <input onchange="updateResults()" type="checkbox" id="description" name="description" value="description" /> | 
         <label for="pseudo">Auteur</label>
-        <input onchange="updateResults()" type="checkbox" id="pseudo" name="pseudo" value="pseudo" />
+        <input onchange="updateResults()" type="checkbox" id="pseudo" name="pseudo" value="pseudo" /> | 
         <label for="categorie">Catégorie :</label>
         <select onchange="updateResults()" id="categorie" name="categorie">
             <option value="">Toutes les catégories</option>
@@ -21,12 +22,12 @@
     
         {# <button type="submit">Rechercher</button> #}
     </form>
-
+    <br>
  <div id="search-results">
     {% if decks|length == 0 %}
         <p>Aucun résultat trouvé.</p>
     {% else %}
-    {{ pagination.getTotalItemCount }} résultas.
+    {{ pagination.getTotalItemCount }} résultats.
         <div>
             {% for deck in pagination %}
                 {% include 'item_deck.html.twig' with {'deck': deck } %}
