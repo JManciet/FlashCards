@@ -6,6 +6,7 @@ use App\Entity\Deck;
 use App\Form\DeckType;
 use Monolog\DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -162,6 +163,17 @@ class DeckController extends AbstractController
         }
 
 
+        /**
+         * @Route("/decks_orphelins/", name="show_decks_orphans")
+         */
+        public function showOrphansDecks(ManagerRegistry $doctrine): Response
+        {
+            $orphansDecks = $doctrine->getRepository(Deck::class)->findBy(array('utilisateur' => null));
+
+            return $this->render('admin/decks_orphans.html.twig', [
+                'orphansDecks' => $orphansDecks
+            ]);
+        }
 
     
         /**
