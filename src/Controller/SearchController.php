@@ -88,8 +88,8 @@ class SearchController extends AbstractController
     $repository = $this->getDoctrine()->getRepository(Deck::class);
 
     $queryBuilder = $repository->createQueryBuilder('d')
-        ->leftJoin('d.utilisateur', 'utilisateur');
-
+        ->leftJoin('d.utilisateur', 'utilisateur')
+        ->where('d.visibilite = 0');
 
     $searchAll = false;
 
@@ -111,7 +111,7 @@ class SearchController extends AbstractController
         $conditions[] = 'utilisateur.pseudo LIKE :query';
     }
 
-    $queryBuilder->where(implode(' OR ', $conditions))
+    $queryBuilder->andWhere(implode(' OR ', $conditions))
         ->setParameter('query', '%'.$query.'%');
 
 

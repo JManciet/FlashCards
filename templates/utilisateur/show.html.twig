@@ -13,7 +13,7 @@
     <h1>Liste decks de {{ utilisateur.pseudo }}</h1>
     
     <p>
-        {% for deck in utilisateur.decks %}
+        {% for deck in utilisateur.decks|filter(deck => deck.visibilite == 0) %}
         <div class="deck-delete">
             {# "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Jouer avec ce deck</a>   <br> #}
             {% include 'item_deck.html.twig' with {'deck': deck } %}
