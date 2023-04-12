@@ -7,6 +7,8 @@ use App\Form\DeckType;
 use Monolog\DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,22 +30,32 @@ class DeckController extends AbstractController
 
         /**
          * @Route("/deck/nouveau", name="deck_create", methods={"GET","POST"})
-         * @Route("/deck/editer/{id}", name="deck_edit")
-         * @Route("/deck/cloner/{id}", name="deck_clone")
+         * @Route("/deck/editer/{id}/{isClone}", name="deck_edit")
          */
-        public function create(Request $request, SluggerInterface $slugger, Deck $deck = null): Response
+        public function create(Request $request, SluggerInterface $slugger, String $isClone ,Deck $deck = null): Response
         {
             $user = $this->getUser();
+            $cloneMode = false;
 
+
+            if($deck->isVisibilite() && $deck->getUtilisateur() != $user){
+
+                $this->addFlash(
+                    'warning',
+                    'Ce deck est privé !'
+                );
+    
+                return $this->redirectToRoute('app_home');
+            }
 
             if(!$deck){
 
                 $deck = new Deck();
                 $deck->setUtilisateur($user);
 
-            }elseif($user != $deck->getUtilisateur()){
+            }elseif($isClone){
 
-                $copiedMode = true;
+                $cloneMode = true;
 
                 $deck = clone $deck;
                 $deck->setUtilisateur($user);
@@ -106,8 +118,12 @@ class DeckController extends AbstractController
                 'deck' => $deck,
                 'form' => $form->createView(),
                 'editMode' => $deck->getId(),
+                'cloneMode' => $cloneMode
             ]);
         }
+
+
+
 
         private function registerImage($imageFile, $form, $slugger)
         {
@@ -181,6 +197,19 @@ class DeckController extends AbstractController
          */
         public function show(Deck $deck): Response
         {
+
+
+            if($deck->isVisibilite() && $deck->getUtilisateur() != $this->getUser()){
+
+                $this->addFlash(
+                    'warning',
+                    'Ce deck est privé !'
+                );
+    
+                return $this->redirectToRoute('app_home');
+            }
+
+
             return $this->render('deck/show.html.twig', [
                 'deck' => $deck,
             ]);

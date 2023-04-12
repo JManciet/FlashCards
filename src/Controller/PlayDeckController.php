@@ -25,6 +25,16 @@ class PlayDeckController extends AbstractController
     {
 
 
+        if($deck->isVisibilite() && $deck->getUtilisateur() != $this->getUser()){
+
+            $this->addFlash(
+                'warning',
+                'Ce deck est privé !'
+            );
+
+            return $this->redirectToRoute('app_home');
+        }
+
         $accesDeck = $doctrine->getRepository(AccesDeck::class)->findOneBy(array('utilisateur' => $this->getUser(), 'deck' => $deck));
         
         $entityManager = $this->getDoctrine()->getManager();
@@ -56,5 +66,6 @@ class PlayDeckController extends AbstractController
             'cartesDeckInPositionCarte' => $cartesDeckInPositionCarte,
             'cartesDeckNotInPositionCarte' => $cartesDeckNotInPositionCarte,
         ]);
+
     }
 }

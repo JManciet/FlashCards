@@ -2,7 +2,7 @@
 
 {% block body %}
 
-{% if editMode %}
+{% if editMode and not cloneMode %}
 <h1>Editer votre deck</h1>
 {% else %}
 <h1>Créer un nouveau deck</h1>
@@ -13,6 +13,7 @@
     {{ form_row(form.titre) }}
     {{ form_row(form.description) }}
     {{ form_row(form.categorie) }}
+    <br>
     {{ form_row(form.visibilite) }}
 
 
@@ -85,10 +86,10 @@
     </table>
     <button type="button" class="btn btn-sm btn-success" data-card-add>Ajouter une carte</button>
 
-    <br>
+    <br><br>
 
 
-    {% if editMode %}
+    {% if editMode and not cloneMode %}
         <button type="submit" class="btn btn-primary">Editer le deck</button>
     {% else %}
         <button type="submit" class="btn btn-primary">Créer le deck</button>

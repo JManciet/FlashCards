@@ -4,6 +4,12 @@
 
 {% block body %}
 
+{% for message in app.flashes('warning') %}
+    <div class="alert alert-warning mt-4">
+    {{ message }}
+    </div>
+{% endfor %}
+
 <h1>Bienvenue {{ app.user.pseudo }}</h1>
 
 <form class="form-inline my-2 my-lg-0" method="GET" action="{{ path('search') }}">

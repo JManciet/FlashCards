@@ -35,6 +35,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/play, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/deck, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

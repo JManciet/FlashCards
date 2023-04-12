@@ -23,9 +23,9 @@ class DeckType extends AbstractType
     {
         $builder
             ->add('visibilite', CheckboxType::class, [
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'checkbox-inline'],
                 'required'   => false,
-                'label' => 'Privé'
+                'label' => 'Cochez cette case pour que le deck ne soit visible que par vous même : '
             ])
             ->add('titre', TextType::class, [
                 'attr' => ['class' => 'form-control']
@@ -47,10 +47,10 @@ class DeckType extends AbstractType
                 'prototype' => true,
                 'by_reference' => false,
             ])
-            ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-success'],
-                'label' => 'Créer le deck'
-                ])
+            // ->add('save', SubmitType::class, [
+            //     'attr' => ['class' => 'btn btn-success'],
+            //     'label' => 'Créer le deck'
+            //     ])
             ;
 
     }
