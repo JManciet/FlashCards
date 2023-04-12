@@ -41,7 +41,7 @@
                     </td>
                     <td data-label="">
     
-                        <a class="btn btn-danger" href="{{ path('delete_user', {'id': utilisateur.id}) }}">Supprimer cet utilisateur</a>
+                        <a class="btn btn-danger delete-link" href="{{ path('delete_user', {'id': utilisateur.id}) }}" data-confirm="Êtes-vous sûr de vouloir supprimer l'utilisateur {{ utilisateur.pseudo }}?">Supprimer cet utilisateur</a>
                         
                     </td>
                 </tr>
@@ -51,4 +51,16 @@
         </tbody>
     </table>
 
+
+    <script>
+        const deleteLinks = document.querySelectorAll('.delete-link');
+        deleteLinks.forEach(link => {
+            link.addEventListener('click', event => {
+                const confirmMessage = link.getAttribute('data-confirm');
+                if (!confirm(confirmMessage)) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
 {% endblock %}
