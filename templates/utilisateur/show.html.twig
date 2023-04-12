@@ -4,12 +4,23 @@
 
 {% block body %}
 
+    {% for message in app.flashes('success') %}
+      <div class="success alert-success mt-4">
+        {{ message }}
+      </div>
+    {% endfor %}
+
     <h1>Liste decks de {{ utilisateur.pseudo }}</h1>
     
     <p>
         {% for deck in utilisateur.decks %}
-            "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Jouer avec ce deck</a>   <br>
-            
+        <div class="deck-delete">
+            {# "{{ deck.titre }}" de la catégorie: {{ deck.categorie.nom }}  <a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Jouer avec ce deck</a>   <br> #}
+            {% include 'item_deck.html.twig' with {'deck': deck } %}
+            {% if app.user == utilisateur or is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-danger" href="{{ path('delete_deck', {'id': deck.id}) }}">Supprimer ce deck</a>
+            {% endif %}
+        </div>    
         {% else %}
             Aucun deck n'a été trouvé.
         {% endfor %}

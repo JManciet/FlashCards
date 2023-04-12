@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Deck;
 use App\Form\DeckType;
 use Monolog\DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -139,6 +140,29 @@ class DeckController extends AbstractController
 
             }
         }
+
+
+
+        /**
+         * @Route("/deck/delette/{id}", name="delete_deck", methods={"GET"})
+         */
+        public function delete(EntityManagerInterface $manager, Deck $deck): Response 
+        {
+            if($this->getUser() == $deck->getUtilisateur() || $this->isGranted('ROLE_ADMIN')){
+                $manager->remove($deck);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Le deck a été supprimé avec succès !'
+                );
+            }
+
+            return $this->redirectToRoute('show_utilisateur', ['id' => $deck->getUtilisateur()->getId()]);
+        }
+
+
+
     
         /**
          * @Route("/deck/{id}", name="deck_show", methods={"GET"})
