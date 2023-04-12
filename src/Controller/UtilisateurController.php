@@ -9,6 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -34,7 +35,25 @@ class UtilisateurController extends AbstractController
      */
     public function delete(EntityManagerInterface $manager, Utilisateur $utilisateur): Response 
     {
-        if($this->getUser() == $utilisateur || $this->isGranted('ROLE_ADMIN')){
+
+        if ($this->getUser() == $utilisateur )
+        {
+            // dd("dzdzdz");
+            $session = $this->get('session');
+            $session = new Session();
+            $session->invalidate();
+
+            $manager->remove($utilisateur);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre compte a été supprimé avec succès !'
+            );
+
+        }
+        else if($this->isGranted('ROLE_ADMIN'))
+        {
             $manager->remove($utilisateur);
             $manager->flush();
 
@@ -42,9 +61,11 @@ class UtilisateurController extends AbstractController
                 'success',
                 'L\'utilisateur a été supprimé avec succès !'
             );
+
+            return $this->redirectToRoute('app_utilisateur');
         }
 
-        return $this->redirectToRoute('app_utilisateur');
+        return $this->redirectToRoute('app_login');
     }
 
 

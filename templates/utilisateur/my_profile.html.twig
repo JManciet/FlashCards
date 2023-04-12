@@ -15,26 +15,28 @@
       </div>
     {% endfor %}
 
-
-    <p>Votre pseudo : {{ user.pseudo }}</p>
+    <h1>Administration de votre profil utilisateur</h1>
+    <br>
+    <h3>Votre pseudo : {{ user.pseudo }}</h3>
 
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pseudoModal">
-        Changer votre pseudo
+        Changer mon pseudo
     </button>
     <br><br>
-    <p>
+    <h3>
       Votre email :  {{ user.email }}
         {# Date d'inscription : {{ user.dateInscription | date('d-m-Y') }} #}
-    </p>
+    </h3>
 
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailModal">
-      Changer votre email
+      Changer mon email
     </button>
     <br><br>
-    <a class="btn btn-primary" href="{{ path('app_forgot_password_request') }}">Changer votre mot de passe</a>
+    <a class="btn btn-primary" href="{{ path('app_forgot_password_request') }}">Changer mon mot de passe</a>
     <br><br>
     <a class="btn btn-primary" href="{{ path('show_utilisateur', {'id': user.id}) }}">Voir mes decks</a>
-
+    <br><br>
+    <a class="btn btn-danger" href="{{ path('delete_user', {'id': user.id}) }}">Supprimer mon compte</a>
 
 
 

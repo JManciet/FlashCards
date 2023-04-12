@@ -64,7 +64,9 @@
                 {% endif %}
             </div>
             <div>
-                <a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i>Editer</a>  |  
+                {% if deck.utilisateur == app.user %}
+                    <a href="{{ path('deck_edit', {'id': deck.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i>Editer</a>  | 
+                {% endif %} 
                 <a href="{{ path('deck_clone', {'id': deck.id}) }}"><i class="fa-solid fa-clone fa-lg"></i>Cloner</a>  |  
                 <a href="{{ path('retry_deck', {'id': deck.id}) }}"><i class="fa-solid fa-rotate-left fa-lg"></i>Recommencer</a>  |  
                 <a href="#"><i class="fa-regular fa-star-half-stroke fa-lg"></i>Notez ce deck</a>
