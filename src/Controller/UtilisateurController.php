@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
-use App\Form\UtilisateurType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\UtilisateurUpdatePseudoType;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Form\UtilisateurDeleteAccountType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,11 +46,6 @@ class UtilisateurController extends AbstractController
 
             $manager->remove($utilisateur);
             $manager->flush();
-
-            $this->addFlash(
-                'success',
-                'Votre compte a été supprimé avec succès !'
-            );
 
         }
         else if($this->isGranted('ROLE_ADMIN'))
@@ -93,18 +89,18 @@ class UtilisateurController extends AbstractController
         if(!$user) return $this->redirectToRoute('app_login');
 
 
-        $form = $this->createForm(UtilisateurType::class, $user);
+        $formUpdatePseudo = $this->createForm(UtilisateurUpdatePseudoType::class, $user);
 
-        $form->handleRequest($request);
+        $formUpdatePseudo->handleRequest($request);
         // dd($user);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($formUpdatePseudo->isSubmitted() && $formUpdatePseudo->isValid()) {
 
-            // dd($form->get('password')->getData());
-            if ($hasher->isPasswordValid($user, $form->get('password')->getData())) {
+            // dd($formUpdatePseudo->get('password')->getData());
+            if ($hasher->isPasswordValid($user, $formUpdatePseudo->get('password')->getData())) {
                 // dd($user);
                 // dd('aaa');
                 // Mettre à jour le pseudo de l'utilisateur
-                $user->setPseudo($form->get('pseudo')->getData());
+                $user->setPseudo($formUpdatePseudo->get('pseudo')->getData());
     
                 $manager->flush();
 
@@ -123,9 +119,37 @@ class UtilisateurController extends AbstractController
         }
 
 
+        $formDeleteAccount = $this->createForm(UtilisateurDeleteAccountType::class, $user);
+
+        $formDeleteAccount->handleRequest($request);
+        // dd($user);
+        if ($formDeleteAccount->isSubmitted() && $formDeleteAccount->isValid()) {
+
+            // dd($formDeleteAccount->get('password')->getData());
+            if ($hasher->isPasswordValid($user, $formDeleteAccount->get('password')->getData())) {
+                // dd($user);
+                $session = $this->get('session');
+                $session = new Session();
+                $session->invalidate();
+
+                $manager->remove($user);
+                $manager->flush();
+
+                return $this->redirectToRoute('app_login');
+
+                } else {
+                $this->addFlash(
+                    'warning',
+                    'Le mot de passe renseigné est incorrect.'
+                );
+            }
+        }
+
+
         return $this->render('utilisateur/my_profile.html.twig', [
             'user' => $user,
-            'form' => $form->createView(),
+            'formUpdatePseudo' => $formUpdatePseudo->createView(),
+            'formDeleteAccount' => $formDeleteAccount->createView(),
         ]);
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class UtilisateurType extends AbstractType
+class UtilisateurUpdatePseudoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -41,7 +41,7 @@ class UtilisateurType extends AbstractType
                 'class' => 'form-label  mt-4'
             ]
         ])
-        ->add('submit', SubmitType::class, [
+        ->add('valider', SubmitType::class, [
             'attr' => [
                 'class' => 'btn btn-primary mt-4'
             ]
