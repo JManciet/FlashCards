@@ -732,3 +732,35 @@ $(document).ready(function() {
     });
   });
 });
+
+
+
+//Formulaire évaluation avec étoiles
+$(document).ready(function() {
+  // Récupération des éléments du DOM
+  var $star_rating = $('.star-rating .fa');
+  var $input = $('#note_deck_note');
+  $input.val('2');
+  // Initialisation de l'affichage des étoiles
+  $star_rating.on('click', function() {
+      var ratingValue = $(this).data('rating');
+      // alert(ratingValue)
+      $input.find("[value='"+ratingValue+"']").prop("checked", true);
+      // $input.val(ratingValue);
+      $star_rating.siblings('.fa-star').removeClass('fas').addClass('far');
+      $(this).prevAll('.fa-star').removeClass('far').addClass('fas');
+      $(this).removeClass('far').addClass('fas');
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+

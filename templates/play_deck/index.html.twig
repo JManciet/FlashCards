@@ -65,11 +65,14 @@
             </div>
             <div>
                 {% if deck.utilisateur == app.user %}
-                    <a href="{{ path('deck_edit', {'id': deck.id, 'isClone': 0 }) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i>Editer</a>  | 
+                    <a class="btn btn-link" href="{{ path('deck_edit', {'id': deck.id, 'isClone': 0 }) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i>Editer</a>  | 
                 {% endif %} 
-                <a href="{{ path('deck_edit', {'id': deck.id, 'isClone': 1 }) }}"><i class="fa-solid fa-clone fa-lg"></i>Cloner</a>  |  
-                <a href="{{ path('retry_deck', {'id': deck.id}) }}"><i class="fa-solid fa-rotate-left fa-lg"></i>Recommencer</a>  |  
-                <a href="#"><i class="fa-regular fa-star-half-stroke fa-lg"></i>Notez ce deck</a>
+                <a class="btn btn-link" href="{{ path('deck_edit', {'id': deck.id, 'isClone': 1 }) }}"><i class="fa-solid fa-clone fa-lg"></i>Cloner</a>  |  
+                <a class="btn btn-link" href="{{ path('retry_deck', {'id': deck.id}) }}"><i class="fa-solid fa-rotate-left fa-lg"></i>Recommencer</a>  |  
+                {# <a href="#"><i class="fa-regular fa-star-half-stroke fa-lg"></i>Notez ce deck</a> #}
+                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#noteModal">
+                    <i class="fa-regular fa-star-half-stroke fa-lg"></i>Notez ce deck
+                </button>
             </div>
             <div id="tabs-play-deck">
                 <div class="tab-buttons">
@@ -245,6 +248,46 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
           <button type="submit" class="btn btn-primary" form="formulairePdf">Générer PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- Modal Note-->
+  <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Laisser une évaluation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+            {{ form_start(form) }}
+                <div style="display: none">
+                    {{ form_widget(form.note) }}
+                </div>
+                <div class="star-rating">
+                    {% for i in 1..5 %}
+                        {% if i <= form.note.vars.value %}
+                            <span class="fa fa-star checked fa-xl" data-rating="{{ i }}"></span>
+                        {% else %}
+                            <span class="fa fa-star fa-lg" data-rating="{{ i }}"></span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <br>
+                <button type="submit" class="btn btn-info">Valider</button>
+            {{ form_end(form) }}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
         </div>
       </div>
     </div>
