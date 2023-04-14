@@ -10,7 +10,9 @@
     </div>
 {% endfor %}
 
+{% if app.user %}
 <h1>Bienvenue {{ app.user.pseudo }}</h1>
+{% endif %}
 
 <form class="form-inline my-2 my-lg-0" method="GET" action="{{ path('search') }}">
 
