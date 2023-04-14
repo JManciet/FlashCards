@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Deck;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Deck>
@@ -38,6 +39,54 @@ class DeckRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+
+    public function findDecksByfilter(Request $request)
+    {
+        $query = $request->query->get('query');
+        $titre = $request->query->get('titre');
+        $description = $request->query->get('description');
+        $pseudo = $request->query->get('pseudo');
+        $categorieId = $request->query->get('categorie');
+
+        $queryBuilder = $this->createQueryBuilder('d')
+            ->leftJoin('d.utilisateur', 'utilisateur')
+            ->where('d.visibilite = 0');
+
+        $searchAll = false;
+
+        if(!$titre && !$description && !$pseudo){
+            $searchAll = true;
+        }
+        
+        $conditions = [];
+
+        if ($titre || $searchAll) {
+            $conditions[] = 'd.titre LIKE :query';
+        }
+
+        if ($description || $searchAll) {
+            $conditions[] = 'd.description LIKE :query';
+        }
+
+        if ($pseudo || $searchAll) {
+            $conditions[] = 'utilisateur.pseudo LIKE :query';
+        }
+
+        $queryBuilder->andWhere(implode(' OR ', $conditions))
+            ->setParameter('query', '%'.$query.'%');
+
+
+        if ($categorieId) {
+            $qb->andWhere('d.categorie = :categorie')
+            ->setParameter('categorie', $categoryId);
+        }
+
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+
 
 
     // Find/search articles by title/content

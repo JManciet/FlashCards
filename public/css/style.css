@@ -441,6 +441,10 @@ h2 {
   row-gap: 20px;
 }
 
+.fa-star.fas {
+  color: orange;
+}
+
 
 @media screen and (max-width: 900px){
     

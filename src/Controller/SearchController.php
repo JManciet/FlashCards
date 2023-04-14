@@ -74,66 +74,26 @@ class SearchController extends AbstractController
     /**
      * @Route("/recherche", name="search")
      */
-    public function search(Request $request, CategorieRepository $repository, PaginatorInterface $paginator)
-{
+    public function search(Request $request, PaginatorInterface $paginator)
+    {
+        $categories = $this->getDoctrine()->getRepository(Categorie::class)->findAll();
 
-    $categories = $repository->findAll();
+        $deckRepository = $this->getDoctrine()->getRepository(Deck::class);
 
-    $query = $request->query->get('query');
-    $titre = $request->query->get('titre');
-    $description = $request->query->get('description');
-    $pseudo = $request->query->get('pseudo');
-    $categorieId = $request->query->get('categorie');
+        $decks = $deckRepository->findDecksByFilter($request);
 
-    $repository = $this->getDoctrine()->getRepository(Deck::class);
+        $pagination = $paginator->paginate(
+            $decks, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
 
-    $queryBuilder = $repository->createQueryBuilder('d')
-        ->leftJoin('d.utilisateur', 'utilisateur')
-        ->where('d.visibilite = 0');
-
-    $searchAll = false;
-
-    if(!$titre && !$description && !$pseudo){
-        $searchAll = true;
+        return $this->render('search/results.html.twig', [
+            'decks' => $decks,
+            'categories' => $categories,
+            'pagination' => $pagination
+        ]);
     }
+
     
-    $conditions = [];
-
-    if ($titre || $searchAll) {
-        $conditions[] = 'd.titre LIKE :query';
-    }
-
-    if ($description || $searchAll) {
-        $conditions[] = 'd.description LIKE :query';
-    }
-
-    if ($pseudo || $searchAll) {
-        $conditions[] = 'utilisateur.pseudo LIKE :query';
-    }
-
-    $queryBuilder->andWhere(implode(' OR ', $conditions))
-        ->setParameter('query', '%'.$query.'%');
-
-
-    if ($categorieId) {
-        $qb->andWhere('d.categorie = :categorie')
-           ->setParameter('categorie', $categoryId);
-    }
-
-
-    $decks = $queryBuilder->getQuery()->getResult();
-
-    $pagination = $paginator->paginate(
-        $decks, /* query NOT result */
-        $request->query->getInt('page', 1), /*page number*/
-        10 /*limit per page*/
-    );
-
-
-    return $this->render('search/results.html.twig', [
-        'decks' => $decks,
-        'categories' => $categories,
-        'pagination' => $pagination
-    ]);
-}
 }

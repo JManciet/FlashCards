@@ -740,7 +740,7 @@ $(document).ready(function() {
   // Récupération des éléments du DOM
   var $star_rating = $('.star-rating .fa');
   var $input = $('#note_deck_note');
-  $input.val('2');
+  $input.find("[value='5']").prop("checked", true);
   // Initialisation de l'affichage des étoiles
   $star_rating.on('click', function() {
       var ratingValue = $(this).data('rating');
@@ -752,15 +752,4 @@ $(document).ready(function() {
       $(this).removeClass('far').addClass('fas');
   });
 });
-
-
-
-
-
-
-
-
-
-
-
 

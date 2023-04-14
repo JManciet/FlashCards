@@ -37,7 +37,7 @@ class DeckController extends AbstractController
             $user = $this->getUser();
             $cloneMode = false;
 
-
+            
             if($deck && $deck->isVisibilite() && $deck->getUtilisateur() != $user){
 
                 $this->addFlash(
@@ -114,6 +114,8 @@ class DeckController extends AbstractController
     
                 return $this->redirectToRoute('deck_show', ['id' => $deck->getId()]);
             }
+
+            
             return $this->render('deck/create.html.twig', [
                 'deck' => $deck,
                 'form' => $form->createView(),
