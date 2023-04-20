@@ -14,14 +14,12 @@ class PdfController extends AbstractController
 
 
 
-    private $nbrColonne;
-    private $nbrLigne;
-    private $colonneEnCour;
-    private $ligneEnCour;
+    private $nbrColumn;
+    private $nbrRow;
+    private $currentColumn;
+    private $currentRow;
     private $rectWidth;
     private $rectHeight;
-    private $rectX;
-    private $rectY;
     private $pdf;
 
 
@@ -41,17 +39,12 @@ class PdfController extends AbstractController
             throw $this->createNotFoundException('L\'entité n\'existe pas.');
         }
 
+        $this->nbrColumn =  $request->query->get('X');
+        $this->nbrRow =  $request->query->get('Y');
 
-        $this->nbrColonne =  $request->query->get('X');
-        $this->nbrLigne =  $request->query->get('Y');
-
-
-        // Définition de la taille et de la position des rectangles
-        $this->rectWidth = 210 / $this->nbrColonne;
-        $this->rectHeight = 297 / $this->nbrLigne;
-        $this->rectX = 0;
-        $this->rectY = 0;
-
+        // Définition de la taille des rectangles
+        $this->rectWidth = 210 / $this->nbrColumn;
+        $this->rectHeight = 297 / $this->nbrRow;
 
         // Création d'un nouveau PDF
         $this->pdf = new FPDF();
@@ -59,21 +52,13 @@ class PdfController extends AbstractController
         // Ajout d'une page
         $this->pdf->AddPage();
 
-
         // Ajout de texte en utilisant l'entité récupérée
         $this->pdf->SetFont('Arial','B',16);
 
-        // foreach($cartesDeck as $carte){
+        $this->currentColumn = -1;
+        $this->currentRow = 0;
 
-        // $pdf->Cell(50,0,'Question de la carte: '.$carte->getQuestion());
-
-        // }
-
-
-        $this->colonneEnCour = -1;
-        $this->ligneEnCour = 0;
-
-        $this->faireRecto($cartesDeck);
+        $this->makeRecto($cartesDeck);
 
         // Génération du PDF et envoi de la réponse
         $pdfContent = $this->pdf->Output('S');
@@ -85,82 +70,86 @@ class PdfController extends AbstractController
     }
 
 
-    function faireRecto($cartesDeck){
+    function makeRecto($cartesDeck){
             
         // Parcours du tableau et ajout de chaque élément dans un rectangle distinct
         foreach ($cartesDeck as $index => $carte) {
 
+            $this->currentColumn++;
 
-            $this->colonneEnCour++;
-
-            if($this->colonneEnCour == $this->nbrColonne){
+            if($this->currentColumn == $this->nbrColumn){
                 // Rangée pleine, je commence une nouvelle rangée
-                $this->colonneEnCour=0;
-                $this->ligneEnCour++;
-                if ($this->ligneEnCour == $this->nbrLigne) {
+                $this->currentColumn=0;
+                $this->currentRow++;
+                if ($this->currentRow == $this->nbrRow) {
                     // Fin de la page atteinte, je commence une nouvelle page
-                    $this->colonneEnCour=-1;
-                    $this->ligneEnCour=0;
+                    $this->currentColumn=-1;
+                    $this->currentRow=0;
                     $this->pdf->AddPage();
-                    $this->faireVerso($cartesDeck);
+                    $this->makeVerso($cartesDeck);
                     return;
                 }
             }
 
             // Calcul de la position du rectangle
-            $x = $this->rectX + $this->colonneEnCour * $this->rectWidth;
-            $y = $this->rectY + $this->ligneEnCour * $this->rectHeight;
+            $x = $this->currentColumn * $this->rectWidth;
+            $y = $this->currentRow * $this->rectHeight;
 
-            $this->dessinerRectangleAvecText($this->pdf, $x, $y, $this->rectWidth, $this->rectHeight, $carte->getQuestion());
+            $this->drawRectangleWithCardData($this->pdf, $x, $y, $this->rectWidth, $this->rectHeight, "Question :" , $carte->getQuestion(), $carte->getImageQuestion());
 
             $lastCarte = $cartesDeck->last();
 
             if($carte === $lastCarte){
-                $this->colonneEnCour=-1;
-                $this->ligneEnCour=0;
+                $this->currentColumn=-1;
+                $this->currentRow=0;
                 $this->pdf->AddPage();
-                $this->faireVerso($cartesDeck);
+                $this->makeVerso($cartesDeck);
             }
         }
     }
 
-    function faireVerso($cartesDeck){
+    function makeVerso($cartesDeck){
 
         // Parcours du tableau et ajout de chaque élément dans un rectangle distinct
         foreach ($cartesDeck as $index => $carte) {
 
+            $this->currentColumn++;
 
-            $this->colonneEnCour++;
-
-            if( $this->colonneEnCour == $this->nbrColonne){
+            if( $this->currentColumn == $this->nbrColumn){
                 // Row full, we start a new one
-                $this->colonneEnCour=0;
-                $this->ligneEnCour++;
-                if ($this->ligneEnCour == $this->nbrLigne) {
+                $this->currentColumn=0;
+                $this->currentRow++;
+                if ($this->currentRow == $this->nbrRow) {
                     // End of page reached, we start a new one
-                    $this->colonneEnCour=-1;
-                    $this->ligneEnCour=0;
+                    $this->currentColumn=-1;
+                    $this->currentRow=0;
                     $this->pdf->AddPage();
-                    $this->faireRecto($cartesDeck);
+                    $this->makeRecto($cartesDeck);
                     return;
                 }
             }
 
 
             // Calcul de la position du rectangle
-            $x = (210 - $this->rectWidth) - ($this->rectX + $this->colonneEnCour * $this->rectWidth);
-            $y = $this->rectY + $this->ligneEnCour * $this->rectHeight;
+            $x = (210 - $this->rectWidth) - ( $this->currentColumn * $this->rectWidth);
+            $y = $this->currentRow * $this->rectHeight;
 
-            $this->dessinerRectangleAvecText($this->pdf, $x, $y, $this->rectWidth, $this->rectHeight, $carte->getReponse());
+            $this->drawRectangleWithCardData($this->pdf, $x, $y, $this->rectWidth, $this->rectHeight, "Reponse :" , $carte->getReponse(), $carte->getImageReponse());
 
             unset($cartesDeck[$index]);
         }
     }
 
-    function dessinerRectangleAvecText($pdf, $x, $y, $width, $height, $text) {
+    function drawRectangleWithCardData($pdf, $x, $y, $width, $height, $textHeader, $text, $image) {
         $pdf->Rect($x, $y, $width, $height);
         // Ajout du texte dans le rectangle
         $pdf->SetXY($x + 5, $y + 5);
-        $pdf->MultiCell($width - 10, 10, $text, 0, 'C');
+        $pdf->MultiCell($width - 10, 10, $textHeader, 0, 'C');
+        $pdf->SetXY($x + 5, $y + 5);
+        $pdf->MultiCell($width - 10, 40, $text, 0, 'C');
+        if($image){
+            $pdf->SetXY($x, $y);
+            $pdf->Image("../public/uploads/img/".$image, $x + $width/4, $y + $height / 2 , $width/2, null);
+        }
     }
 }

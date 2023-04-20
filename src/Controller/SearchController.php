@@ -27,6 +27,32 @@ class SearchController extends AbstractController
     }
 
 
+    
+    /**
+     * @Route("/recherche", name="search")
+     */
+    public function search(Request $request, PaginatorInterface $paginator)
+    {
+        $categories = $this->getDoctrine()->getRepository(Categorie::class)->findAll();
+
+        $deckRepository = $this->getDoctrine()->getRepository(Deck::class);
+
+        $decks = $deckRepository->findDecksByFilter($request);
+
+        $pagination = $paginator->paginate(
+            $decks, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
+        return $this->render('search/results.html.twig', [
+            'decks' => $decks,
+            'categories' => $categories,
+            'pagination' => $pagination
+        ]);
+    }
+
+
     // public function searchBar(DeckRepository $repo)
     // {
 
@@ -68,32 +94,6 @@ class SearchController extends AbstractController
     //         'decks' => $decks
     //     ]);
     // }
-
-
-
-    /**
-     * @Route("/recherche", name="search")
-     */
-    public function search(Request $request, PaginatorInterface $paginator)
-    {
-        $categories = $this->getDoctrine()->getRepository(Categorie::class)->findAll();
-
-        $deckRepository = $this->getDoctrine()->getRepository(Deck::class);
-
-        $decks = $deckRepository->findDecksByFilter($request);
-
-        $pagination = $paginator->paginate(
-            $decks, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
-        );
-
-        return $this->render('search/results.html.twig', [
-            'decks' => $decks,
-            'categories' => $categories,
-            'pagination' => $pagination
-        ]);
-    }
 
     
 }

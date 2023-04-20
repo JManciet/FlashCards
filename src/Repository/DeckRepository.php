@@ -51,10 +51,10 @@ class DeckRepository extends ServiceEntityRepository
 
         $queryBuilder = $this->createQueryBuilder('d')
             ->leftJoin('d.utilisateur', 'utilisateur')
-            ->where('d.visibilite = 0');
+            ->where('d.visibilite = 0'); // pour exclure les decks en mode privés
 
+        // Quand aucune option de filtre n'est selectioné chercher dans tout les champs par défaut
         $searchAll = false;
-
         if(!$titre && !$description && !$pseudo){
             $searchAll = true;
         }
@@ -73,15 +73,14 @@ class DeckRepository extends ServiceEntityRepository
             $conditions[] = 'utilisateur.pseudo LIKE :query';
         }
 
+        //concatène les conditions avec OR pour construire le filte et on fait passer la recherche "$query"
         $queryBuilder->andWhere(implode(' OR ', $conditions))
             ->setParameter('query', '%'.$query.'%');
-
-
+    
         if ($categorieId) {
             $qb->andWhere('d.categorie = :categorie')
             ->setParameter('categorie', $categoryId);
         }
-
 
         return $queryBuilder->getQuery()->getResult();
     }

@@ -19,8 +19,7 @@
                 <option value="{{ categorie.id }}" {% if categorie.id == app.request.query.get('categorie') %}selected{% endif %}>{{ categorie.nom }}</option>
             {% endfor %}
         </select>
-    
-        {# <button type="submit">Rechercher</button> #}
+        <button type="submit">Appliquer le filtre</button>
     </form>
     <br>
  <div id="search-results">

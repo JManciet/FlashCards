@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UtilisateurController!{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
 
@@ -22,12 +22,12 @@
             </tr>
         </thead>
         <tbody id="deck_cartes">
-            {% set nbrCarte = 0 %}
+            {% set nbrUtilisateur = 0 %}
             {% for utilisateur in utilisateurs %}
-            {% set nbrCarte = nbrCarte +1 %}
+            {% set nbrUtilisateur = nbrUtilisateur +1 %}
                 <tr class="carte">
                     <td data-label="#">
-                        {{ nbrCarte }}
+                        {{ nbrUtilisateur }}
                     </td>
                     <td data-label="Pseudo : ">
                     
@@ -50,6 +50,7 @@
             {% endfor %}
         </tbody>
     </table>
+
     <a href="{{ path('show_decks_orphans') }}">Voir les decks des utilisateurs supprimés</a>
     
 

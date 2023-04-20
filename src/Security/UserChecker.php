@@ -29,10 +29,10 @@ class UserChecker implements UserCheckerInterface
         if (!$user instanceof AppUser) {
             return;
         }
-
+        // dd("jjjj");
         // user account is expired, the user may be notified
         if (!$user->isVerified()) {
-            throw new AccountExpiredException('..dzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz.');
+            throw new AccountExpiredException('...');
         }
     }
 }

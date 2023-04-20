@@ -17,7 +17,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UtilisateurController extends AbstractController
 {
     /**
-     * @Route("/utilisateur", name="app_utilisateur")
+     * @Route("/utilisateur", name="app_user")
      */
     public function index(ManagerRegistry $doctrine): Response
     {
@@ -58,7 +58,7 @@ class UtilisateurController extends AbstractController
                 'L\'utilisateur a été supprimé avec succès !'
             );
 
-            return $this->redirectToRoute('app_utilisateur');
+            return $this->redirectToRoute('app_user');
         }
 
         return $this->redirectToRoute('app_login');
