@@ -78,8 +78,8 @@ class DeckRepository extends ServiceEntityRepository
             ->setParameter('query', '%'.$query.'%');
     
         if ($categorieId) {
-            $qb->andWhere('d.categorie = :categorie')
-            ->setParameter('categorie', $categoryId);
+            $queryBuilder->andWhere('d.categorie = :categorieId')
+            ->setParameter('categorieId', $categorieId);
         }
 
         return $queryBuilder->getQuery()->getResult();

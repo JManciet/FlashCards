@@ -52,7 +52,7 @@ class PdfController extends AbstractController
         // Ajout d'une page
         $this->pdf->AddPage();
 
-        // Ajout de texte en utilisant l'entité récupérée
+        // Paramètrage de la police
         $this->pdf->SetFont('Arial','B',16);
 
         $this->currentColumn = -1;

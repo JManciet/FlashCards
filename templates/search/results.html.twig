@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+
+
+
     <h1>Résultats de la recherche.</h1>
  <br>
-
     <h4>Rechercher dans :</h4>
     <form method="GET" action="{{ path('search') }}">
         <label for="titre">Titre</label>
@@ -37,6 +40,11 @@
         {{ knp_pagination_render(pagination) }}
     </div>
 </div>
+
+
+
+
+
 <script>
 const searchInput = document.querySelector('#query');
 const titreInput = document.querySelector('#titre');
@@ -50,7 +58,7 @@ const searchResults = document.querySelector('#search-results');
     const description = descriptionInput.checked;
     const pseudo = pseudoInput.checked;
 
-    if (query.length >= 0) {
+    if (query.length >= 2) {
         fetch('/recherche?query='+query+(titre ? "&titre=true" : "")+(description ? "&description=true" : "")+(pseudo ? "&pseudo=true" : ""))
             .then(response => response.text())
             .then(html => {
@@ -64,4 +72,9 @@ const searchResults = document.querySelector('#search-results');
     }
 }
 </script>
+
+
+
+
+
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -37,6 +38,12 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
+
+                'constraints' => [
+                    new Regex('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/',
+                    "Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole.")
+                ],
+
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
     
@@ -56,6 +63,7 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                     // 'placeholder' => 'Password'
                 ]],
+
 
 
 
