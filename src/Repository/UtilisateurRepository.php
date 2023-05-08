@@ -80,4 +80,15 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findAllExceptAdmin()
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles NOT LIKE :adminRole')
+            ->setParameter('adminRole', '%ROLE_ADMIN%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

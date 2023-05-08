@@ -97,17 +97,19 @@ class DeckController extends AbstractController
                         @unlink($this->getParameter('image_directory').'/'.$carte->getData()->getImageReponse());
                     }
                 
-
+                    // cette condition est nécessaire parce que le champ "image" n'est pas obligatoire
+                    // le fichier ne doit donc être traité que lorsqu'un fichier est téléchargé et egalement non supprimé.
                     if(!$deleteImageQuestion && $imageQuestionFile){
 
-                        // fonction 
+                        // fonction qui enregistre l'image dans son répertoire et retourne son nouveau nom
                         $newFilenameImageQuestion = $this->registerImage($imageQuestionFile, $form, $slugger);
 
-                        // met à jour la propriété 'brochureFilename' pour stocker le nom du fichier PDF
+                        // met à jour la propriété 'imageQuestion' pour stocker le nom de l'image
                         // au lieu de son contenu
                         $carte->getData()->setImageQuestion($newFilenameImageQuestion);
                     }
 
+                    //idem
                     if(!$deleteImageReponse && $imageReponseFile){
                         $newFilenameImageReponse = $this->registerImage($imageReponseFile, $form, $slugger);
                         $carte->getData()->setImageReponse($newFilenameImageReponse);
@@ -136,12 +138,6 @@ class DeckController extends AbstractController
         private function registerImage($imageFile, $form, $slugger)
         {
             
-
-            // cette condition est nécessaire parce que le champ "image" n'est pas obligatoire
-            // le fichier ne doit donc être traité que lorsqu'un fichier est téléchargé.
-            if ($imageFile) {
-
-
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // ceci est nécessaire pour inclure en toute sécurité le nom du fichier dans l'URL
                 $safeFilename = $slugger->slug($originalFilename);
@@ -160,7 +156,6 @@ class DeckController extends AbstractController
 
                 return $newFilename;
 
-            }
         }
 
 

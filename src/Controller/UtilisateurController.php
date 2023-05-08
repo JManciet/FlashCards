@@ -21,7 +21,7 @@ class UtilisateurController extends AbstractController
      */
     public function index(ManagerRegistry $doctrine): Response
     {
-        $utilisateurs = $doctrine->getRepository(Utilisateur::class)->findAll();
+        $utilisateurs = $doctrine->getRepository(Utilisateur::class)->findAllExceptAdmin();;
 
         return $this->render('utilisateur/index.html.twig', [
             'controller_name' => 'UtilisateurController',

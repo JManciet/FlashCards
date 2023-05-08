@@ -31,22 +31,21 @@ class CarteType extends AbstractType
                             'onchange' => 'previewImage(this)'],
                 'label' => 'Brochure (PDF file)',
                 'data_class' => null,
-                // unmapped means that this field is not associated to any entity property
+                // unmapped signifie que ce champ n'est associé à aucune propriété de l'entité
                 'mapped' => false,
 
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
+                // le rendre optionnel afin de ne pas avoir à recharger le fichier PDF
+                // à chaque fois que vous modifiez les détails du produit
                 'required' => false,
 
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
+                // contraintes pour le chargement des images
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
                         'mimeTypes' => [
                             'image/*'
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid image file',
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide',
                     ])
                 ],
             ])
@@ -70,7 +69,7 @@ class CarteType extends AbstractType
                         'mimeTypes' => [
                             'image/*',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid image file',
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide',
                     ])
                 ],
             ])
