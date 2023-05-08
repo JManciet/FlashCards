@@ -33,18 +33,23 @@ class SearchController extends AbstractController
      */
     public function search(Request $request, PaginatorInterface $paginator)
     {
+        // Récupère toutes les catégories depuis la base de données
         $categories = $this->getDoctrine()->getRepository(Categorie::class)->findAll();
 
+        // Récupère le repository de la classe Deck depuis la base de données
         $deckRepository = $this->getDoctrine()->getRepository(Deck::class);
 
+        // Appelle la méthode "findDecksByFilter" du repository Deck pour récupérer les résultats de la recherche
         $decks = $deckRepository->findDecksByFilter($request);
 
+        // Pagine les résultats de la recherche avec l'objet PaginatorInterface
         $pagination = $paginator->paginate(
-            $decks, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $decks, // les résultats de la recherche à paginer
+            $request->query->getInt('page', 1), // le numéro de la page actuelle, avec une valeur par défaut de 1
+            10 // le nombre de résultats à afficher par page
         );
 
+        // Renvoie la vue Twig "search/results.html.twig" avec les résultats paginés de la recherche, les catégories récupérées, et l'objet de pagination
         return $this->render('search/results.html.twig', [
             'decks' => $decks,
             'categories' => $categories,

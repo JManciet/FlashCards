@@ -99,7 +99,12 @@ class DeckController extends AbstractController
                 
 
                     if(!$deleteImageQuestion && $imageQuestionFile){
+
+                        // fonction 
                         $newFilenameImageQuestion = $this->registerImage($imageQuestionFile, $form, $slugger);
+
+                        // met à jour la propriété 'brochureFilename' pour stocker le nom du fichier PDF
+                        // au lieu de son contenu
                         $carte->getData()->setImageQuestion($newFilenameImageQuestion);
                     }
 
@@ -132,17 +137,17 @@ class DeckController extends AbstractController
         {
             
 
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
+            // cette condition est nécessaire parce que le champ "image" n'est pas obligatoire
+            // le fichier ne doit donc être traité que lorsqu'un fichier est téléchargé.
             if ($imageFile) {
 
 
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
+                // ceci est nécessaire pour inclure en toute sécurité le nom du fichier dans l'URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
 
-                // Move the file to the directory where brochures are stored
+                // Déplacer le fichier dans le répertoire où sont stockées les brochures
                 try {
 
                     $imageFile->move(
@@ -150,11 +155,8 @@ class DeckController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    // ... gérer une exception si quelque chose se produit pendant le téléchargement du fichier
                 }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
 
                 return $newFilename;
 

@@ -22,7 +22,7 @@
                 <option value="{{ categorie.id }}" {% if categorie.id == app.request.query.get('categorie') %}selected{% endif %}>{{ categorie.nom }}</option>
             {% endfor %}
         </select>
-        <button type="submit">Appliquer le filtre</button>
+        {# <button type="submit">Appliquer le filtre</button> #}
     </form>
     <br>
  <div id="search-results">
@@ -50,6 +50,7 @@ const searchInput = document.querySelector('#query');
 const titreInput = document.querySelector('#titre');
 const descriptionInput = document.querySelector('#description');
 const pseudoInput = document.querySelector('#pseudo');
+const categorieInput = document.querySelector('#categorie');
 const searchResults = document.querySelector('#search-results');
 
  function updateResults() {
@@ -57,9 +58,10 @@ const searchResults = document.querySelector('#search-results');
     const titre = titreInput.checked;
     const description = descriptionInput.checked;
     const pseudo = pseudoInput.checked;
+    const categorie = categorieInput.value;
 
     if (query.length >= 2) {
-        fetch('/recherche?query='+query+(titre ? "&titre=true" : "")+(description ? "&description=true" : "")+(pseudo ? "&pseudo=true" : ""))
+        fetch('/recherche?query='+query+(titre ? "&titre=true" : "")+(description ? "&description=true" : "")+(pseudo ? "&pseudo=true" : "")+(categorie ? "&categorie="+categorie : ""))
             .then(response => response.text())
             .then(html => {
                 const parser = new DOMParser();

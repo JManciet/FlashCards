@@ -17,7 +17,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UtilisateurController extends AbstractController
 {
     /**
-     * @Route("/utilisateur", name="app_user")
+     * @Route("/admin", name="app_user")
      */
     public function index(ManagerRegistry $doctrine): Response
     {

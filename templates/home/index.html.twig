@@ -12,8 +12,10 @@
 
 {% if app.user %}
 <h1>Bienvenue {{ app.user.pseudo }}</h1>
+<a class="btn btn-primary" href="{{ path('show_utilisateur', {'id': app.user.id}) }}">Voir mes decks</a>
+<br><br>
+<h3>ou</h3>
 {% endif %}
-<br>
 <form class="form-inline my-2 my-lg-0" method="GET" action="{{ path('search') }}">
 
     <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un deck" aria-label="Rechercher" id="query" name="query" value="{{ app.request.query.get('query') }}" />

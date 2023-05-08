@@ -43,13 +43,17 @@ class DeckRepository extends ServiceEntityRepository
 
     public function findDecksByfilter(Request $request)
     {
+        // Récupération des filtres de recherche à partir de la requête GET
         $query = $request->query->get('query');
         $titre = $request->query->get('titre');
         $description = $request->query->get('description');
         $pseudo = $request->query->get('pseudo');
         $categorieId = $request->query->get('categorie');
 
+        // Construction d'un objet QueryBuilder pour effectuer la requête
         $queryBuilder = $this->createQueryBuilder('d')
+            //j'ai joint également la table Utilisateur pour permettre la recherche sur le pseudo de l'utilisateur 
+            //et ajouter une condition pour exclure les decks en mode privé.
             ->leftJoin('d.utilisateur', 'utilisateur')
             ->where('d.visibilite = 0'); // pour exclure les decks en mode privés
 
@@ -59,29 +63,30 @@ class DeckRepository extends ServiceEntityRepository
             $searchAll = true;
         }
         
+        // Préconstruction des conditions de la requête, qui incluent des comparaisons "LIKE", en fonction des filtres sélectionnés
         $conditions = [];
 
         if ($titre || $searchAll) {
             $conditions[] = 'd.titre LIKE :query';
         }
-
         if ($description || $searchAll) {
             $conditions[] = 'd.description LIKE :query';
         }
-
         if ($pseudo || $searchAll) {
             $conditions[] = 'utilisateur.pseudo LIKE :query';
         }
 
-        //concatène les conditions avec OR pour construire le filte et on fait passer la recherche "$query"
+        // Concaténation des conditions avec OR pour construire la clause WHERE de la requête
         $queryBuilder->andWhere(implode(' OR ', $conditions))
             ->setParameter('query', '%'.$query.'%');
     
+        // Ajout de la condition pour la catégorie sélectionnée (si applicable)
         if ($categorieId) {
             $queryBuilder->andWhere('d.categorie = :categorieId')
             ->setParameter('categorieId', $categorieId);
         }
 
+        // Exécution de la requête et retour des résultats
         return $queryBuilder->getQuery()->getResult();
     }
 

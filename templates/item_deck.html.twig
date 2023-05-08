@@ -5,13 +5,15 @@
 
             <div class="item-deck tree-1-1-1">
 
-                <div class="item-deck tree-1-1-1-1"><span>categorie : </span><span>{{ deck.categorie.nom }}</span></div>  
+                <div class="item-deck tree-1-1-1-1"><span>categorie : </span><span>{{ deck.categorie.nom | escape }}</span></div>  
                 <div class="item-deck tree-1-1-1-2"><a href="{{ path('app_play_deck', {'id': deck.id} ) }}">Mémoriser ce deck</a><span>{{ deck.cartes|length }} cartes</span></div>
             
             </div>
             <div class="item-deck tree-1-1-2">
 
-                <div class="item-deck title"><a href="{{ path('deck_show', {'id': deck.id} ) }}">{{ deck.titre }}</a></div>
+                <div class="item-deck title">
+                    <a href="{{ path('deck_show', {'id': deck.id} ) }}">{{ deck.titre | escape }}</a>
+                </div>
                 <div>
                     {% if app.user %}
                         {% for favori in app.user.favoris|filter(favori => favori.deck == deck) %}
