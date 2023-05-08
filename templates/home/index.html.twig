@@ -13,13 +13,18 @@
 {% if app.user %}
 <h1>Bienvenue {{ app.user.pseudo }}</h1>
 {% endif %}
-
+<br>
 <form class="form-inline my-2 my-lg-0" method="GET" action="{{ path('search') }}">
 
-    <input class="form-control mr-sm-2" type="search" placeholder="Rechercher" aria-label="Rechercher" id="query" name="query" value="{{ app.request.query.get('query') }}" />
+    <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un deck" aria-label="Rechercher" id="query" name="query" value="{{ app.request.query.get('query') }}" />
     <button type="submit" class="btn btn-outline-success my-2 my-sm-0"><i class="fas fa-search"></i></button>
 
 </form>
+
+<h3>ou</h3>
+
+<a class="btn btn-info" href="{{ path('deck_create') }}">Créer un nouveau deck</a>
+
 
 
 

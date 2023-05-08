@@ -446,6 +446,30 @@ h2 {
 }
 
 
+.footer-basic {
+  padding:40px 0;
+  background-color: #f9f9f9;
+  color:#4b4c4d;
+}
+
+.footer-basic ul {
+  padding:0;
+  list-style:none;
+  text-align:center;
+  font-size:18px;
+  line-height:1.6;
+  margin-bottom:0;
+}
+
+.footer-basic .copyright {
+  margin-top:15px;
+  text-align:center;
+  font-size:13px;
+  color:#aaa;
+  margin-bottom:0;
+}
+
+
 @media screen and (max-width: 900px){
     
     
